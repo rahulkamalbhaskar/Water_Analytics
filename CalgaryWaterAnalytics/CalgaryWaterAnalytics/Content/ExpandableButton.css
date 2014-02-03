@@ -34,3 +34,12 @@
             position: relative;
             top: -5px;
         }
+        #info {
+            background: #fff;
+            box-shadow: 0 0 5px #888;
+            left: 1em;
+            padding: 0.5em;
+            position: absolute;
+            top: 1em;
+            z-index: 40;
+        }

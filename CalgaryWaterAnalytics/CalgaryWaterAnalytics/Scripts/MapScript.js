@@ -1,23 +1,74 @@
-﻿var map;
+﻿var map, dialog;
 require(["esri/map",
                 "esri/dijit/LocateButton",
                 "esri/dijit/BasemapToggle",
                 "esri/dijit/BasemapGallery",
                 "esri/arcgis/utils",
                 "dojo/parser",
+                "esri/layers/FeatureLayer",
+                "esri/symbols/SimpleFillSymbol",
+                "esri/symbols/SimpleLineSymbol",
+                "esri/renderers/SimpleRenderer",
+                "esri/graphic", "esri/lang",
+                "dojo/_base/Color",
+                "dojo/number",
+                "dojo/dom-style",
+                "dijit/TooltipDialog",
+                "dijit/popup",
                 "esri/geometry/Point",
                 "esri/graphic",
                 "esri/symbols/SimpleMarkerSymbol",
                 "dijit/layout/BorderContainer",
                 "esri/dijit/PopupTemplate",
                 "dojo/domReady!"],
-                function (Map, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser) {
+
+
+                function (Map, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
+          SimpleFillSymbol, SimpleLineSymbol,
+          SimpleRenderer, Graphic, esriLang,
+          Color, number, domStyle,
+          TooltipDialog, dijitPopup) {
                     parser.parse();
                     map = new Map("mapDiv", {
                         center: [-114.08529, 51.05011],
                         zoom: 8,
-                        basemap: "streets"
+                        basemap: "streets",
+                        slider: true
                     });
+                    var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
+                        id: "GaugeLayer",
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["STATION_NA", "SHAPE"]
+                    });
+                    map.addLayer(GaugeLayer);
+                    var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/1", {
+                        id: "stattionLayer",
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
+                    });
+                    map.addLayer(stationLayer);
+                    var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
+                        id: "roadLayer"
+                    });
+                    map.addLayer(roadLayer);
+                    var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
+                        id: "streamLayer"
+                        
+                    });
+                    map.addLayer(streamLayer);
+
+                    var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
+                        id: "lakeLayer"
+                        
+                    });
+                    map.addLayer(lakeLayer);
+
+                    var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
+                        id: "bowDEMLayer"
+                        
+                    });
+                    map.addLayer(bowDEMLayer);
+                    
 
 
                     //added for location button
@@ -26,12 +77,6 @@ require(["esri/map",
                     }, "LocateButton");
                     geoLocate.startup();
 
-                    //Added to toggle content of the map
-                    /*var toggle = new BasemapToggle({
-                    map: map,
-                    basemap: "satellite"
-                    }, "BasemapToggle");
-                    toggle.startup();*/
 
                     //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
                     var basemapGallery = new BasemapGallery({
@@ -43,6 +88,80 @@ require(["esri/map",
                     basemapGallery.on("error", function (msg) {
                         console.log("basemap gallery error:  ", msg);
                     });
+
+                   
+
+
+                    map.infoWindow.resize(245, 125);
+
+                    dialog = new TooltipDialog({
+                        id: "tooltipDialog",
+                        style: "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
+                    });
+                    dialog.startup();
+
+                    var highlightSymbol = new SimpleFillSymbol(
+                      SimpleFillSymbol.STYLE_SOLID,
+                      new SimpleLineSymbol(
+                        SimpleLineSymbol.STYLE_SOLID,
+                        new Color([255, 0, 0]), 3
+                      ),
+                      new Color([125, 125, 125, 0.35])
+                    );
+
+                    //close the dialog when the mouse leaves the highlight graphic
+                    map.on("load", function () {
+                        map.graphics.enableMouseEvents();
+                        map.graphics.on("mouse-out", closeDialog);
+
+                    });
+                    map.on("mouse-drag", function () {
+                        closeDialog();
+
+                    });
+
+                    //"STATION_NAME", "PROVINCE", "ELEVATION"//listen for when the onMouseOver event fires on the countiesGraphicsLayer
+                    //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
+                    stationLayer.on("click", function (evt) {
+                        // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NAME}</strong></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
+                        var content = esriLang.substitute(evt.graphic.attributes, t);
+                        var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
+                        map.graphics.add(highlightGraphic);
+
+                        dialog.setContent(content);
+
+                        domStyle.set(dialog.domNode, "opacity", 0.85);
+                        dijitPopup.open({
+                            popup: dialog,
+                            x: evt.pageX,
+                            y: evt.pageY
+                        });
+                    });
+
+                    GaugeLayer.on("click", function (evt) {
+                        // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>Shape</td><td>${SHAPE}</td></tr></table>";
+                        var content = esriLang.substitute(evt.graphic.attributes, t);
+                        var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
+                        map.graphics.add(highlightGraphic);
+
+                        dialog.setContent(content);
+
+                        domStyle.set(dialog.domNode, "opacity", 0.85);
+                        dijitPopup.open({
+                            popup: dialog,
+                            x: evt.pageX,
+                            y: evt.pageY
+                        });
+                    });
+
+                    function closeDialog() {
+                        map.graphics.clear();
+                        dijitPopup.close(dialog);
+                    }
+
+
                     //This code is added to bring map switch button inside the GIS map div i.e. mapDiv_root which is rendered at runtime
                     $("#Basemap_Gallery").appendTo("#mapDiv_root");
                     //same for locate button 
@@ -50,20 +169,12 @@ require(["esri/map",
                     //same for locate button 
                     $("#Layer_galery").appendTo("#mapDiv_root");
 
+
+
+
                 });
 
 
-/* function init() {
-     var layer = new esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/Bow1Test/MapServer");
-     map.addLayer(layer);
- }*/
-
-var Layer0;
-function init() {
-
-    Layer0 = new esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/Bow1Test/MapServer", { id: "Bow1Test" });
-    map.addLayer(Layer0);
-}
 function selectLayer() {
 
     var stnLyr = document.getElementById('stationLayer').checked;
@@ -120,56 +231,4 @@ function selectLayer() {
 
 }
 
-//ArcGISTiledMapServiceLayer
-//ArcGISDynamicMapServiceLayer
-dojo.addOnLoad(init);
 
-//Yellow Marker on the screen 
-var symbol = new esri.symbol.PictureMarkerSymbol({
-    "angle": 0,
-    "xoffset": 0,
-    "yoffset": 10,
-    "type": "esriPMS",
-    "url": "http://static.arcgis.com/images/Symbols/Shapes/YellowPin1LargeB.png",
-    "contentType": "image/png",
-    "width": 24,
-    "height": 24
-});
-
-//This is the popup box shown on the screen 
-var template = new esri.InfoTemplate("${name}, ${*}");
-
-//Function to locate particular locaiton on the map
-function locate_station(latitude,longitutde,stationId)
-{
-    //TODO: search function for the to locate poin check this link https://developers.arcgis.com/en/javascript/jsapi/point.html
-    //Link station from the search box to stattion list 
-}
-require([
-  "esri/map",
-  "esri/dijit/Geocoder",
-
-  "esri/graphic",
-  "esri/symbols/SimpleMarkerSymbol",
-  "esri/geometry/screenUtils",
-
-  "dojo/dom",
-  "dojo/dom-construct",
-  "dojo/query",
-  "dojo/_base/Color",
-
-  "dojo/domReady!"
-],
-function showLocation() {
-    map.graphics.clear();
-    var point = new esri.geometry.Point(117,52);
-    var symbol1 = new SimpleMarkerSymbol()
-      .setStyle("square")
-      .setColor(new Color([255,0,0,0.5]));
-    var graphic = new Graphic(point, symbol1);
-    map.graphics.add(graphic);
-
-    map.infoWindow.setTitle("Search Result");
-    map.infoWindow.setContent(evt.result.name);
-    map.infoWindow.show(evt.result.feature.geometry);
-});

@@ -19,6 +19,18 @@
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
     <link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
     
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    
+    <style>
+    .toggler { width: 500px; height: 200px; }
+    #button { padding: .5em 1em; text-decoration: none; }
+    #effect { width: 240px; height: 135px; padding: 0.4em; position: relative; }
+    #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+    </style>
+    
     <script src="http://js.arcgis.com/3.8/"></script>
     <script src="../../Scripts/MapScript.js">    </script>
     <div id="mapDiv">
@@ -65,4 +77,14 @@
                 </div>
             </div>
         </div>
+        <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
+          <div id="effect" class="ui-widget-content ui-corner-all">
+            <h3 class="ui-widget-header ui-corner-all">Station Details</h3>
+            <p id="weatherDetail">
+            </p>
+          </div>
+        </div>
      </div>
+
+   
+

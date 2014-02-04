@@ -92,7 +92,7 @@ require(["esri/map",
                    
 
 
-                    map.infoWindow.resize(245, 125);
+                    map.infoWindow.resize(300, 200);
 
                     dialog = new TooltipDialog({
                         id: "tooltipDialog",
@@ -124,7 +124,7 @@ require(["esri/map",
                     //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
                     stationLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NAME}</strong></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NAME}</strong></td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NAME}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
@@ -168,6 +168,9 @@ require(["esri/map",
                     $("#LocateButton").appendTo("#mapDiv_root");
                     //same for locate button 
                     $("#Layer_galery").appendTo("#mapDiv_root");
+                    //same for detail
+                    $("#toggler").appendTo("#mapDiv_root");
+                    
 
 
 
@@ -231,4 +234,21 @@ function selectLayer() {
 
 }
 
+
+// callback function to bring a hidden box back
+function callback() {
+};
+// set effect from select menu value
+function showMapDetails(stationId) {
+    // most effect types need no options passed by default
+    var options = {};
+    document.getElementById("toggler").style.visibility = "visible";
+    $("#effect").effect("slide", options, 500, callback);
+    showStationData(stationId);
+}
+//function for rendering graph
+
+function showStationData(stationId) {
+    $("#weatherDetail").text(stationId);
+}
 

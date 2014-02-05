@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<table   style="width:100%;" border="0">
+    <tr>
+        <td><h1 style="font-family:'Monotype Corsiva'">@ViewBag.Message</h1></td>
+        <td ><input type="search" results="5" autosave="some_unique_value" placeholder="Search for Weather or Gauging Station" style="width:100%; float:right"/></td>
+        <td ><input type="submit" value="Search" style="float:right"></td>
+    </tr>
+</table>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    
+    
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+    <link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    
+    <style>
+    .toggler { width: 500px; height: 200px; }
+    #button { padding: .5em 1em; text-decoration: none; }
+    #effect { width: 240px; height: 135px; padding: 0.4em; position: relative; }
+    #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+    </style>
+    
+    <script src="http://js.arcgis.com/3.8/"></script>
+    <script src="../../Scripts/MapScript.js">    </script>
+    <div id="mapDiv">
+        <div id="LocateButton">
+        </div>
+        <div id="BasemapToggle">
+        </div>
+        <div id="Basemap_Gallery"class="button" style="float:right;top: 10px;right: 19px;">
+            <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Basemap', closable:false,  open:false">
+                <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; height: 280px;
+                    overflow: auto;">
+                    <div id="basemapGallery">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Layer_galery"class="button" style="position: absolute; left: 100px; top: 10px; z-index: 999;">
+            <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
+                <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto;
+                    overflow: auto;">
+                    <table >
+                  
+                        <tr>
+                        <td>
+                            <input type="checkbox" id="stationLayer"  onchange="javascript:selectLayer();">Weather Station</input>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="roadLayer"  onchange="javascript:selectLayer();">Roads</input>
+                        </td>
+                        <td>
+                            <input  type="checkbox" id="streamLayer"  onchange="javascript:selectLayer();">Streams</input>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <input  type="checkbox" id="lakeLayer"  onchange="javascript:selectLayer();">Lakes</input>
+                        </td>
+                        <td>
+                            <input  type="checkbox" id="demLayer" onchange="javascript:selectLayer();">DEM Model</input>
+                        </td>
+                        </tr>
+                </table>
+                   
+                </div>
+            </div>
+        </div>
+        <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
+          <div id="effect" class="ui-widget-content ui-corner-all">
+            <h3 class="ui-widget-header ui-corner-all">Station Details</h3>
+            <p id="weatherDetail">
+            </p>
+          </div>
+        </div>
+     </div>
+
+   
+

@@ -1,0 +1,46 @@
+﻿     #mapDiv
+        {
+            padding: 0;
+            margin: 0;
+            height: 60em;
+        }
+        #LocateButton
+        {
+            position: absolute;
+            top: 95px;
+            left: 20px;
+            z-index: 50;
+        }
+        #BasemapToggle
+        {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+        .button
+        {
+            display: inline-block;
+            border: 0;
+            border-radius: 0;
+            outline: 0;
+            background: #4e68c7;
+            box-shadow: 1px 0px 1px #203891,0px 1px 1px #3852b1,2px 1px 1px #203891,1px 2px 1px #3852b1,3px 2px 1px #203891,2px 3px 1px #3852b1,4px 3px 1px #203891,3px 4px 1px #3852b1,5px 4px 1px #203891,4px 5px 1px #3852b1,6px 5px 1px #203891;
+            color: white;
+            white-space: nowrap;
+            font-family: 'Gotham Rounded A' , 'Gotham Rounded B' , "proxima-nova-soft" , sans-serif;
+            padding: 9px 16px;
+            line-height: 1.4;
+            position: relative;
+            top: -5px;
+        }
+        #info {
+            background: #fff;
+            box-shadow: 0 0 5px #888;
+            left: 1em;
+            padding: 0.5em;
+            position: absolute;
+            top: 1em;
+            z-index: 40;
+        }
+

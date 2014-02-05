@@ -35,42 +35,42 @@ require(["esri/map",
                         basemap: "streets",
                         slider: true
                     });
+                   
+                   
+                    var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
+                        id: "roadLayer"
+                    });
+                    map.addLayer(roadLayer);
+                    var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
+                        id: "streamLayer"
+                        
+                    });
+                    map.addLayer(streamLayer);
+
+                    var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
+                        id: "lakeLayer"
+                        
+                    });
+                    map.addLayer(lakeLayer);
+
+                    var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/6", {
+                        id: "bowDEMLayer"
+                        
+                    });
+                    map.addLayer(bowDEMLayer);
+                    
                     var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NA", "SHAPE"]
                     });
                     map.addLayer(GaugeLayer);
-                    var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/1", {
+                    var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
                     });
                     map.addLayer(stationLayer);
-                    var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
-                        id: "roadLayer"
-                    });
-                    map.addLayer(roadLayer);
-                    var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
-                        id: "streamLayer"
-                        
-                    });
-                    map.addLayer(streamLayer);
-
-                    var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
-                        id: "lakeLayer"
-                        
-                    });
-                    map.addLayer(lakeLayer);
-
-                    var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
-                        id: "bowDEMLayer"
-                        
-                    });
-                    map.addLayer(bowDEMLayer);
-                    
-
-
                     //added for location button
                     geoLocate = new LocateButton({
                         map: map

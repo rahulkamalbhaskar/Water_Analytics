@@ -62,7 +62,7 @@ require(["esri/map",
                     var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["STATION_NA", "SHAPE"]
+                        outFields: ["STATION_NU", "STATION_NA", "SHAPE"]
                     });
                     map.addLayer(GaugeLayer);
                     var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {

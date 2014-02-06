@@ -26,9 +26,16 @@
     
     <style>
     .toggler { width: 500px; height: 200px; }
-        #more {
-            position:static:}
+        #Curve {
+            position: absolute;
+            right: 2em;
+            bottom: 2em;
+        }
+         #more {
+            position: static;
+        }
     #button { padding: .5em 1em; text-decoration: none; }
+  
         #effect {
             width: 200px;
             height: 350px;
@@ -95,16 +102,19 @@
             <div id="effect" class="ui-widget-content ">
                 <h3><font color="#B40431"> Station Details</font> </h3>
                 <a href="#" id="more">More</a>
+               
                 <a href="#" id="hide"> Hide </a>
-                <img src="">
-             
+                <img src="content/Images/chart.png" width="100" height="200">;
+                
                 <p id="weatherDetail">
                 </p>
-               
-
+                <div id="Curve" style="visibility:hidden;">
+                    <img src="content/Images/curve.png" width="250" height="250">;
+                </div>
             </div>
-        </div>
 
+        </div>
+       
         
 
      </div>

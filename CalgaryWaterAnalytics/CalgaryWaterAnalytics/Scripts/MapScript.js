@@ -241,6 +241,7 @@ function callback() {
 // set effect from select menu value
 function showMapDetails(stationId) {
     // most effect types need no options passed by default
+
     var options = {};
     document.getElementById("toggler").style.visibility = "visible";
     $("#effect").effect("slide", options, 500, callback);
@@ -271,26 +272,41 @@ $(function () {
         }, 1000);
     };
 
+   
+
+
+   
+
+
 // More clicking point
     $(function () {
         var state = true;
         $("#more").click(function () {
+           
             if (state) {
+               
                 $("#effect").animate({
-                    backgroundColor: "#BDBDBD",
+                    backgroundColor: "#fff",
                     color: "#000",
+                  
                     width: 500
                 }, 1000);
+                document.getElementById("Curve").style.visibility = "visible";
             } else {
                 $("#effect").animate({
                     backgroundColor: "#fff",
                     color: "#000",
                     width: 240
                 }, 1000);
+                document.getElementById("Curve").style.visibility = "hidden";
             }
+
+            
             state = !state;
         });
     });
+
+
 
 
 

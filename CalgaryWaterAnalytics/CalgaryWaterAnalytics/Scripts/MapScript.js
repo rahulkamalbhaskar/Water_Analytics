@@ -141,7 +141,7 @@ require(["esri/map",
 
                     GaugeLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>Shape</td><td>${SHAPE}</td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>Shape</td><td>${SHAPE}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NAME}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
@@ -245,10 +245,69 @@ function showMapDetails(stationId) {
     document.getElementById("toggler").style.visibility = "visible";
     $("#effect").effect("slide", options, 500, callback);
     showStationData(stationId);
-}
-//function for rendering graph
 
+}
+
+// Hide the slider
+$(function () {
+    // run the currently selected effect
+    function runEffect() {
+        // get effect type from
+        var selectedEffect = "slide";
+
+        // most effect types need no options passed by default
+        var options = {};
+        // some effects have required parameters
+       
+
+        // run the effect
+        $("#effect").hide(selectedEffect, options, 1000);
+    };
+
+    // callback function to bring a hidden box back
+    function callback() {
+        setTimeout(function () {
+            $("#effect").removeAttr("style").hide().fadeIn();
+        }, 1000);
+    };
+
+// More clicking point
+    $(function () {
+        var state = true;
+        $("#more").click(function () {
+            if (state) {
+                $("#effect").animate({
+                    backgroundColor: "#BDBDBD",
+                    color: "#000",
+                    width: 500
+                }, 1000);
+            } else {
+                $("#effect").animate({
+                    backgroundColor: "#fff",
+                    color: "#000",
+                    width: 240
+                }, 1000);
+            }
+            state = !state;
+        });
+    });
+
+
+
+
+
+    // set effect from select menu value
+    $("#hide").click(function () {
+        runEffect();
+        return false;
+    });
+});
+                 
+
+
+//function for rendering graph
 function showStationData(stationId) {
     $("#weatherDetail").text(stationId);
 }
+
 

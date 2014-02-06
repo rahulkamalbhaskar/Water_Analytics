@@ -26,9 +26,22 @@
     
     <style>
     .toggler { width: 500px; height: 200px; }
+        #more {
+            position:static:}
     #button { padding: .5em 1em; text-decoration: none; }
-    #effect { width: 240px; height: 135px; padding: 0.4em; position: relative; }
-    #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+        #effect {
+            width: 200px;
+            height: 350px;
+            padding: 0.4em;
+            position: relative;
+            background: #E1F5A9;
+        }
+            #effect h3 {
+                margin: 0;
+                padding: 0.4em;
+                text-align: center;
+                
+            }
     </style>
     
     <script src="http://js.arcgis.com/3.8/"></script>
@@ -77,13 +90,27 @@
                 </div>
             </div>
         </div>
+
         <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
-          <div id="effect" class="ui-widget-content ui-corner-all">
-            <h3 class="ui-widget-header ui-corner-all">Station Details</h3>
-            <p id="weatherDetail">
-            </p>
-          </div>
+            <div id="effect" class="ui-widget-content ">
+                <h3><font color="#B40431"> Station Details</font> </h3>
+                <a href="#" id="more">More</a>
+                <a href="#" id="hide"> Hide </a>
+               <script>
+                   $("a").click(function (event) {
+                       event.preventDefault();
+                       $("toggler").hide();
+                   });
+    </script>
+                <p id="weatherDetail">
+                </p>
+               
+
+            </div>
         </div>
+
+        
+
      </div>
 
    

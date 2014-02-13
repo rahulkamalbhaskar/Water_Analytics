@@ -1,0 +1,6 @@
+diff a/CalgaryWaterAnalytics/CalgaryWaterAnalytics/Content/ExpandableButton.css b/CalgaryWaterAnalytics/CalgaryWaterAnalytics/Content/ExpandableButton.css	(rejected hunks)
+@@ -43,3 +43,4 @@
+             top: 1em;
+             z-index: 40;
+         }
++

@@ -1,5 +1,7 @@
-﻿var map, dialog;
+﻿var map, dialog, gsvc;
 require(["esri/map",
+    "esri/geometry/Circle",
+    "esri/layers/GraphicsLayer",
                 "esri/dijit/LocateButton",
                 "esri/dijit/BasemapToggle",
                 "esri/dijit/BasemapGallery",
@@ -15,28 +17,39 @@ require(["esri/map",
                 "dojo/dom-style",
                 "dijit/TooltipDialog",
                 "dijit/popup",
-                "esri/geometry/Point",
-                "esri/graphic",
+                "esri/toolbars/draw",
+                "esri/symbols/PictureFillSymbol",
                 "esri/symbols/SimpleMarkerSymbol",
+                "esri/symbols/CartographicLineSymbol",
+                "dojo/dom", "dojo/on",
+                "esri/tasks/geometry",
+                "esri/geometry/Point",
                 "dijit/layout/BorderContainer",
                 "esri/dijit/PopupTemplate",
-                "dojo/domReady!"],
+                "dojo/domReady!",
+],
 
-
-                function (Map, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
+                function (Map, Circle, GraphicsLayer, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
           SimpleFillSymbol, SimpleLineSymbol,
           SimpleRenderer, Graphic, esriLang,
           Color, number, domStyle,
-          TooltipDialog, dijitPopup) {
+          TooltipDialog, dijitPopup, Draw, PictureFillSymbol, SimpleMarkerSymbol, CartographicLineSymbol,
+                    dom, on) {
                     parser.parse();
                     map = new Map("mapDiv", {
                         center: [-114.08529, 51.05011],
                         zoom: 8,
                         basemap: "streets",
-                        slider: true
+                        slider: false
                     });
-                   
-                   
+
+
+
+                    gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+                    
+
+
                     var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
                         id: "roadLayer"
                     });
@@ -77,6 +90,19 @@ require(["esri/map",
                     }, "LocateButton");
                     geoLocate.startup();
 
+                    var symbol = new SimpleFillSymbol().setColor(null).outline.setColor("blue");
+                    
+
+                    map.on("click", function (e) {
+                        var radius = map.extent.getWidth() / 10;
+                        var circle = new Circle({
+                            center: e.mapPoint,
+
+                            radius: radius
+                        });
+                        var graphic = new Grahpic(circle, symbol);
+                        gl.add(graphic);
+                    });
 
                     //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
                     var basemapGallery = new BasemapGallery({
@@ -155,6 +181,7 @@ require(["esri/map",
                             y: evt.pageY
                         });
                     });
+                    GaugeLayer.on("click", doBuffer);
 
                     function closeDialog() {
                         map.graphics.clear();
@@ -172,10 +199,39 @@ require(["esri/map",
                     $("#toggler").appendTo("#mapDiv_root");
                     
 
-
-
-
                 });
+
+
+function doBuffer(evt) {
+
+    map.graphics.clear();
+    var params = new esri.tasks.BufferParameters();
+    params.geometries = [evt.mapPoint];
+
+    //buffer in linear units such as meters, km, miles etc.
+    params.distances = [35, 60];
+    params.unit = esri.tasks.GeometryService.UNIT_KILOMETER;
+    params.outSpatialReference = map.spatialReference;
+
+    gsvc.buffer(params, showBuffer);
+}
+// show the Buffer function 
+function showBuffer(geometries) {
+    var symbol = new esri.symbol.SimpleFillSymbol(
+      esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+      new esri.symbol.SimpleLineSymbol(
+        esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+        new dojo.Color([255, 99, 71, 1]), 2
+      ),
+      new dojo.Color([255, 99, 71, 0.35])
+    );
+
+    dojo.forEach(geometries, function (geometry) {
+        var graphic = new esri.Graphic(geometry, symbol);
+        map.graphics.add(graphic);
+    });
+}
+
 
 
 function selectLayer() {
@@ -272,10 +328,6 @@ $(function () {
         }, 1000);
     };
 
-   
-
-
-   
 
 
 // More clicking point
@@ -307,11 +359,6 @@ $(function () {
     });
 
 
-
-
-
-
-
     // set effect from select menu value
     $("#hide").click(function () {
         runEffect();
@@ -320,10 +367,13 @@ $(function () {
 });
                  
 
-
 //function for rendering graph
 function showStationData(stationId) {
     $("#weatherDetail").text(stationId);
 }
+
+
+
+
 
 

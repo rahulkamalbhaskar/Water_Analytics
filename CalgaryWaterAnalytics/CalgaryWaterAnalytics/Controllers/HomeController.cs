@@ -11,6 +11,7 @@ namespace CalgaryWaterAnalytics.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to Calgary!!!!";
+            ViewData.Add("","");
 
             return View();
         }

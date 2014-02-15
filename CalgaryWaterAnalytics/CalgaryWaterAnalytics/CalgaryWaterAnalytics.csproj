@@ -50,6 +50,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -102,12 +104,46 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GaugeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\RainFall.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SnowFall.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Station.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StationType.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WaterAnalytics.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterAnalytics.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WaterAnalytics.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WaterAnalytics.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterAnalytics.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WaterLevel.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Weather.cs">
+      <DependentUpon>WaterAnalytics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +207,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="feature.html" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\WaterAnalytics.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WaterAnalytics.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WaterAnalytics.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaterAnalytics.edmx</DependentUpon>
+      <LastGenOutput>WaterAnalytics.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WaterAnalytics.edmx.diagram">
+      <DependentUpon>WaterAnalytics.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\WaterAnalytics.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaterAnalytics.edmx</DependentUpon>
+      <LastGenOutput>WaterAnalytics.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -212,12 +265,16 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Map\Map.cshtml" />
     <Content Include="StaticData\Stattion_List.csv" />
+    <Content Include="Views\Gauge\GaugingStation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

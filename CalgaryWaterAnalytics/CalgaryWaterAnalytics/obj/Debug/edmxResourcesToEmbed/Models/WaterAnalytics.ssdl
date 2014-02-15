@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WaterAnalyticsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="WaterAnalyticsModelStoreContainer">
+    <EntitySet Name="RainFall" EntityType="WaterAnalyticsModel.Store.RainFall" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SnowFall" EntityType="WaterAnalyticsModel.Store.SnowFall" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Station" EntityType="WaterAnalyticsModel.Store.Station" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StationType" EntityType="WaterAnalyticsModel.Store.StationType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WaterLevel" EntityType="WaterAnalyticsModel.Store.WaterLevel" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Weather" EntityType="WaterAnalyticsModel.Store.Weather" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_RainFall_Station" Association="WaterAnalyticsModel.Store.FK_RainFall_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="RainFall" EntitySet="RainFall" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SnowFall_Station" Association="WaterAnalyticsModel.Store.FK_SnowFall_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="SnowFall" EntitySet="SnowFall" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Station_StationType" Association="WaterAnalyticsModel.Store.FK_Station_StationType">
+      <End Role="StationType" EntitySet="StationType" />
+      <End Role="Station" EntitySet="Station" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WaterLevel_Station" Association="WaterAnalyticsModel.Store.FK_WaterLevel_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="WaterLevel" EntitySet="WaterLevel" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Weather_Station" Association="WaterAnalyticsModel.Store.FK_Weather_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="Weather" EntitySet="Weather" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="RainFall">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RainFall" Type="float" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="StationCode" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="SnowFall">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SnowFall" Type="float" />
+    <Property Name="SnowEqWater" Type="real" />
+    <Property Name="StationCode" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Station">
+    <Key>
+      <PropertyRef Name="StationCode" />
+    </Key>
+    <Property Name="StationCode" Type="nchar" Nullable="false" MaxLength="10" />
+    <Property Name="Long" Type="real" />
+    <Property Name="Lat" Type="real" />
+    <Property Name="Name" Type="nchar" MaxLength="255" />
+    <Property Name="Elevation" Type="int" />
+    <Property Name="StationTypeID" Type="int" />
+    <Property Name="DrainageArea" Type="float" />
+  </EntityType>
+  <EntityType Name="StationType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Caption" Type="nchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="WaterLevel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="StationCode" Type="nchar" MaxLength="10" />
+    <Property Name="WateLevel" Type="float" />
+    <Property Name="Discharge" Type="float" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Weather">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="WindSpeed" Type="float" />
+    <Property Name="Temp" Type="real" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="StationCode" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_RainFall_Station">
+    <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="0..1" />
+    <End Role="RainFall" Type="WaterAnalyticsModel.Store.RainFall" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="StationCode" />
+      </Principal>
+      <Dependent Role="RainFall">
+        <PropertyRef Name="StationCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SnowFall_Station">
+    <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="0..1" />
+    <End Role="SnowFall" Type="WaterAnalyticsModel.Store.SnowFall" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="StationCode" />
+      </Principal>
+      <Dependent Role="SnowFall">
+        <PropertyRef Name="StationCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Station_StationType">
+    <End Role="StationType" Type="WaterAnalyticsModel.Store.StationType" Multiplicity="0..1" />
+    <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="StationType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Station">
+        <PropertyRef Name="StationTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WaterLevel_Station">
+    <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="0..1" />
+    <End Role="WaterLevel" Type="WaterAnalyticsModel.Store.WaterLevel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="StationCode" />
+      </Principal>
+      <Dependent Role="WaterLevel">
+        <PropertyRef Name="StationCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Weather_Station">
+    <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="0..1" />
+    <End Role="Weather" Type="WaterAnalyticsModel.Store.Weather" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="StationCode" />
+      </Principal>
+      <Dependent Role="Weather">
+        <PropertyRef Name="StationCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -90,19 +90,10 @@ require(["esri/map",
                     }, "LocateButton");
                     geoLocate.startup();
 
-                    var symbol = new SimpleFillSymbol().setColor(null).outline.setColor("blue");
+                    
                     
 
-                    map.on("click", function (e) {
-                        var radius = map.extent.getWidth() / 10;
-                        var circle = new Circle({
-                            center: e.mapPoint,
-
-                            radius: radius
-                        });
-                        var graphic = new Grahpic(circle, symbol);
-                        gl.add(graphic);
-                    });
+                   
 
                     //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
                     var basemapGallery = new BasemapGallery({

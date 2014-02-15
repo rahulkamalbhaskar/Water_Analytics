@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WaterAnalyticsModelStoreContainer" CdmEntityContainer="WaterAnalyticsEntities">
+    <EntitySetMapping Name="RainFalls">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.RainFall">
+        <MappingFragment StoreEntitySet="RainFall">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RainFall1" ColumnName="RainFall" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="StationCode" ColumnName="StationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SnowFalls">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.SnowFall">
+        <MappingFragment StoreEntitySet="SnowFall">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SnowFall1" ColumnName="SnowFall" />
+          <ScalarProperty Name="SnowEqWater" ColumnName="SnowEqWater" />
+          <ScalarProperty Name="StationCode" ColumnName="StationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stations">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.Station">
+        <MappingFragment StoreEntitySet="Station">
+          <ScalarProperty Name="StationCode" ColumnName="StationCode" />
+          <ScalarProperty Name="Long" ColumnName="Long" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Elevation" ColumnName="Elevation" />
+          <ScalarProperty Name="StationTypeID" ColumnName="StationTypeID" />
+          <ScalarProperty Name="DrainageArea" ColumnName="DrainageArea" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StationTypes">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.StationType">
+        <MappingFragment StoreEntitySet="StationType">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WaterLevels">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.WaterLevel">
+        <MappingFragment StoreEntitySet="WaterLevel">
+          <ScalarProperty Name="StationCode" ColumnName="StationCode" />
+          <ScalarProperty Name="WateLevel" ColumnName="WateLevel" />
+          <ScalarProperty Name="Discharge" ColumnName="Discharge" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Weathers">
+      <EntityTypeMapping TypeName="WaterAnalyticsModel.Weather">
+        <MappingFragment StoreEntitySet="Weather">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
+          <ScalarProperty Name="Temp" ColumnName="Temp" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="StationCode" ColumnName="StationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

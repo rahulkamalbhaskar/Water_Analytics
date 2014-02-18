@@ -234,6 +234,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\MapScript.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\WaterLevel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -265,7 +266,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Map\Map.cshtml" />
     <Content Include="StaticData\Stattion_List.csv" />
-    <Content Include="Views\Gauge\GaugingStation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

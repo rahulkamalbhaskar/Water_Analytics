@@ -158,7 +158,7 @@ require(["esri/map",
 
                     GaugeLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>Shape</td><td>${SHAPE}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NAME}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>STATION_NU</td><td>${STATION_NU}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NU}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
@@ -286,13 +286,13 @@ function selectLayer() {
 function callback() {
 };
 // set effect from select menu value
-function showMapDetails(stationId) {
+function showMapDetails(stationCode) {
     // most effect types need no options passed by default
 
     var options = {};
     document.getElementById("toggler").style.visibility = "visible";
-    $("#effect").effect("slide", options, 500, callback);
-    showStationData(stationId);
+    $("#effect").effect("slide", options, 800, callback);
+    showStationData(stationCode);
 
 }
 
@@ -334,14 +334,14 @@ $(function () {
                   
                     width: 500
                 }, 1000);
-                document.getElementById("Curve").style.visibility = "visible";
+                document.getElementById("container").style.visibility = "visible";
             } else {
                 $("#effect").animate({
                     backgroundColor: "#fff",
                     color: "#000",
                     width: 240
                 }, 1000);
-                document.getElementById("Curve").style.visibility = "hidden";
+                document.getElementById("container").style.visibility = "hidden";
             }
 
             
@@ -359,8 +359,8 @@ $(function () {
                  
 
 //function for rendering graph
-function showStationData(stationId) {
-    $("#weatherDetail").text(stationId);
+function showStationData(stationCode) {
+    WaterLevel(stationCode);
 }
 
 

@@ -43,23 +43,21 @@ require(["esri/map",
                         slider: false
                     });
 
-
-
+                  
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-
-                    
 
 
                     var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
                         id: "roadLayer"
                     });
                     map.addLayer(roadLayer);
+
                     var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
                         id: "streamLayer"
                         
                     });
-                    map.addLayer(streamLayer);
 
+                    map.addLayer(streamLayer);
                     var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
                         id: "lakeLayer"
                         
@@ -71,6 +69,8 @@ require(["esri/map",
                         
                     });
                     map.addLayer(bowDEMLayer);
+
+
                     
                     var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
@@ -78,13 +78,14 @@ require(["esri/map",
                         outFields: ["STATION_NU", "STATION_NA", "SHAPE"]
                     });
                     map.addLayer(GaugeLayer);
+
                     var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
                     });
                     map.addLayer(stationLayer);
-                    //added for location button
+//added for location button
                     geoLocate = new LocateButton({
                         map: map
                     }, "LocateButton");

@@ -11,22 +11,27 @@ namespace CalgaryWaterAnalytics.Controllers
     {
         //
         // GET: /Gauge/
-        private WaterAnalyticsEntities db = new WaterAnalyticsEntities();
+ 
 
 
         //This method will water level for particalar station code from database
 
         protected string getWaterLevel(string selectedStationCode)
         {
+            using(WaterAnalyticsEntities db = new WaterAnalyticsEntities()){
             string waterLevelData = "";
             string year = "";
             string day = "";
             string month = "";
             string stationName = "";
             //get station name from data base
-            var stationNameQuery = from c in db.Stations
-                                 where c.StationCode.Equals(selectedStationCode)
-                                 select c;
+            //FIXME:There's no need to query DB (PERFORMANCE)
+            //var stationNameQuery = from c in db.Stations
+            //                     where c.StationCode.Equals(selectedStationCode)
+            //                     select c;
+
+
+            var stationNameQuery=  db.Stations.Where(x => x.StationCode == selectedStationCode);
             //Station name attribute
             foreach (Station stationsDetails in stationNameQuery)
             {
@@ -64,8 +69,30 @@ namespace CalgaryWaterAnalytics.Controllers
             //Format DAY;MONTH;YEAR;WATERLEVELS
             waterLevelData = stationName+";"+day+";" + month+";"+year + ";" +waterLevelData;
 
+            
+            
+            
+
             return waterLevelData;
+            }
         }
+        //This method returns the last water level row by ordering dates
+        protected double? getLastWaterLevel(string selectedStationCode) {
+            using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
+            {
+                double? result = null;
+                var query = db.WaterLevels.Where(x => x.StationCode == selectedStationCode);
+                var lastByDate = query.Where(x => x.Date.HasValue && x.WateLevel.HasValue).OrderByDescending(x => x.Date).Take(1).FirstOrDefault();
+                if (lastByDate != null)
+                {
+                    result = lastByDate.WateLevel;
+                }
+               
+                return result;
+            }
+
+        }
+       
         //Fuction waterlevel graph
         //input param: StationCode
         //Output param: Waterlevel String
@@ -75,6 +102,11 @@ namespace CalgaryWaterAnalytics.Controllers
           return Json(getWaterLevel(selectedStationCode));
         }
 
+        [HttpPost]
+        public ActionResult LastLevelResult(string selectedStationCode)
+        {
+            return Json(getLastWaterLevel(selectedStationCode));
+        }
 
     }
 }

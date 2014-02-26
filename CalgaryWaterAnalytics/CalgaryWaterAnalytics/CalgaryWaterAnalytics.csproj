@@ -211,6 +211,17 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WaterAnalytics.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\boot.js" />
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\console.js" />
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine-html.js" />
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine.css" />
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine.js" />
+    <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine_favicon.png" />
+    <Content Include="JavaScript_test\SpecRunner.html" />
+    <Content Include="JavaScript_test\spec\WaterLevelSpec.js" />
+    <Content Include="JavaScript_test\src\convert.js" />
+    <Content Include="JavaScript_test\src\Player.js" />
+    <Content Include="JavaScript_test\src\Song.js" />
     <Content Include="Models\WaterAnalytics.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WaterAnalytics.edmx</DependentUpon>
@@ -224,6 +235,7 @@
       <DependentUpon>WaterAnalytics.edmx</DependentUpon>
       <LastGenOutput>WaterAnalytics.cs</LastGenOutput>
     </Content>
+    <Content Include="JavaScript_test\MIT.LICENSE" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

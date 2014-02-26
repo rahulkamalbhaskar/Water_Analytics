@@ -57,7 +57,10 @@ namespace CalgaryWaterAnalytics.Controllers
                     day = Convert.ToString(firstInstanceDate.Day).Trim(' ');
                     month = Convert.ToString(firstInstanceDate.Month);
                 }
-
+                if (!waterLevelData.Equals(""))
+                {
+                    waterLevelData += ",";
+                }
                 //Extracting water level from each instance
                 if (waterlevel.WateLevel.ToString().Equals(""))
                 {
@@ -65,10 +68,7 @@ namespace CalgaryWaterAnalytics.Controllers
                 }
                 else
                 {
-                    if (!waterLevelData.Equals(""))
-                    {
-                        waterLevelData += ",";
-                    }
+                    
                     waterLevelData += waterlevel.WateLevel.ToString();
                     
                 }

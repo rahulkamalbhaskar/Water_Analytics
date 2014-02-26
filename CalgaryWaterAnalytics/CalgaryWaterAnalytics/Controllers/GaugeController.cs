@@ -7,15 +7,19 @@ using CalgaryWaterAnalytics.Models;
 
 namespace CalgaryWaterAnalytics.Controllers
 {
+    /// <summary>
+    /// Contains method for gauging station
+    /// </summary>
     public class GaugeController : Controller
     {
         //
         // GET: /Gauge/
  
-
-
-        //This method will water level for particalar station code from database
-
+        /// <summary>
+        /// This method will give historic water level for particalar station code from database
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <returns></returns>
         protected string getWaterLevel(string selectedStationCode)
         {
             using(WaterAnalyticsEntities db = new WaterAnalyticsEntities()){
@@ -35,7 +39,7 @@ namespace CalgaryWaterAnalytics.Controllers
             //Station name attribute
             foreach (Station stationsDetails in stationNameQuery)
             {
-                stationName = stationsDetails.Name.ToString();
+                stationName = stationsDetails.Name.ToString().Trim(' ');
             }
             
             
@@ -49,34 +53,38 @@ namespace CalgaryWaterAnalytics.Controllers
                 if (day.Equals(""))
                 {
                     DateTime firstInstanceDate = (DateTime)waterlevel.Date;
-                    year = Convert.ToString(firstInstanceDate.Year);
-                    day = Convert.ToString(firstInstanceDate.Day);
+                    year = Convert.ToString(firstInstanceDate.Year).Trim(' ');
+                    day = Convert.ToString(firstInstanceDate.Day).Trim(' ');
                     month = Convert.ToString(firstInstanceDate.Month);
                 }
 
                 //Extracting water level from each instance
                 if (waterlevel.WateLevel.ToString().Equals(""))
                 {
-                    waterLevelData += "0" + ",";
+                    waterLevelData += "0";
                 }
                 else
                 {
-                    waterLevelData += waterlevel.WateLevel.ToString() + ",";
+                    if (!waterLevelData.Equals(""))
+                    {
+                        waterLevelData += ",";
+                    }
+                    waterLevelData += waterlevel.WateLevel.ToString();
+                    
                 }
             }
-            waterLevelData += '0';
             //Appending the date value in the string
             //Format DAY;MONTH;YEAR;WATERLEVELS
             waterLevelData = stationName+";"+day+";" + month+";"+year + ";" +waterLevelData;
 
-            
-            
-            
-
             return waterLevelData;
             }
         }
-        //This method returns the last water level row by ordering dates
+        /// <summary>
+        /// This method returns the last water level row by ordering dates
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <returns></returns>
         protected double? getLastWaterLevel(string selectedStationCode) {
             using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
             {
@@ -87,26 +95,34 @@ namespace CalgaryWaterAnalytics.Controllers
                 {
                     result = lastByDate.WateLevel;
                 }
+                else 
+                {
+                    result = 0;
+                }
                
                 return result;
             }
 
         }
-       
-        //Fuction waterlevel graph
-        //input param: StationCode
-        //Output param: Waterlevel String
+        /// <summary>
+        /// Fuction called from UI for waterlevel area graph
+        /// </summary>
+        /// <param name="StationCode"></param>
+        /// <returns name="Waterlevel"></returns>
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)
         {
           return Json(getWaterLevel(selectedStationCode));
         }
-
+        /// <summary>
+        /// Fuction called from UI for waterlevel gauge meter graph
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult LastLevelResult(string selectedStationCode)
         {
             return Json(getLastWaterLevel(selectedStationCode));
         }
-
     }
 }

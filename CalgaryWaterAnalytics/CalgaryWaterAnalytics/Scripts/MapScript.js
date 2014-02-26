@@ -43,35 +43,35 @@ require(["esri/map",
                         slider: false
                     });
 
-                  
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
+                    map.addLayer(layer);
 
-                    var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
-                        id: "roadLayer"
-                    });
-                    map.addLayer(roadLayer);
 
-                    var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
-                        id: "streamLayer"
+                    //var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
+                    //    id: "roadLayer"
+                    //});
+                    //map.addLayer(roadLayer);
+
+                    //var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
+                    //    id: "streamLayer"
                         
-                    });
+                    //});
 
-                    map.addLayer(streamLayer);
-                    var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
-                        id: "lakeLayer"
+                    //map.addLayer(streamLayer);
+                    //var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
+                    //    id: "lakeLayer"
                         
-                    });
-                    map.addLayer(lakeLayer);
+                    //});
+                    //map.addLayer(lakeLayer);
 
-                    var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/6", {
-                        id: "bowDEMLayer"
+                    //var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/6", {
+                    //    id: "bowDEMLayer"
                         
-                    });
-                    map.addLayer(bowDEMLayer);
+                    //});
+                    //map.addLayer(bowDEMLayer);
 
-
-                    
                     var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
@@ -91,11 +91,6 @@ require(["esri/map",
                     }, "LocateButton");
                     geoLocate.startup();
 
-                    
-                    
-
-                   
-
                     //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
                     var basemapGallery = new BasemapGallery({
                         showArcGISBasemaps: true,
@@ -106,9 +101,6 @@ require(["esri/map",
                     basemapGallery.on("error", function (msg) {
                         console.log("basemap gallery error:  ", msg);
                     });
-
-                   
-
 
                     map.infoWindow.resize(300, 200);
 

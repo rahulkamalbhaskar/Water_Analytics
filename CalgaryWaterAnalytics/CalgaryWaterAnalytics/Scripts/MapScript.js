@@ -239,11 +239,28 @@ function updateLayerVisibility(chk) {
     visible = [];
 
     dojo.forEach(inputs, function (input) {
+        //alert(input.id);
 
         if (input.checked) {
             visible.push(input.id);
+            if (input.id == 0)
+            {
+                GaugeLayer.show();
+            }
+            if (input.id == 2)
+            {
+                stationLayer.show();
+            }
         }
-        
+        if (!(input.checked) && (input.id == 0))
+        {
+            GaugeLayer.hide();
+        }
+        if (!(input.checked) && (input.id == 2))
+        {
+            stationLayer.hide();
+        }
+
     });
     //if there aren't any layers visible set the array to be -1
     if (visible.length === 0) {

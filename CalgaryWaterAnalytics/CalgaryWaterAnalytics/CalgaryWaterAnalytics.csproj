@@ -219,9 +219,6 @@
     <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine_favicon.png" />
     <Content Include="JavaScript_test\SpecRunner.html" />
     <Content Include="JavaScript_test\spec\WaterLevelSpec.js" />
-    <Content Include="JavaScript_test\src\convert.js" />
-    <Content Include="JavaScript_test\src\Player.js" />
-    <Content Include="JavaScript_test\src\Song.js" />
     <Content Include="Models\WaterAnalytics.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WaterAnalytics.edmx</DependentUpon>
@@ -283,6 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="JavaScript_test\src\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -27,7 +27,7 @@ describe("Test Water Level JS for response from sever", function () {
         it("Test for latest water level", function () {
             var stationCode = "000001";
             var LastLevel = "";
-            expect(getLastWaterlevel(stationCode, LastLevel)).toBe(562);
+            expect(getLastWaterlevel(stationCode,LastLevel)).toBe(562);
         });
     });
 });

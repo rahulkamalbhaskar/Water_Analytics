@@ -1,4 +1,6 @@
-﻿var map, dialog, gsvc;
+﻿var dialog, gsvc;
+var layer, map, visible = [];
+var GaugeLayer, stationLayer;
 require(["esri/map",
     "esri/geometry/Circle",
     "esri/layers/GraphicsLayer",
@@ -46,9 +48,14 @@ require(["esri/map",
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
                     layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
-                    map.addLayer(layer);
+                    //map.addLayer(layer);
 
-
+                    if (layer.loaded) {
+                        buildLayerList(layer);
+                    } else {
+                        dojo.connect(layer, "onLoad", buildLayerList);
+                    }
+               
                     //var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
                     //    id: "roadLayer"
                     //});
@@ -72,14 +79,14 @@ require(["esri/map",
                     //});
                     //map.addLayer(bowDEMLayer);
 
-                    var GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
+                     GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NU", "STATION_NA", "SHAPE"]
                     });
                     map.addLayer(GaugeLayer);
 
-                    var stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
+                     stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
@@ -185,6 +192,65 @@ require(["esri/map",
 
                 });
 
+function buildLayerList(layer) {
+    
+    var items = dojo.map(layer.layerInfos, function (info, index) {
+        //beacuse laye 1 is not used
+        if (index == 1) {
+            return;
+        }
+        if (info.defaultVisibility) {
+            visible.push(info.id);
+        }
+       
+            return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label>";
+       
+    });
+
+    dojo.byId("layer_list").innerHTML = items.join(' ');
+
+    layer.setVisibleLayers(visible);
+    map.addLayer(layer);
+}
+
+function getnamebyIndex(info, index) {
+    var x = info.name;
+    switch (index) {
+        case 0:
+            x = "Gauge";
+            break;
+        case 2:
+            x = "Weather Station";
+            break;
+       
+    }
+
+    return x;
+}
+function updateLayerVisibility(chk) {
+   
+    //if ($(chk).is(":checked")) {
+    //}
+    //else if (chk.id == 0){
+    //    GaugeLayer
+    //}
+    var inputs = dojo.query(".list_item"), input;
+
+    visible = [];
+
+    dojo.forEach(inputs, function (input) {
+
+        if (input.checked) {
+            visible.push(input.id);
+        }
+        
+    });
+    //if there aren't any layers visible set the array to be -1
+    if (visible.length === 0) {
+        visible.push(-1);
+    }
+    layer.setVisibleLayers(visible);
+}
 
 function doBuffer(evt) {
 

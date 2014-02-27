@@ -11,13 +11,17 @@
 </table>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
 
-    
+
     
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css">
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
     <link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -30,6 +34,7 @@
     <script src="../../Scripts/MapScript.js">    </script>
     <script src="../../Scripts/WaterLevel.js"></script>
   
+
     
     <style>
  
@@ -80,13 +85,23 @@
                 </div>
             </div>
         </div>
+
         <div id="Layer_galery"class="button" style="position: absolute; left: 100px; top: 10px; z-index: 999;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
                 <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto;
                     overflow: auto;">
                     <table >
-                  
                         <tr>
+                            <td>
+                                Layer List :
+                            </td>
+                            <td>
+                                <span id="layer_list"></span>
+                            </td>
+                          
+                        </tr>
+                       
+                        @*<tr>
                         <td>
                             <input type="checkbox" id="stationLayer"  onchange="javascript:selectLayer();">Weather Station</input>
                         </td>
@@ -104,31 +119,39 @@
                         <td>
                             <input  type="checkbox" id="demLayer" onchange="javascript:selectLayer();">DEM Model</input>
                         </td>
-                        </tr>
+                        </tr>*@
                 </table>
                    
                 </div>
             </div>
         </div>
+       
 
-        <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
-            <div id="effect" class="ui-widget-content ">
-                <h3><font color="#B40431"> Station Details</font> </h3>
-                <a href="#" id="more">More</a>
-               
-                <a href="#" id="hide"> Hide </a>
-                <!--<img src="content/Images/chart.png" width="100" height="200" style="position: absolute; left:2em; bottom: 2em;">;-->
-                <div rel="external" id="gauge" style="visibility:visible; min-width: 250px; height: 250px; margin: 0 auto"></div>
-                <p id="weatherDetail">
-                </p>
-                <div rel="external" id="container" style="visibility:hidden; min-width: 250px; height: 250px; margin: 0 auto"></div>
+            <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
+                <div id="effect" class="ui-widget-content ">
+                    <h3><font color="#B40431"> Station Details</font> </h3>
+                    <a href="#" id="more">More</a>
+
+                    <a href="#" id="hide"> Hide </a>
+                    <!--<img src="content/Images/chart.png" width="100" height="200" style="position: absolute; left:2em; bottom: 2em;">;-->
+                    <div rel="external" id="gauge" style="visibility:visible; min-width: 250px; height: 250px; margin: 0 auto"></div>
+                    <p id="weatherDetail">
+                    </p>
+                    <div rel="external" id="container" style="visibility:hidden; min-width: 250px; height: 250px; margin: 0 auto"></div>
+                </div>
+
             </div>
 
+
+
         </div>
-       
-        
 
-     </div>
-
-   
+   @*<body>
+    This sample loads an ArcGISDynamicMapServiceLayer.<br />
+    It determines the layers in the map service and presents them as checkboxes that can be used to toggle their visibility.<br />
+    <br />
+    Layer List : <span id="layer_list"></span><br />
+    <br />
+    
+</body>*@
 

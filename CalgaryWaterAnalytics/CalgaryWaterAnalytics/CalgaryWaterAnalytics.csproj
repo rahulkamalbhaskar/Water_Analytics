@@ -211,6 +211,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WaterAnalytics.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="HtmlPage1.html" />
     <Content Include="JavaScript_test\lib\jasmine-2.0.0\boot.js" />
     <Content Include="JavaScript_test\lib\jasmine-2.0.0\console.js" />
     <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine-html.js" />

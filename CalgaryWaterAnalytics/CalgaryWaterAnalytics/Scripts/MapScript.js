@@ -47,7 +47,9 @@ require(["esri/map",
 
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
-                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
+                    //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
+                    //Added new layers with water sheded area
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer");
                     //map.addLayer(layer);
 
                     if (layer.loaded) {
@@ -55,7 +57,7 @@ require(["esri/map",
                     } else {
                         dojo.connect(layer, "onLoad", buildLayerList);
                     }
-               
+
                     //var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
                     //    id: "roadLayer"
                     //});
@@ -63,36 +65,36 @@ require(["esri/map",
 
                     //var streamLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/4", {
                     //    id: "streamLayer"
-                        
+
                     //});
 
                     //map.addLayer(streamLayer);
                     //var lakeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
                     //    id: "lakeLayer"
-                        
+
                     //});
                     //map.addLayer(lakeLayer);
 
                     //var bowDEMLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/6", {
                     //    id: "bowDEMLayer"
-                        
+
                     //});
                     //map.addLayer(bowDEMLayer);
 
-                     GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
+                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NU", "STATION_NA", "SHAPE"]
                     });
                     map.addLayer(GaugeLayer);
 
-                     stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
                     });
                     map.addLayer(stationLayer);
-//added for location button
+                    //added for location button
                     geoLocate = new LocateButton({
                         map: map
                     }, "LocateButton");
@@ -188,12 +190,12 @@ require(["esri/map",
                     $("#Layer_galery").appendTo("#mapDiv_root");
                     //same for detail
                     $("#toggler").appendTo("#mapDiv_root");
-                    
+
 
                 });
 
 function buildLayerList(layer) {
-    
+
     var items = dojo.map(layer.layerInfos, function (info, index) {
         //beacuse laye 1 is not used
         if (index == 1) {
@@ -202,9 +204,9 @@ function buildLayerList(layer) {
         if (info.defaultVisibility) {
             visible.push(info.id);
         }
-       
-            return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label>";
-       
+
+        return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
+
     });
 
     dojo.byId("layer_list").innerHTML = items.join(' ');
@@ -222,13 +224,13 @@ function getnamebyIndex(info, index) {
         case 2:
             x = "Weather Station";
             break;
-       
+
     }
 
     return x;
 }
 function updateLayerVisibility(chk) {
-   
+
     //if ($(chk).is(":checked")) {
     //}
     //else if (chk.id == 0){
@@ -243,21 +245,17 @@ function updateLayerVisibility(chk) {
 
         if (input.checked) {
             visible.push(input.id);
-            if (input.id == 0)
-            {
+            if (input.id == 0) {
                 GaugeLayer.show();
             }
-            if (input.id == 2)
-            {
+            if (input.id == 2) {
                 stationLayer.show();
             }
         }
-        if (!(input.checked) && (input.id == 0))
-        {
+        if (!(input.checked) && (input.id == 0)) {
             GaugeLayer.hide();
         }
-        if (!(input.checked) && (input.id == 2))
-        {
+        if (!(input.checked) && (input.id == 2)) {
             stationLayer.hide();
         }
 
@@ -382,7 +380,7 @@ $(function () {
         // most effect types need no options passed by default
         var options = {};
         // some effects have required parameters
-       
+
 
         // run the effect
         $("#effect").hide(selectedEffect, options, 1000);
@@ -397,17 +395,17 @@ $(function () {
 
 
 
-// More clicking point
+    // More clicking point
     $(function () {
         var state = true;
         $("#more").click(function () {
-           
+
             if (state) {
-               
+
                 $("#effect").animate({
                     backgroundColor: "#fff",
                     color: "#000",
-                  
+
                     width: 500
                 }, 1000);
                 document.getElementById("container").style.visibility = "visible";
@@ -420,7 +418,7 @@ $(function () {
                 document.getElementById("container").style.visibility = "hidden";
             }
 
-            
+
             state = !state;
         });
     });
@@ -432,7 +430,7 @@ $(function () {
         return false;
     });
 });
-                 
+
 
 //function for rendering graph
 function showStationData(stationCode) {

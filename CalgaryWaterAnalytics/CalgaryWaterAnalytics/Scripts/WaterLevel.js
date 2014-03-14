@@ -197,7 +197,7 @@ function WaterLevel(StationCode) {
                 plotLines: [{
                     value: 8,
                     color: 'red',
-                    width: 1,
+                    width: 0.5,
                     label: {
                         text: '',
                         align: 'center',
@@ -211,7 +211,7 @@ function WaterLevel(StationCode) {
             series: [{
                 name: 'Observations',
                 data: [
-                    [0, 0, result, 9, 10]
+                    [0, 0.5 , result, 9, 10]
                     
                 ],
                 tooltip: {

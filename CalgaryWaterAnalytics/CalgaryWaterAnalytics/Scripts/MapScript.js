@@ -143,7 +143,7 @@ require(["esri/map",
                     //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
                     stationLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NAME}</strong></td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NAME}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NAME}</strong></td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showWeatherDetails('${STATION_NAME}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
@@ -436,7 +436,11 @@ $(function () {
 function showStationData(stationCode) {
     WaterLevel(stationCode);
 }
+//function for rendering weather data
 
+function showWeatherDetails(stationCode) {
+    getWeatherData(stationCode);
+}
 
 
 

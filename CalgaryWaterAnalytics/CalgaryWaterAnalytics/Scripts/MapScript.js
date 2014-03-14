@@ -198,9 +198,9 @@ function buildLayerList(layer) {
 
     var items = dojo.map(layer.layerInfos, function (info, index) {
         //beacuse laye 1 is not used
-        if (index == 1) {
-            return;
-        }
+        //if (index == 1) {
+        //    return;
+        //}
         if (info.defaultVisibility) {
             visible.push(info.id);
         }
@@ -222,7 +222,7 @@ function getnamebyIndex(info, index) {
             x = "Gauge";
             break;
         case 2:
-            x = "Weather Station";
+            x = "Water Shed";
             break;
 
     }

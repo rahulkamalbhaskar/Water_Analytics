@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CalgaryWaterAnalytics.Models;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace CalgaryWaterAnalytics.Controllers
 {
@@ -35,29 +36,22 @@ namespace CalgaryWaterAnalytics.Controllers
                 }
 
             }
-            return lat.ToString()+" "+longi.ToString();
+            return getCurrentWeather(lat.ToString() , longi.ToString());
         }
+        /// <summary>
+        /// http://dotnet.dzone.com/articles/using-linq-xml-query-xml-data
+        /// http://www.codeproject.com/Articles/24376/LINQ-to-XML
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
         protected string getCurrentWeather(string latitude, string longitude) {
             String URLString = "http://www.myweather2.com/developer/forecast.ashx?uac=0k4sV9akzs&query="+latitude+","+longitude+"&temp_unit=c";
-            XmlTextReader reader = new XmlTextReader(URLString);
-            String output = "";
-            //Added to read node by node
-            XmlDocument doc = new XmlDocument();
-            XmlNode node = doc.ReadNode(reader);
-            //foreach (XmlNode chldNode in node.ChildNodes)
-            //{
-            //    output += chldNode.Name + " " + chldNode.Value;
-            //}
-            while (reader.Read())
-            {
-                if (reader.Name == "temp")
-                {
-                    output += reader.Name + "=" + reader.Value + Environment.NewLine;
-
-                }
-                output += reader.Name + "=" + reader.Value + Environment.NewLine;
-            }
-            return "";
+            
+            XElement main = XElement.Load(@URLString);
+            var temprature = (from c in main.Descendants("curren_weather") select c.Element("temp").Value).ToList();
+            var tempratureforecast = (from c in main.Descendants("forecast") select c).ToList();
+            return temprature+ " " + tempratureforecast+ ";
         }
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)

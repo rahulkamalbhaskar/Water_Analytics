@@ -68,106 +68,180 @@ function WaterLevel(StationCode) {
     //gauge Chart
     var result
     var result = getLastWaterlevel(StationCode, result);
-    $('#gauge').highcharts({
+    //$('#gauge').highcharts({
 
-        chart: {
-            type: 'gauge',
-            plotBackgroundColor: null,
-            plotBackgroundImage: null,
-            plotBorderWidth: 0,
-            plotShadow: false
-        },
+    //    chart: {
+    //        type: 'gauge',
+    //        plotBackgroundColor: null,
+    //        plotBackgroundImage: null,
+    //        plotBorderWidth: 0,
+    //        plotShadow: false
+    //    },
 
-        title: {
-            text: 'Gauge Water Level',
-            itemStyle: {
-                fontSize: '18px',
-                color: '#ffff'
-            }
+    //    title: {
+    //        text: 'Gauge Water Level',
+    //        itemStyle: {
+    //            fontSize: '18px',
+    //            color: '#ffff'
+    //        }
 
-        },
+    //    },
 
-        pane: {
-            startAngle: -150,
-            endAngle: 150,
-            background: [{
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#FFF'],
-                        [1, '#333']
-                    ]
-                },
-                borderWidth: 0,
-                outerRadius: '109%'
-            }, {
-                backgroundColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                    stops: [
-                        [0, '#333'],
-                        [1, '#FFF']
-                    ]
-                },
-                borderWidth: 10,
-                outerRadius: '107%'
-            }, {
-                // default background
-            }, {
-                backgroundColor: '#DDD',
-                borderWidth: 0,
-                outerRadius: '105%',
-                innerRadius: '103%'
-            }]
-        },
+    //    pane: {
+    //        startAngle: -150,
+    //        endAngle: 150,
+    //        background: [{
+    //            backgroundColor: {
+    //                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+    //                stops: [
+    //                    [0, '#FFF'],
+    //                    [1, '#333']
+    //                ]
+    //            },
+    //            borderWidth: 0,
+    //            outerRadius: '109%'
+    //        }, {
+    //            backgroundColor: {
+    //                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+    //                stops: [
+    //                    [0, '#333'],
+    //                    [1, '#FFF']
+    //                ]
+    //            },
+    //            borderWidth: 10,
+    //            outerRadius: '107%'
+    //        }, {
+    //            // default background
+    //        }, {
+    //            backgroundColor: '#DDD',
+    //            borderWidth: 0,
+    //            outerRadius: '105%',
+    //            innerRadius: '103%'
+    //        }]
+    //    },
 
-        // the value axis
-        yAxis: {
-            min: 0,
-            max: 10,
+    //    // the value axis
+    //    yAxis: {
+    //        min: 0,
+    //        max: 10,
 
-            // minorTickInterval: 'auto',
-            minorTickWidth: 1,
-            minorTickLength: 10,
-            minorTickPosition: 'inside',
-            minorTickColor: '#666',
+    //        // minorTickInterval: 'auto',
+    //        minorTickWidth: 1,
+    //        minorTickLength: 10,
+    //        minorTickPosition: 'inside',
+    //        minorTickColor: '#666',
 
-            tickPixelInterval: 30,
-            tickWidth: 2,
-            tickPosition: 'inside',
-            tickLength: 10,
-            tickColor: '#666',
-            labels: {
-                step: 2,
-                //rotation: 'auto'
+    //        tickPixelInterval: 30,
+    //        tickWidth: 2,
+    //        tickPosition: 'inside',
+    //        tickLength: 10,
+    //        tickColor: '#666',
+    //        labels: {
+    //            step: 2,
+    //            //rotation: 'auto'
+    //        },
+    //        title: {
+    //            text: 'Meter'
+    //        },
+    //        plotBands: [{
+    //            from: 0,
+    //            to: 5,
+    //            color: '#55BF3B' // green
+    //        }, {
+    //            from: 5,
+    //            to: 8,
+    //            color: '#DDDF0D' // yellow
+    //        }, {
+    //            from: 8,
+    //            to: 10,
+    //            color: '#DF5353' // red
+    //        }]
+    //    },
+
+    //    series: [{
+    //        name: 'WaterLevel',
+    //        data: [result],
+    //        tooltip: {
+    //            valueSuffix: 'meter'
+    //        }
+    //    }]
+
+    //});
+
+
+        $('#gauge').highcharts({
+
+            chart: {
+                type: 'boxplot'
             },
+
             title: {
-                text: 'Meter'
+                text: 'WaterLevel'
             },
-            plotBands: [{
-                from: 0,
-                to: 5,
-                color: '#55BF3B' // green
-            }, {
-                from: 5,
-                to: 8,
-                color: '#DDDF0D' // yellow
-            }, {
-                from: 8,
-                to: 10,
-                color: '#DF5353' // red
-            }]
-        },
 
-        series: [{
-            name: 'WaterLevel',
-            data: [result],
-            tooltip: {
-                valueSuffix: 'meter'
+            legend: {
+                enabled: false
+            },
+
+            xAxis: {
+                categories: ['1'],
+                title: {
+                    text: ''
+                }
+            },
+
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 8,
+                    color: 'red',
+                    width: 1,
+                    label: {
+                        text: '',
+                        align: 'center',
+                        style: {
+                            color: 'gray'
+                        }
+                    }
+                }]
+            },
+
+            series: [{
+                name: 'Observations',
+                data: [
+                    [0, 0, result, 9, 10]
+                    
+                ],
+                tooltip: {
+                    headerFormat: ''
+                }
             }
-        }]
 
-    });
+            //, {
+            //    name: 'Outlier',
+            //    color: Highcharts.getOptions().colors[0],
+            //    type: 'scatter',
+            //    data: [ // x, y positions where 0 is the first category
+            //        [0, 644],
+            //        [4, 718],
+            //        [4, 951],
+            //        [4, 969]
+            //    ],
+            //    marker: {
+            //        fillColor: 'white',
+            //        lineWidth: 1,
+            //        lineColor: Highcharts.getOptions().colors[0]
+            //    },
+            //    tooltip: {
+            //        pointFormat: 'Observation: {point.y}'
+            //    }
+            //}
+            ]
 
+        });
+    
 
 }
 function getWaterlevelData(stationCode, graphData) {

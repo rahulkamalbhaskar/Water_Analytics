@@ -51,7 +51,7 @@ namespace CalgaryWaterAnalytics.Controllers
             XElement main = XElement.Load(@URLString);
             var temprature = (from c in main.Descendants("curren_weather") select c.Element("temp").Value).ToList();
             var tempratureforecast = (from c in main.Descendants("forecast") select c).ToList();
-            return temprature+ " " + tempratureforecast+ ";
+            return temprature+ " " + tempratureforecast;
         }
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)

@@ -49,7 +49,9 @@ require(["esri/map",
 
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
                     //Added new layers with water sheded area
-                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer");
+                    //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/HydroMap/MapServer");
+                   
                     //map.addLayer(layer);
 
                     if (layer.loaded) {
@@ -94,6 +96,8 @@ require(["esri/map",
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
                     });
                     map.addLayer(stationLayer);
+
+                    
                     //added for location button
                     geoLocate = new LocateButton({
                         map: map
@@ -197,10 +201,7 @@ require(["esri/map",
 function buildLayerList(layer) {
 
     var items = dojo.map(layer.layerInfos, function (info, index) {
-        //beacuse laye 1 is not used
-        //if (index == 1) {
-        //    return;
-        //}
+      
         if (info.defaultVisibility) {
             visible.push(info.id);
         }
@@ -213,29 +214,26 @@ function buildLayerList(layer) {
 
     layer.setVisibleLayers(visible);
     map.addLayer(layer);
+    
 }
 
 function getnamebyIndex(info, index) {
     var x = info.name;
-    switch (index) {
-        case 0:
-            x = "Gauge";
-            break;
-        case 2:
-            x = "Water Shed";
-            break;
+    //switch (index) {
+    //    case 0:
+    //        x = "Gauge";
+    //        break;
+    //    case 2:
+    //        x = "Water Shed";
+    //        break;
 
-    }
+    //}
 
     return x;
 }
 function updateLayerVisibility(chk) {
 
-    //if ($(chk).is(":checked")) {
-    //}
-    //else if (chk.id == 0){
-    //    GaugeLayer
-    //}
+    
     var inputs = dojo.query(".list_item"), input;
 
     visible = [];
@@ -245,19 +243,19 @@ function updateLayerVisibility(chk) {
 
         if (input.checked) {
             visible.push(input.id);
-            if (input.id == 0) {
-                GaugeLayer.show();
-            }
-            if (input.id == 2) {
-                stationLayer.show();
-            }
+            //if (input.id == 0) {
+            //    GaugeLayer.show();
+            //}
+            //if (input.id == 2) {
+            //    stationLayer.show();
+            //}
         }
-        if (!(input.checked) && (input.id == 0)) {
-            GaugeLayer.hide();
-        }
-        if (!(input.checked) && (input.id == 2)) {
-            stationLayer.hide();
-        }
+        //if (!(input.checked) && (input.id == 0)) {
+        //    GaugeLayer.hide();
+        //}
+        //if (!(input.checked) && (input.id == 2)) {
+        //    stationLayer.hide();
+        //}
 
     });
     //if there aren't any layers visible set the array to be -1

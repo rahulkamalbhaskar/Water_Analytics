@@ -107,6 +107,7 @@
     <Compile Include="Controllers\GaugeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\WeatherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,6 +246,7 @@
     <Content Include="Scripts\MapScript.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\WaterLevel.js" />
+    <Content Include="Scripts\WeatherData.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

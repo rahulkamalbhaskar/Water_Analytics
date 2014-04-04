@@ -18,25 +18,26 @@ namespace CalgaryWaterAnalytics.Controllers
         {
             return View();
         }
-        
+
         protected string getWeatherData(string selectedStationCode)
-        {       float lat=0;
-                float longi=0;
+        {
+            float lat = 0;
+            float longi = 0;
             using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
             {
                 //Query to fetch latitude and longitude for xml data
-                
+
                 var query = from c in db.Stations
                             where c.Name.Equals(selectedStationCode)
                             select c;
                 foreach (Station station in query)
                 {
-                    lat= (float)station.Lat;
-                    longi= (float)station.Long;
+                    lat = (float)station.Lat;
+                    longi = (float)station.Long;
                 }
 
             }
-            return getCurrentWeather(lat.ToString() , longi.ToString());
+            return getCurrentWeather(lat.ToString(), longi.ToString());
         }
         /// <summary>
         /// http://dotnet.dzone.com/articles/using-linq-xml-query-xml-data
@@ -45,13 +46,26 @@ namespace CalgaryWaterAnalytics.Controllers
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns></returns>
-        protected string getCurrentWeather(string latitude, string longitude) {
-            String URLString = "http://www.myweather2.com/developer/forecast.ashx?uac=0k4sV9akzs&query="+latitude+","+longitude+"&temp_unit=c";
-            
+        protected string getCurrentWeather(string latitude, string longitude)
+        {
+            String URLString = "http://www.myweather2.com/developer/forecast.ashx?uac=0k4sV9akzs&query=" + latitude + "," + longitude + "&temp_unit=c";
+
             XElement main = XElement.Load(@URLString);
-            var temprature = (from c in main.Descendants("curren_weather") select c.Element("temp").Value).ToList();
-            var tempratureforecast = (from c in main.Descendants("forecast") select c).ToList();
-            return temprature+ " " + tempratureforecast;
+
+            IEnumerable<XElement> arrays = from el in main.Elements()
+                                           select el; ;
+            var temprature = (from c in arrays
+                              select new
+                              {
+                                  one = c.Element("temp"),
+                                  two = c.Element("day_max_temp")
+                              }
+                              ).ToArray();
+
+            var temp = temprature[0].one.Value;
+            var tempDayOne = temprature[1].two.Value;
+            var tempDayTwo = temprature[2].two.Value;
+            return temp + " " + tempDayOne+" "+tempDayTwo;
         }
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)

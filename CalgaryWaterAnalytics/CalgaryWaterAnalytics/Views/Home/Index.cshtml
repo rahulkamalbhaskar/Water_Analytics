@@ -4,6 +4,7 @@
 
 <table   style="width:100%" border="0">
     <tr>
+        
         <td><h1 style="font-family:'Monotype Corsiva'">@ViewBag.Message</h1></td>
         <td ><input type="search" results="5" autosave="some_unique_value" placeholder="Search for Weather or Gauging Station" style="width:100%; float:right"/></td>
         <td ><input type="submit" value="Search" style="float:right"></td>
@@ -68,9 +69,17 @@
                 text-align: center;
                 
             }
+
+        #search {
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 75px;
+            left: 75px;
+        }
     </style>
     
-
+     
     <div id="mapDiv">
         <div id="LocateButton">
         </div>
@@ -85,7 +94,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div id="Layer_galery"class="button" style="position: absolute; left: 100px; top: 10px; z-index: 999;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
                 <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto;
@@ -126,7 +135,7 @@
             </div>
         </div>
        
-
+      
             <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
                 <div id="effect" class="ui-widget-content ">
                     <h3><font color="#B40431"> Station Details</font> </h3>
@@ -142,7 +151,7 @@
 
             </div>
 
-
+        <div id="search"></div>
 
         </div>
 

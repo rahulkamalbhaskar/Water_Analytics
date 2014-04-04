@@ -62,14 +62,14 @@ namespace CalgaryWaterAnalytics.Controllers
                     waterLevelData += ",";
                 }
                 //Extracting water level from each instance
-                if (waterlevel.WateLevel.ToString().Equals(""))
+                if (waterlevel.Discharge.ToString().Equals(""))
                 {
                     waterLevelData += "0";
                 }
                 else
                 {
                     
-                    waterLevelData += waterlevel.WateLevel.ToString();
+                    waterLevelData += waterlevel.Discharge.ToString();
                     
                 }
             }

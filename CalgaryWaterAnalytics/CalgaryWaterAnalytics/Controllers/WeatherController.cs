@@ -57,14 +57,14 @@ namespace CalgaryWaterAnalytics.Controllers
             var temprature = (from c in arrays
                               select new
                               {
-                                  one = c.Element("temp"),
-                                  two = c.Element("day_max_temp")
+                                  currentDay = c.Element("temp"),
+                                  futureDay= c.Element("day_max_temp")
                               }
                               ).ToArray();
 
-            var temp = temprature[0].one.Value;
-            var tempDayOne = temprature[1].two.Value;
-            var tempDayTwo = temprature[2].two.Value;
+            var temp = temprature[0].currentDay.Value;
+            var tempDayOne = temprature[1].futureDay.Value;
+            var tempDayTwo = temprature[2].futureDay.Value;
             return temp + " " + tempDayOne+" "+tempDayTwo;
         }
         [HttpPost]

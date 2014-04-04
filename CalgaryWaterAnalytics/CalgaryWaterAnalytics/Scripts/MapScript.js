@@ -1,6 +1,7 @@
 ﻿var dialog, gsvc;
 var layer, map, visible = [];
 var GaugeLayer, stationLayer;
+var geocoder;
 require(["esri/map",
     "esri/geometry/Circle",
     "esri/layers/GraphicsLayer",
@@ -24,6 +25,7 @@ require(["esri/map",
                 "esri/symbols/SimpleMarkerSymbol",
                 "esri/symbols/CartographicLineSymbol",
                 "dojo/dom", "dojo/on",
+                "esri/dijit/Geocoder",
                 "esri/tasks/geometry",
                 "esri/geometry/Point",
                 "dijit/layout/BorderContainer",
@@ -45,6 +47,7 @@ require(["esri/map",
                         slider: false
                     });
 
+
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
@@ -52,6 +55,16 @@ require(["esri/map",
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
                     layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShedsColorLess/MapServer");
              
+                    //add geocoder widget
+                    geocoder = new esri.dijit.Geocoder({
+                        map: map,
+                        autoComplete: true,
+                        arcgisGeocoder: {
+                            name: "Esri World Geocoder",
+                        }
+                    }, "search");
+                    geocoder.startup();
+
                     //map.addLayer(layer);
 
                     if (layer.loaded) {
@@ -86,11 +99,11 @@ require(["esri/map",
                     GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["STATION_NU", "STATION_NA", "SHAPE"]
+                        outFields: ["Station_No", "Staition_Name"]
                     });
                     map.addLayer(GaugeLayer);
 
-                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/2", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/1", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "PROVINCE", "ELEVATION"]
@@ -164,7 +177,7 @@ require(["esri/map",
 
                     GaugeLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${STATION_NA}</strong></td></tr><tr><td>STATION_NU</td><td>${STATION_NU}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${STATION_NU}');\"; value=\"Details\"></td></tr><tr><td>Province</td><td>${PROVINCE}</td></tr><tr><td>Elevation</td><td>${ELEVATION}</td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${Staition_Name}</strong></td></tr><tr><td>STATION_NU</td><td>${Station_No}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${Station_No}');\"; value=\"Details\"></td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);

@@ -12,6 +12,7 @@ namespace CalgaryWaterAnalytics.Controllers
     /// </summary>
     public class GaugeController : Controller
     {
+        private static List<double> WaterLevelList ;
         //
         // GET: /Gauge/
  
@@ -22,6 +23,7 @@ namespace CalgaryWaterAnalytics.Controllers
         /// <returns></returns>
         protected string getWaterLevel(string selectedStationCode)
         {
+            WaterLevelList = new List<double>();
             using(WaterAnalyticsEntities db = new WaterAnalyticsEntities()){
             string waterLevelData = "";
             string year = "";
@@ -72,6 +74,11 @@ namespace CalgaryWaterAnalytics.Controllers
                     waterLevelData += waterlevel.Discharge.ToString();
                     
                 }
+                //Added to get waterLevel
+                if (!waterlevel.WateLevel.Equals(" ") && waterlevel.WateLevel!= null)
+                {
+                    WaterLevelList.Add(Convert.ToDouble( waterlevel.WateLevel));
+                }
             }
             //Appending the date value in the string
             //Format DAY;MONTH;YEAR;WATERLEVELS
@@ -85,22 +92,28 @@ namespace CalgaryWaterAnalytics.Controllers
         /// </summary>
         /// <param name="selectedStationCode"></param>
         /// <returns></returns>
-        protected double? getLastWaterLevel(string selectedStationCode) {
+        protected String getLastWaterLevel(string selectedStationCode) {
+            WaterLevelList.Sort();
+            String lowerQuartile = GetQuartile(WaterLevelList,0.25).ToString();
+            String upperQuartile = GetQuartile(WaterLevelList,0.75).ToString();
+            String middleQuartile = GetQuartile(WaterLevelList,0.50).ToString();
+            String topQuartile = GetQuartile(WaterLevelList, 1.0).ToString();
+            String LowestQuartile = GetQuartile(WaterLevelList,0.0).ToString();
             using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
             {
-                double? result = null;
+                String result = "0";
                 var query = db.WaterLevels.Where(x => x.StationCode == selectedStationCode);
                 var lastByDate = query.Where(x => x.Date.HasValue && x.WateLevel.HasValue).OrderByDescending(x => x.Date).Take(1).FirstOrDefault();
                 if (lastByDate != null)
                 {
-                    result = lastByDate.WateLevel;
+                    result = lastByDate.WateLevel.ToString();
                 }
                 else 
                 {
-                    result = 0;
+                    result = "0";
                 }
-               
-                return result;
+
+                return (lowerQuartile + ";" + upperQuartile+ ";" + middleQuartile+ ";" + topQuartile+ ";" + LowestQuartile+ ";" + result);
             }
 
         }
@@ -123,6 +136,43 @@ namespace CalgaryWaterAnalytics.Controllers
         public ActionResult LastLevelResult(string selectedStationCode)
         {
             return Json(getLastWaterLevel(selectedStationCode));
+        }
+        //Code Added to calculate quartiles
+
+        private  double GetQuartile(List<double> list, double quartile)
+        {
+            double result;
+            if (list.Count != 0)
+            {
+                // Get roughly the index
+                double index = quartile * (list.Count() - 1);
+
+                // Get the remainder of that index value if exists
+                double remainder = index % 1;
+
+                // Get the integer value of that index
+                index = Math.Floor(index);
+
+                if (remainder.Equals(0))
+                {
+                    // we have an integer value, no interpolation needed
+                    result = list.ElementAt((int)index);
+                }
+                else
+                {
+                    // we need to interpolate
+                    double value = list.ElementAt((int)index);
+                    double interpolationValue = (value - list.ElementAt((int)(index + 1))) * remainder;
+
+                    result = value + interpolationValue;
+                }
+            }
+            else
+            {
+                result = 0;
+            }
+
+            return result;
         }
     }
 }

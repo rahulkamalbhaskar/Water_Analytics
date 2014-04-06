@@ -25,6 +25,10 @@ require(["esri/map",
                 "esri/symbols/SimpleMarkerSymbol",
                 "esri/symbols/CartographicLineSymbol",
                 "dojo/dom", "dojo/on",
+                "esri/symbols/SimpleFillSymbol",
+                 "esri/renderers/ClassBreaksRenderer",
+                "esri/InfoTemplate", 
+                "dojo/_base/Color",
                 "esri/dijit/Geocoder",
                 "esri/tasks/geometry",
                 "esri/geometry/Point",
@@ -38,7 +42,7 @@ require(["esri/map",
           SimpleRenderer, Graphic, esriLang,
           Color, number, domStyle,
           TooltipDialog, dijitPopup, Draw, PictureFillSymbol, SimpleMarkerSymbol, CartographicLineSymbol,
-                    dom, on) {
+                    dom, on, SimpleFillSymbol,ClassBreaksRenderer, InfoTemplate,Color ) {
                     parser.parse();
                     map = new Map("mapDiv", {
                         center: [-114.08529, 51.05011],
@@ -67,12 +71,168 @@ require(["esri/map",
 
                     //map.addLayer(layer);
 
+
+
                     if (layer.loaded) {
                         buildLayerList(layer);
                     } else {
                         dojo.connect(layer, "onLoad", buildLayerList);
                     }
 
+                    
+                    //this part is for making watersheds Clickable
+                    var symbol = new SimpleFillSymbol();
+                    symbol.setColor(new Color([150, 150, 150, 0.5]));
+                    var renderer = new ClassBreaksRenderer(symbol, "FID");
+                    renderer.addBreak(0, 0, new SimpleFillSymbol().setColor(new Color([56, 168, 0, 0.5])));
+                    //renderer.addBreak(50, 100, new SimpleFillSymbol().setColor(new Color([139, 209, 0, 0.5])));
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/5", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/6", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/7", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/8", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/9", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/10", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/11", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/12", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/13", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/14", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/15", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/16", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/17", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
                     //var roadLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/3", {
                     //    id: "roadLayer"
                     //});

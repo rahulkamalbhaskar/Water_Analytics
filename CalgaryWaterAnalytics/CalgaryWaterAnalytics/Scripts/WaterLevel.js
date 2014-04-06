@@ -67,7 +67,8 @@ function WaterLevel(StationCode) {
     });
     //gauge Chart
     var result
-    var result = getLastWaterlevel(StationCode, result);
+    var result = getLastWaterlevel(StationCode, result).split(";");
+    //lowerQuartile + ";" + upperQuartile+ ";" + middleQuartile+ ";" + topQuartile+ ";" + LowestQuartile+ ";" + result
     //$('#gauge').highcharts({
 
     //    chart: {
@@ -207,12 +208,10 @@ function WaterLevel(StationCode) {
                     }
                 }]
             },
-
             series: [{
                 name: 'Observations',
                 data: [
-                    [0, 0.5 , result, 9, 10]
-                    
+                    [result[4], result[1], result[5], result[1], result[3]]
                 ],
                 tooltip: {
                     headerFormat: ''

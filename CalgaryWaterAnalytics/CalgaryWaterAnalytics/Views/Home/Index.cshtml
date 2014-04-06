@@ -22,7 +22,8 @@
     <link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
-
+    <!-- Added for incorporaing Jquery UI -->
+    <link href="../../Scripts/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -144,9 +145,8 @@
                     <a href="#" id="hide"> Hide </a>
                     <!--<img src="content/Images/chart.png" width="100" height="200" style="position: absolute; left:2em; bottom: 2em;">;-->
                     <div rel="external" id="gauge" style="visibility:visible; min-width: 150px; height: 250px; margin: 0 auto"></div>
-                    <p id="weatherDetail">
-                    </p>
                     <div rel="external" id="container" style="visibility:hidden; min-width: 250px; height: 250px; margin: 0 auto"></div>
+                    <div id="dialog-weather-detail" title="Weather Detail"></div>
                 </div>
 
             </div>

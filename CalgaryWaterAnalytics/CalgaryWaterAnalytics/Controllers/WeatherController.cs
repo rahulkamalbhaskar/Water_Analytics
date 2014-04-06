@@ -23,21 +23,23 @@ namespace CalgaryWaterAnalytics.Controllers
         {
             float lat = 0;
             float longi = 0;
+            String name = "";
             using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
             {
                 //Query to fetch latitude and longitude for xml data
 
                 var query = from c in db.Stations
-                            where c.Name.Equals(selectedStationCode)
+                            where c.StationCode.Equals(selectedStationCode)
                             select c;
                 foreach (Station station in query)
                 {
                     lat = (float)station.Lat;
                     longi = (float)station.Long;
+                    name = station.Name;
                 }
 
             }
-            return getCurrentWeather(lat.ToString(), longi.ToString());
+            return (lat+";"+longi+";"+name);//getCurrentWeather(lat.ToString(), longi.ToString());
         }
         /// <summary>
         /// http://dotnet.dzone.com/articles/using-linq-xml-query-xml-data
@@ -65,7 +67,7 @@ namespace CalgaryWaterAnalytics.Controllers
             var temp = temprature[0].currentDay.Value;
             var tempDayOne = temprature[1].futureDay.Value;
             var tempDayTwo = temprature[2].futureDay.Value;
-            return temp + " " + tempDayOne+" "+tempDayTwo;
+            return temp + ";" + tempDayOne+";"+tempDayTwo;
         }
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)

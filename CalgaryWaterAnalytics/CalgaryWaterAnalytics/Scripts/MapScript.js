@@ -1,8 +1,8 @@
-﻿var dialog, gsvc;
+﻿var dialog, gsvc, tb;
 var layer, map, visible = [];
 var GaugeLayer, stationLayer;
 var geocoder;
-require(["esri/map",
+require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/config",
     "esri/geometry/Circle",
     "esri/layers/GraphicsLayer",
                 "esri/dijit/LocateButton",
@@ -24,7 +24,7 @@ require(["esri/map",
                 "esri/symbols/PictureFillSymbol",
                 "esri/symbols/SimpleMarkerSymbol",
                 "esri/symbols/CartographicLineSymbol",
-                "dojo/dom", "dojo/on",
+                "dojo/dom", "dojo/dom-attr", "dojo/_base/array", "dojo/on",
                 "esri/symbols/SimpleFillSymbol",
                  "esri/renderers/ClassBreaksRenderer",
                 "esri/InfoTemplate", 
@@ -33,16 +33,16 @@ require(["esri/map",
                 "esri/tasks/geometry",
                 "esri/geometry/Point",
                 "dijit/layout/BorderContainer",
-                "esri/dijit/PopupTemplate",
-                "dojo/domReady!",
+                "esri/dijit/PopupTemplate", "dijit/layout/ContentPane",
+                "dojo/domReady!"
 ],
 
-                function (Map, Circle, GraphicsLayer, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
+                function (Map, GeometryService, BufferParameters, esriConfig, Circle, GraphicsLayer, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
           SimpleFillSymbol, SimpleLineSymbol,
           SimpleRenderer, Graphic, esriLang,
           Color, number, domStyle,
           TooltipDialog, dijitPopup, Draw, PictureFillSymbol, SimpleMarkerSymbol, CartographicLineSymbol,
-                    dom, on, SimpleFillSymbol,ClassBreaksRenderer, InfoTemplate,Color ) {
+                    dom, domAttr, array, on, SimpleFillSymbol, ClassBreaksRenderer, InfoTemplate, Color) {
                     parser.parse();
                     map = new Map("mapDiv", {
                         center: [-114.08529, 51.05011],
@@ -51,9 +51,79 @@ require(["esri/map",
                         slider: false
                     });
 
-
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+                    map.on("load", initToolbar);
 
+                    esriConfig.defaults.io.proxyUrl = "/proxy";
+                    esriConfig.defaults.io.alwaysUseProxy = false;
+
+                    function initToolbar(evtObj) {
+                        app.tb = new Draw(evtObj.map);
+                        app.tb.on("draw-end", doBuffer);
+                    }
+                    function doBuffer(evtObj) {
+                        var geometry = evtObj.geometry,
+                        map = app.map,
+                        gsvc = app.gsvc;
+                        switch (geometry.type) {
+                            case "point":
+                                var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 10, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 1), new Color([0, 255, 0, 0.25]));
+                                break;
+                            case "polyline":
+                                var symbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([255, 0, 0]), 1);
+                                break;
+                            case "polygon":
+                                var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NONE, new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT, new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.25]));
+                                break;
+                        }
+
+                        var graphic = new Graphic(geometry, symbol);
+                        map.graphics.add(graphic);
+
+                        //setup the buffer parameters
+                        var params = new BufferParameters();
+                        params.distances = [dom.byId("distance").value];
+                        params.bufferSpatialReference = new esri.SpatialReference({ wkid: dom.byId("bufferSpatialReference").value });
+                        params.outSpatialReference = map.spatialReference;
+                        params.unit = GeometryService[dom.byId("unit").value];
+
+                        if (geometry.type === "polygon") {
+                            //if geometry is a polygon then simplify polygon.  This will make the user drawn polygon topologically correct.
+                            gsvc.simplify([geometry], function (geometries) {
+                                params.geometries = geometries;
+                                gsvc.buffer(params, showBuffer);
+                            });
+                        } else {
+                            params.geometries = [geometry];
+                            gsvc.buffer(params, showBuffer);
+                        }
+                    }
+
+                    function showBuffer(bufferedGeometries) {
+                        var symbol = new SimpleFillSymbol(
+                          SimpleFillSymbol.STYLE_SOLID,
+                          new SimpleLineSymbol(
+                            SimpleLineSymbol.STYLE_SOLID,
+                            new Color([255, 0, 0, 0.65]), 2
+                          ),
+                          new Color([255, 0, 0, 0.35])
+                        );
+
+                        array.forEach(bufferedGeometries, function (geometry) {
+                            var graphic = new Graphic(geometry, symbol);
+                            app.map.graphics.add(graphic);
+                        });
+                        //app.tb.deactivate();
+                        app.map.showZoomSlider();
+                    }
+
+                    app = {
+                        map: map,
+                        tb: tb,
+                        gsvc: gsvc
+                    };
+                    
+                    
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
                     //Added new layers with water sheded area
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
@@ -351,7 +421,7 @@ require(["esri/map",
                             y: evt.pageY
                         });
                     });
-                    GaugeLayer.on("click", doBuffer);
+                    //GaugeLayer.on("click", doBuffer);
 
                     function closeDialog() {
                         map.graphics.clear();

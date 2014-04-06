@@ -445,12 +445,16 @@ function buildLayerList(layer) {
 
     var items = dojo.map(layer.layerInfos, function (info, index) {
         // alert(info.id);
+        //alert(info.defaultVisibility);
+        //making all layers checked and visible
+        //info.defaultVisibility = true;
         if (info.defaultVisibility) {
             visible.push(info.id);
+           
         }
 
         if (info.id == 0 || info.id == 1 || info.id == 2 || info.id == 3 || info.id == 4 || info.id == 18) {
-           
+            
             return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
         }
         else return "";
@@ -500,12 +504,16 @@ function updateLayerVisibility(chk) {
         //alert(input.id);
 
         if (input.checked) {
-            visible.push(input.id);
+            
             if (input.id == 0) {
                 GaugeLayer.show();
             }
-            if (input.id == 1) {
+            else if (input.id == 1) {
                 stationLayer.show();
+            }
+            else
+            {
+                visible.push(input.id);
             }
         }
         if (!(input.checked) && (input.id == 0)) {
@@ -520,20 +528,7 @@ function updateLayerVisibility(chk) {
     if (visible.length === 0) {
         visible.push(-1);
     }
-    //making watersheds always visible
-    visible.push(5);
-    visible.push(6);
-    visible.push(7);
-    visible.push(8);
-    visible.push(9);
-    visible.push(10);
-    visible.push(11);
-    visible.push(12);
-    visible.push(13);
-    visible.push(14);
-    visible.push(15);
-    visible.push(16);
-    visible.push(17);
+   
     layer.setVisibleLayers(visible);
 }
 

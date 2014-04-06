@@ -53,7 +53,7 @@ require(["esri/map",
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
                     //Added new layers with water sheded area
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
-                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShedsColorLess/MapServer");
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
              
                     //add geocoder widget
                     geocoder = new esri.dijit.Geocoder({
@@ -214,12 +214,16 @@ require(["esri/map",
 function buildLayerList(layer) {
 
     var items = dojo.map(layer.layerInfos, function (info, index) {
-      
+        // alert(info.id);
         if (info.defaultVisibility) {
             visible.push(info.id);
         }
 
-        return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
+        if (info.id == 0 || info.id == 1 || info.id == 2 || info.id == 3 || info.id == 4 || info.id == 18) {
+           
+            return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
+        }
+        else return "";
 
     });
 
@@ -232,15 +236,26 @@ function buildLayerList(layer) {
 
 function getnamebyIndex(info, index) {
     var x = info.name;
-    //switch (index) {
-    //    case 0:
-    //        x = "Gauge";
-    //        break;
-    //    case 2:
-    //        x = "Water Shed";
-    //        break;
-
-    //}
+    switch (index) {
+        case 0:
+            x = "Gauge Station";
+            break;
+        case 1:
+            x= "Weather Station";
+            break;
+        case 2:
+            x = "100 Years Flood Plain";
+            break;
+        case 3:
+            x = "Stream";
+            break;
+        case 4:
+            x = "Roads";
+            break;
+        case 18:
+            x = "Lakes";
+            break;
+    }
 
     return x;
 }
@@ -256,25 +271,39 @@ function updateLayerVisibility(chk) {
 
         if (input.checked) {
             visible.push(input.id);
-            //if (input.id == 0) {
-            //    GaugeLayer.show();
-            //}
-            //if (input.id == 2) {
-            //    stationLayer.show();
-            //}
+            if (input.id == 0) {
+                GaugeLayer.show();
+            }
+            if (input.id == 1) {
+                stationLayer.show();
+            }
         }
-        //if (!(input.checked) && (input.id == 0)) {
-        //    GaugeLayer.hide();
-        //}
-        //if (!(input.checked) && (input.id == 2)) {
-        //    stationLayer.hide();
-        //}
+        if (!(input.checked) && (input.id == 0)) {
+            GaugeLayer.hide();
+        }
+        if (!(input.checked) && (input.id == 1)) {
+            stationLayer.hide();
+        }
 
     });
     //if there aren't any layers visible set the array to be -1
     if (visible.length === 0) {
         visible.push(-1);
     }
+    //making watersheds always visible
+    visible.push(5);
+    visible.push(6);
+    visible.push(7);
+    visible.push(8);
+    visible.push(9);
+    visible.push(10);
+    visible.push(11);
+    visible.push(12);
+    visible.push(13);
+    visible.push(14);
+    visible.push(15);
+    visible.push(16);
+    visible.push(17);
     layer.setVisibleLayers(visible);
 }
 

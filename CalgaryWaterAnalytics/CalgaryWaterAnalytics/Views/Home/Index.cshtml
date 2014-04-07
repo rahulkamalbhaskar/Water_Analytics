@@ -97,13 +97,13 @@
         }
 
 
-        #LocateButton {
+        /*#LocateButton {
             position: absolute;
             top: 21px;
             z-index: 2;
             left: 490px;
            
-        }
+        }*/
     </style>
     
    
@@ -113,7 +113,7 @@
             data-dojo-type="dijit.layout.BorderContainer"
             data-dojo-props="gutters:'true', design:'sidebar'">
            
-           <div id="LocateButton">
+           <div id="LocateButton" style="float: right;top: 11px;right: 600px;">
            </div>
            <div id="BasemapToggle">
            </div>
@@ -141,26 +141,6 @@
                                </td>
 
                            </tr>
-
-                           @*<tr>
-                            <td>
-                                <input type="checkbox" id="stationLayer"  onchange="javascript:selectLayer();">Weather Station</input>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="roadLayer"  onchange="javascript:selectLayer();">Roads</input>
-                            </td>
-                            <td>
-                                <input  type="checkbox" id="streamLayer"  onchange="javascript:selectLayer();">Streams</input>
-                            </td>
-                            </tr>
-                            <tr>
-                            <td>
-                                <input  type="checkbox" id="lakeLayer"  onchange="javascript:selectLayer();">Lakes</input>
-                            </td>
-                            <td>
-                                <input  type="checkbox" id="demLayer" onchange="javascript:selectLayer();">DEM Model</input>
-                            </td>
-                            </tr>*@
                        </table>
 
                    </div>
@@ -182,55 +162,90 @@
 
            </div>
           
-           <div class="details" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="height:30px;">
+           <div class="details" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="height: 30px;float: right;top: 11px;right: 560px;">
                <input type="text" id="searchText"/>
                <input type="button" id="button" value="Find" onclick="execute(dojo.byId('searchText').value);" />
            </div>
-
-           <a href="#" onclick="showDiv()"><font size="5" color="orang">Spatial Analysis Mode</font></a>
-           
-           
-           
-
        </div>
+        <div id="Spatial_Analysis" class="button" style="float: right; top: 10px; right: 24px; z-index: 999;">
+            <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Spatial Analysis', closable:false,  open:false">
+                <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; height: 280px; overflow: auto;">
+                    <div id="Spatial_Analysis_div">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p><b>Pick a tool and draw on the map. The drawn graphic will be buffered based on the specified parameters.</b> </p>
+                                </td>
+                            </tr>
 
+                        </table>
+                        <table>
+                            <tr>
+                                <td>
+                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.LINE);app.map.hideZoomSlider();"><font color="F2EEEE">Line</font></button>
+                                </td>
+                                <td>
+                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Polyline</font></button>
+                                </td>
+                                <td>
+                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polyline</font></button>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Polygon</font></button>
+                                </td>
+                                <td>
+                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polygon</font></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Buffer Parameters</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Spatial Reference WKID</td>
+                                    <td>
+                                        <input type="text" id="bufferSpatialReference" size="5" value="32612" /></td>
 
-    <div id="leftPane"
+                                </tr>
+                                <tr>
+                                    <td>Distance:</td>
+                                    <td>
+                                        <input type="text" id="distance" size="5" value="10" /></td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
 
-         style="display: none; position: absolute; top: 100px;">
-
-        <a href="#" id="hide" onclick="HideDiv()"> Hide </a>
-
-        <div class="details"> <p><center><font size="5" color="FFFF66"> <b>Spatial Analysis Buffering </b> </font> </center></p> </div>
-
-        <div class="details"> <p> <b>Pick a tool and draw on the map. The drawn graphic will be buffered based on the specified parameters.</b> </p></div>
-        <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.LINE);app.map.hideZoomSlider();"><font color="F2EEEE">Line</font></button>
-        <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Polyline</font></button>
-        <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polyline</font></button>
-        <br />
-        <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Polygon</font></button>
-        <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polygon</font></button>
-
-        <br /><hr />
-        <div><b>Buffer Parameters</b></div>
-        Spatial Reference WKID:&nbsp;<input type="text" id="bufferSpatialReference" size="5" value="32612" /><br />
-        Distance:&nbsp;<input type="text" id="distance" size="5" value="25" />
-        <select id="unit" style="width:100px;">
-            <option value="UNIT_STATUTE_MILE">Miles</option>
-            <option value="UNIT_FOOT">Feet</option>
-            <option value="UNIT_KILOMETER">Kilometers</option>
-            <option value="UNIT_METER">Meters</option>
-            <option value="UNIT_DEGREE">Degrees</option>
-        </select><br />
-        <button data-dojo-type="dijit.form.Button" type="button" onclick="app.map.graphics.clear(); app.tb.deactivate(esri.toolbars.Draw)"><font color="FFFFFF">Clear Graphics</font></button>
-    </div>
-
-    @*<body>
-            This sample loads an ArcGISDynamicMapServiceLayer.<br />
-            It determines the layers in the map service and presents them as checkboxes that can be used to toggle their visibility.<br />
-            <br />
-            Layer List : <span id="layer_list"></span><br />
-            <br />
-
-        </body>*@
+                                    </td>
+                                    <td>
+                                        <select id="unit" style="width: 100px;color:black">
+                                            <option value="UNIT_STATUTE_MILE">Miles</option>
+                                            <option value="UNIT_FOOT">Feet</option>
+                                            <option value="UNIT_KILOMETER">Kilometers</option>
+                                            <option value="UNIT_METER">Meters</option>
+                                            <option value="UNIT_DEGREE">Degrees</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button data-dojo-type="dijit.form.Button" type="button" onclick="app.map.graphics.clear(); app.tb.deactivate(esri.toolbars.Draw)"><font color="FFFFFF">Clear Graphics</font></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 

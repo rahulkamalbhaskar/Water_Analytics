@@ -455,7 +455,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     $("#Layer_galery").appendTo("#mapDiv_root");
                     //same for detail
                     $("#toggler").appendTo("#mapDiv_root");
-                    $("#letfPane").appendTo("#mapDiv_root");
+                    $("#Spatial_Analysis").appendTo("#mapDiv_root");
 
                    
                 });

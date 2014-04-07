@@ -51,7 +51,10 @@
             background: #979563;
             opacity: 0.8;
         }
- 
+        #details {
+            font-weight: bold;
+            z-index: 999;
+        }
         #container {
             position: absolute;
             right: 1em;
@@ -86,10 +89,13 @@
         #search {
             display: block;
             position: absolute;
-            z-index: 2;
-            top: 51px;
-            left: 525px;
+            z-index: 1000;
+            left: 5px;
+            top: 5px;
+            /*top: 30px;
+            left: 525px;*/
         }
+
 
         #LocateButton {
             position: absolute;
@@ -101,6 +107,7 @@
     </style>
     
    
+        <script>var dojoConfig = { parseOnLoad: true };</script>
 
        <div id="mapDiv"
             data-dojo-type="dijit.layout.BorderContainer"
@@ -174,8 +181,12 @@
                </div>
 
            </div>
+          
+           <div class="details" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="height:30px;">
+               <input type="text" id="searchText"/>
+               <input type="button" id="button" value="Find" onclick="execute(dojo.byId('searchText').value);" />
+           </div>
 
-           <div id="search"></div>
            <a href="#" onclick="showDiv()"><font size="5" color="orang">Spatial Analysis Mode</font></a>
            
            

@@ -1,6 +1,7 @@
 ﻿var dialog, gsvc, tb;
 var layer, map, visible = [];
 var GaugeLayer, stationLayer;
+var findTask, findParams;
 var geocoder;
 require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/config",
     "esri/geometry/Circle",
@@ -48,13 +49,27 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                         center: [-114.08529, 51.05011],
                         zoom: 8,
                         basemap: "streets",
-                        slider: false
+                        //slider: false
                     });
 
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-                    map.on("load", initToolbar);
+                   
                    
 
+                    //add search box for stations
+                    //create find task with url to map service
+                    findTask = new esri.tasks.FindTask("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
+
+                    //create find parameters and define known values
+                    findParams = new esri.tasks.FindParameters();
+                    findParams.returnGeometry = true;
+                    findParams.layerIds = [0, 1];
+                    findParams.searchFields = ["Station_No", "Staition_Name"];
+                    var sr = new esri.SpatialReference({ wkid: 4326 });
+
+                    findParams.outSpatialReference = sr
+
+                    map.on("load", initToolbar);
                     esriConfig.defaults.io.proxyUrl = "/proxy";
                     esriConfig.defaults.io.alwaysUseProxy = false;
 
@@ -731,7 +746,44 @@ function showWeatherDetails(stationCode) {
     createWeatherHTML(weatherData);
 }
 
+function execute(searchText) {
+    //set the search text to find parameters
+    findParams.searchText = searchText;
+    findTask.execute(findParams, showResults);
+}
 
+function showResults(results) {
+
+    //symbology for graphics
+    var markerSymbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1), new dojo.Color([0, 255, 0, 0.25]));
+    var lineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 1);
+    var polygonSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_NONE, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
+
+    //find results return an array of findResult.
+    map.graphics.clear();
+    //var dataForGrid = [];
+    //Build an array of attribute information and add each found graphic to the map
+    dojo.forEach(results, function (result) {
+        var graphic = result.feature;
+
+        //dataForGrid.push([result.layerName, result.foundFieldName, result.value]);
+        switch (graphic.geometry.type) {
+            case "point":
+                graphic.setSymbol(markerSymbol);
+                break;
+            case "polyline":
+                graphic.setSymbol(lineSymbol);
+                break;
+            case "polygon":
+                graphic.setSymbol(polygonSymbol);
+                break;
+        }
+
+        map.graphics.add(graphic);
+
+    });
+    
+}
 
 
 

@@ -53,6 +53,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
 
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
                     map.on("load", initToolbar);
+                   
 
                     esriConfig.defaults.io.proxyUrl = "/proxy";
                     esriConfig.defaults.io.alwaysUseProxy = false;
@@ -61,6 +62,8 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                         app.tb = new Draw(evtObj.map);
                         app.tb.on("draw-end", doBuffer);
                     }
+
+                 
                     function doBuffer(evtObj) {
                         var geometry = evtObj.geometry,
                         map = app.map,
@@ -437,9 +440,21 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     $("#Layer_galery").appendTo("#mapDiv_root");
                     //same for detail
                     $("#toggler").appendTo("#mapDiv_root");
+                    $("#letfPane").appendTo("#mapDiv_root");
 
-
+                   
                 });
+
+function showDiv() {
+
+    document.getElementById("leftPane").style.display = "block";
+    $("#leftPane").effect("slide", options, 800, callback);
+}
+
+function HideDiv() {
+    document.getElementById("leftPane").style.display = "none";
+    return false;
+}
 
 function buildLayerList(layer) {
 
@@ -649,17 +664,19 @@ $(function () {
 
         // run the effect
         $("#effect").hide(selectedEffect, options, 1000);
+        
     };
 
     // callback function to bring a hidden box back
     function callback() {
         setTimeout(function () {
             $("#effect").removeAttr("style").hide().fadeIn();
+            $("#leftPane").removeAttr("style").hide().fadeIn();
         }, 1000);
     };
 
 
-
+    
     // More clicking point
     $(function () {
         var state = true;
@@ -694,6 +711,12 @@ $(function () {
         runEffect();
         return false;
     });
+    // set effect from select menu value
+    $("button").click(function () {
+        runEffect();
+        return false;
+    });
+
 });
 
 

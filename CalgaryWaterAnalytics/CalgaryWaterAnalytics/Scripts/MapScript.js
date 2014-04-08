@@ -64,7 +64,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     findParams = new esri.tasks.FindParameters();
                     findParams.returnGeometry = true;
                     findParams.layerIds = [0, 1];
-                    findParams.searchFields = ["Station_No", "Staition_Name"];
+                    findParams.searchFields = ["Station_No", "Staition_Name", "STATION_NAME"];
                     var sr = new esri.SpatialReference({ wkid: 4326 });
 
                     findParams.outSpatialReference = sr

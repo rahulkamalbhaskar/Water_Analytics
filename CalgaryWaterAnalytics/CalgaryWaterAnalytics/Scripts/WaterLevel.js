@@ -1,5 +1,26 @@
 ﻿
 function WaterLevel(StationCode) {
+    $("#tooltipDialog").hide();
+    $("#pnlChartstby").dialog({
+        //modal: true,
+        width: '45%',
+        height: '520',
+        show: {
+            effect: "blind",
+            duration: 1000
+        },
+        //hide: {
+        //    effect: "explode",
+        //    duration: 1000
+        //},
+        close: function (event, ui) { $("#tooltipDialog").show(); },
+        buttons: {
+            Ok: function () {
+                $(this).dialog("close");
+                $("#tooltipDialog").show();
+            }
+        }
+    });
     var graphData;
     var graphdata = getWaterlevelData(StationCode, graphData).split(";");
     waterLevel = JSON.parse("[" + graphdata[4] + "]");
@@ -9,7 +30,7 @@ function WaterLevel(StationCode) {
             spacingRight: 20
         },
         title: {
-            text: 'Water Level for <\br>' + graphdata[0]
+            text: 'Drainage for <\br>' + graphdata[0]
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -25,7 +46,7 @@ function WaterLevel(StationCode) {
         },
         yAxis: {
             title: {
-                text: 'Water Level'
+                text: 'Water Flow m3/s'
             }
         },
         tooltip: {
@@ -59,15 +80,16 @@ function WaterLevel(StationCode) {
 
         series: [{
             type: 'area',
-            name: 'Water Level',
+            name: 'Drainage',
             pointInterval: 24 * 3600 * 1000,
             pointStart: Date.UTC(graphdata[3], graphdata[2], graphdata[1]),
             data: waterLevel
         }]
     });
     //gauge Chart
-    var result
-    var result = getLastWaterlevel(StationCode, result).split(";");
+    //var result;
+    var result = getLastWaterlevel(StationCode, result);
+    result = result.split(';'); 
     //lowerQuartile + ";" + upperQuartile+ ";" + middleQuartile+ ";" + topQuartile+ ";" + LowestQuartile+ ";" + result
     //$('#gauge').highcharts({
 
@@ -185,7 +207,7 @@ function WaterLevel(StationCode) {
             },
 
             xAxis: {
-                categories: ['1'],
+                categories: ['Water Level'],
                 title: {
                     text: ''
                 }
@@ -196,12 +218,12 @@ function WaterLevel(StationCode) {
                     text: ''
                 },
                 plotLines: [{
-                    value: 8,
+                    value: parseFloat(result[5]),
                     color: 'red',
                     width: 0.5,
                     label: {
-                        text: '',
-                        align: 'center',
+                        text: 'Current Status',
+                        align: 'left',
                         style: {
                             color: 'gray'
                         }
@@ -211,7 +233,7 @@ function WaterLevel(StationCode) {
             series: [{
                 name: 'Observations',
                 data: [
-                    [result[4], result[1], result[5], result[1], result[3]]
+                    [parseFloat(result[0]),parseFloat(result[1]),parseFloat(result[2]),parseFloat(result[3]),parseFloat(result[4])]
                 ],
                 tooltip: {
                     headerFormat: ''
@@ -240,7 +262,6 @@ function WaterLevel(StationCode) {
             ]
 
         });
-    
 
 }
 function getWaterlevelData(stationCode, graphData) {

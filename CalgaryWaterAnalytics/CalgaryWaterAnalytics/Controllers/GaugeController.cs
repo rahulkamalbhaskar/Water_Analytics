@@ -23,6 +23,7 @@ namespace CalgaryWaterAnalytics.Controllers
         /// <returns></returns>
         protected string getWaterLevel(string selectedStationCode)
         {
+
             WaterLevelList = new List<double>();
             using(WaterAnalyticsEntities db = new WaterAnalyticsEntities()){
             string waterLevelData = "";
@@ -112,8 +113,18 @@ namespace CalgaryWaterAnalytics.Controllers
                 {
                     result = "0";
                 }
+                if (lowerQuartile.Equals("0") && upperQuartile.Equals("0") && middleQuartile.Equals("0") && topQuartile.Equals("0") && LowestQuartile.Equals("0"))
+                {
+                    lowerQuartile = "2";
+                    upperQuartile = "7";
+                    middleQuartile = "5";
+                    topQuartile = "10";
+                    LowestQuartile = "0";
+                    result = "4";
 
-                return (lowerQuartile + ";" + upperQuartile+ ";" + middleQuartile+ ";" + topQuartile+ ";" + LowestQuartile+ ";" + result);
+                }
+
+                return (LowestQuartile + ";" + lowerQuartile + ";" + middleQuartile + ";" + upperQuartile + ";" +topQuartile +";" + result);
             }
 
         }

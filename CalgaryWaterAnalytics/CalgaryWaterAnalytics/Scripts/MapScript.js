@@ -454,7 +454,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     //same for locate button 
                     $("#Layer_galery").appendTo("#mapDiv_root");
                     //same for detail
-                    $("#toggler").appendTo("#mapDiv_root");
+                    //$("#toggler").appendTo("#mapDiv_root");
                     $("#Spatial_Analysis").appendTo("#mapDiv_root");
 
                    
@@ -658,9 +658,9 @@ function callback() {
 function showMapDetails(stationCode) {
     // most effect types need no options passed by default
 
-    var options = {};
-    document.getElementById("toggler").style.visibility = "visible";
-    $("#effect").effect("slide", options, 800, callback);
+    //var options = {};
+    //document.getElementById("toggler").style.visibility = "visible";
+    //$("#effect").effect("slide", options, 800, callback);
     showStationData(stationCode);
 
 }
@@ -697,6 +697,7 @@ $(function () {
         var state = true;
         $("#more").click(function () {
 
+            
             if (state) {
 
                 $("#effect").animate({

@@ -125,7 +125,7 @@ footer,
 /* TAB MENU   
 ----------------------------------------------------------*/
 ul#menu {
-    border-bottom: 1px #5C87B2 solid;
+    border-bottom: 0px #5C87B2 solid;
     padding: 0 0 2px;
     position: relative;
     margin: 0;
@@ -176,7 +176,7 @@ ul#menu li.selected a {
 ----------------------------------------------------------*/
 
 fieldset {
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     padding: 0 1.4em 1.4em 1.4em;
     margin: 0 0 1.5em 0;
 }
@@ -192,7 +192,7 @@ textarea {
 
 input[type="text"], 
 input[type="password"] {
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     padding: 2px;
     font-size: 1.2em;
     color: #444;
@@ -200,7 +200,7 @@ input[type="password"] {
 }
 
 select {
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     padding: 2px;
     font-size: 1.2em;
     color: #444;
@@ -215,20 +215,20 @@ input[type="submit"] {
 ----------------------------------------------------------*/
 
 table {
-    border: solid 1px #e8eef4;
+    border: solid 0px #e8eef4;
     border-collapse: collapse;
 }
 
 table td {
     padding: 5px;
-    border: solid 1px #e8eef4;
+    border: solid 0px #e8eef4;
 }
 
 table th {
     padding: 6px 5px;
     text-align: left;
     background-color: #e8eef4;
-    border: solid 1px #e8eef4;
+    border: solid 0px #e8eef4;
 }
 
 /* MISC  

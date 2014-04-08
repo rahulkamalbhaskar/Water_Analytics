@@ -11,241 +11,245 @@
     </tr>
 </table>*@
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
-    <link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
-    
-    <!-- Added for incorporaing Jquery UI -->
-    <link href="../../Scripts/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    @*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>*@
-    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
-    <script src="http://code.highcharts.com/highcharts-more.js"></script>   
-    <script src="http://code.highcharts.com/modules/exporting.js" type="text/javascript"></script>
-    <script src="http://js.arcgis.com/3.8/"></script>
-    <script src="../../Scripts/MapScript.js">    </script>
-    <script src="../../Scripts/WaterLevel.js"></script>
-    <script src="../../Scripts/WeatherData.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+<link rel="stylesheet" type="text/css" href="../../Content/ExpandableButton.css" />
 
-    
-    <style>
-        html, body {
-            height: 100%;
-            width: 100%;
+<!-- Added for incorporaing Jquery UI -->
+<link href="../../Scripts/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>*@
+<script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js" type="text/javascript"></script>
+<script src="http://js.arcgis.com/3.8/"></script>
+<script src="../../Scripts/MapScript.js">    </script>
+<script src="../../Scripts/WaterLevel.js"></script>
+<script src="../../Scripts/WeatherData.js"></script>
+
+
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    #leftPane {
+        color: #000;
+        width: 250px;
+        padding-bottom: 15px;
+        background: #979563;
+        opacity: 0.8;
+    }
+
+    #details {
+        font-weight: bold;
+        z-index: 999;
+    }
+
+    /*#container {
+        position: absolute;
+        right: 1em;
+        bottom: 2em;
+    }
+
+    #gauge {
+        position: absolute;
+        left: 1em;
+        bottom: 2em;
+    }*/
+
+    #more {
+        position: static;
+    }
+
+    #button {
+        padding: .5em 1em;
+        text-decoration: none;
+    }
+
+    #effect {
+        width: 150px;
+        height: 400px;
+        padding: 0.4em;
+        position: relative;
+        background: #E1F5A9;
+    }
+
+        #effect h3 {
             margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        #leftPane {
-            color: #000;
-            width: 250px;
-            padding-bottom: 15px;
-            background: #979563;
-            opacity: 0.8;
-        }
-        #details {
-            font-weight: bold;
-            z-index: 999;
-        }
-        #container {
-            position: absolute;
-            right: 1em;
-            bottom: 2em;
-        }
-
-        #gauge{
-            position:absolute;
-            left:1em;
-            bottom:2em;
-        }
-        
-         #more {
-            position: static;
-        }
-    #button { padding: .5em 1em; text-decoration: none; }
-  
-        #effect {
-            width: 150px;
-            height: 400px;
             padding: 0.4em;
-            position: relative;
-            background: #E1F5A9;
+            text-align: center;
         }
-            #effect h3 {
-                margin: 0;
-                padding: 0.4em;
-                text-align: center;
-                
-            }
 
-        #search {
-            display: block;
-            position: absolute;
-            z-index: 1000;
-            left: 5px;
-            top: 5px;
-            /*top: 30px;
+    #search {
+        display: block;
+        position: absolute;
+        z-index: 1000;
+        left: 5px;
+        top: 5px;
+        /*top: 30px;
             left: 525px;*/
-        }
+    }
 
 
-        /*#LocateButton {
+    /*#LocateButton {
             position: absolute;
             top: 21px;
             z-index: 2;
             left: 490px;
            
         }*/
-    </style>
-    
-   
-        <script>var dojoConfig = { parseOnLoad: true };</script>
-
-       <div id="mapDiv"
-            data-dojo-type="dijit.layout.BorderContainer"
-            data-dojo-props="gutters:'true', design:'sidebar'">
-           
-           <div id="LocateButton" style="float: right;top: 11px;right: 600px;">
-           </div>
-           <div id="BasemapToggle">
-           </div>
-           <div id="Basemap_Gallery" class="button" style="float:right;top: 10px;right: 19px;">
-               <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Basemap', closable:false,  open:false">
-                   <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; height: 280px;
-                    overflow: auto;">
-                       <div id="basemapGallery">
-                       </div>
-                   </div>
-               </div>
-           </div>
-
-           <div id="Layer_galery" class="button" style="float:right;top: 10px;right: 19px; z-index: 999;">
-               <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
-                   <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto;
-                    overflow: auto;">
-                       <table>
-                           <tr>
-                               <td>
-                                   Layer List :
-                               </td>
-                               <td>
-                                   <span id="layer_list"></span>
-                               </td>
-
-                           </tr>
-                       </table>
-
-                   </div>
-               </div>
-           </div>
+</style>
 
 
-           <div id="toggler" style="visibility:hidden; position: absolute; top: 150px;">
-               <div id="effect" class="ui-widget-content ">
-                   <h3><font color="#B40431"> Station Details</font> </h3>
-                   <a href="#" id="more">More</a>
+<script>var dojoConfig = { parseOnLoad: true };</script>
 
-                   <a href="#" id="hide"> Hide </a>
-                   <!--<img src="content/Images/chart.png" width="100" height="200" style="position: absolute; left:2em; bottom: 2em;">;-->
-                   <div rel="external" id="gauge" style="visibility:visible; min-width: 100px; height: 250px; margin: 0 auto"></div>
-                   <div rel="external" id="container" style="visibility:hidden; min-width: 350px; height: 350px; margin: 0 auto"></div>
-                   <div id="dialog-weather-detail" title="Weather Detail"></div>
-               </div>
+<div id="mapDiv"
+    data-dojo-type="dijit.layout.BorderContainer"
+    data-dojo-props="gutters:'true', design:'sidebar'">
 
-           </div>
-          
-           <div class="details" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="height: 30px;float: right;top: 11px;right: 560px;">
-               <input type="text" id="searchText"/>
-               <input type="button" id="button" value="Find" onclick="execute(dojo.byId('searchText').value);" />
-           </div>
-       </div>
-        <div id="Spatial_Analysis" class="button" style="float: right; top: 10px; right: 24px; z-index: 999;">
-            <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Spatial Analysis', closable:false,  open:false">
-                <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; height: 280px; overflow: auto;">
-                    <div id="Spatial_Analysis_div">
-                        <table>
-                            <tr>
-                                <td>
-                                    <p><b>Pick a tool and draw on the map. The drawn graphic will be buffered based on the specified parameters.</b> </p>
-                                </td>
-                            </tr>
-
-                        </table>
-                        <table>
-                            <tr>
-                                <td>
-                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.LINE);app.map.hideZoomSlider();"><font color="F2EEEE">Line</font></button>
-                                </td>
-                                <td>
-                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Polyline</font></button>
-                                </td>
-                                <td>
-                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polyline</font></button>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Polygon</font></button>
-                                </td>
-                                <td>
-                                    <button data-dojo-type="dijit.form.Button" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYGON);app.map.hideZoomSlider();"><font color="F2EEEE">Freehand Polygon</font></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                            </tr>
-                        </table>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <b>Buffer Parameters</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Spatial Reference WKID</td>
-                                    <td>
-                                        <input type="text" id="bufferSpatialReference" size="5" value="32612" /></td>
-
-                                </tr>
-                                <tr>
-                                    <td>Distance:</td>
-                                    <td>
-                                        <input type="text" id="distance" size="5" value="10" /></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        <select id="unit" style="width: 100px;color:black">
-                                            <option value="UNIT_STATUTE_MILE">Miles</option>
-                                            <option value="UNIT_FOOT">Feet</option>
-                                            <option value="UNIT_KILOMETER">Kilometers</option>
-                                            <option value="UNIT_METER">Meters</option>
-                                            <option value="UNIT_DEGREE">Degrees</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button data-dojo-type="dijit.form.Button" type="button" onclick="app.map.graphics.clear(); app.tb.deactivate(esri.toolbars.Draw)"><font color="FFFFFF">Clear Graphics</font></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <div id="LocateButton" style="float: right; top: 11px; right: 600px;">
+    </div>
+    <div id="BasemapToggle">
+    </div>
+    <div id="Basemap_Gallery" class="button" style="float: right; top: 10px; right: 19px;">
+        <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Basemap', closable:false,  open:false">
+            <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; overflow: auto;">
+                <div id="basemapGallery">
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="Layer_galery" class="button" style="float: right; top: 10px; right: 19px; z-index: 999;">
+        <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
+            <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto; overflow: auto;">
+                <table>
+                    <tr>
+                        <td style="vertical-align: top; font-weight: bold">Layer List :
+                        </td>
+                        <td>
+                            <span id="layer_list"></span>
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="button" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="float: right; top: 5px; left: 70px; z-index: 999; margin-top: 1px; padding: 2px">
+        <input type="text" id="searchText" style="height: 26px; margin-left: 1px" />
+        <input type="button" id="button" value="Find" onclick="execute(dojo.byId('searchText').value);" />
+    </div>
+
+
+    <div id="pnlChartstby"  title="Gauging Station Status">
+        <div rel="external" style="position:relative;float:left;width:300px;z-index: 500; " id="container"></div>
+        <div rel="external" id="gauge" style="position:relative;width:200px; z-index: 500;"></div>
+        
+    </div>
+
+
+
+
+
+
+    <div id="dialog-weather-detail" title="Weather Detail"></div>
+    @*<div id="toggler" style="visibility: hidden; position: absolute; width: 350px; height: 280px; top: 150px;">
+        <div id="effect" class="ui-widget-content ">
+            <h3><font color="#B40431"> Station Details</font></h3>
+            <a href="#" id="more">More</a>
+
+            <a href="#" id="hide">Hide </a>
+            <!--<img src="content/Images/chart.png" width="100" height="200" style="position: absolute; left:2em; bottom: 2em;">;-->
+
+        </div>
+
+    </div>*@
+
+
+</div>
+<div id="Spatial_Analysis" class="button" style="float: right; top: 10px; right: 24px; z-index: 999;">
+    <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Spatial Analysis', closable:false,  open:false">
+        <div data-dojo-type="dijit/layout/ContentPane" style="overflow: auto;">
+            <div id="Spatial_Analysis_div">
+                <span style="font-size: smaller">Pick a tool and draw on the map. The drawn graphic will be buffered based on the specified parameters.
+                </span>
+                <table>
+
+                    <tr>
+                        <td colspan="5">
+                            <input type="radio" name="draw" value="LINE" onclick="app.tb.activate(esri.toolbars.Draw.LINE); app.map.hideZoomSlider();">Line </input>
+                            @* <input type="radio" name="draw" value="Polyline" onclick="app.tb.activate(esri.toolbars.Draw.POLYLINE); app.map.hideZoomSlider();">Polyline</input>*@
+
+
+
+                            <input type="radio" name="draw" value="FreehandPolyline" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYLINE); app.map.hideZoomSlider();">Freehand Polyline</input>
+
+                            @* <input type="radio" name="draw" value="Polygon" onclick="app.tb.activate(esri.toolbars.Draw.POLYGON); app.map.hideZoomSlider();">Polygon</input>*@
+
+                            <input type="radio" name="draw" value="FreehandPolygon" onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYGON); app.map.hideZoomSlider();">Freehand Polygon</input>
+                        </td>
+                        @* <button onclick="app.tb.activate(esri.toolbars.Draw.LINE);app.map.hideZoomSlider();">Line</button>
+                        
+                            <button onclick="app.tb.activate(esri.toolbars.Draw.POLYLINE);app.map.hideZoomSlider();">Polyline</button>
+                        
+                            <button onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);app.map.hideZoomSlider();">Freehand Polyline</button>
+                        
+                            <button onclick="app.tb.activate(esri.toolbars.Draw.POLYGON);app.map.hideZoomSlider();">Polygon</button>
+                        
+                            <button onclick="app.tb.activate(esri.toolbars.Draw.FREEHAND_POLYGON);app.map.hideZoomSlider();">Freehand Polygon</button>
+                        </td>*@
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <b>Buffer Parameters</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Spatial Reference WKID</td>
+                        <td colspan="4">
+                            <input type="text" id="bufferSpatialReference" size="5" value="32612" /></td>
+
+
+                    </tr>
+                    <tr>
+                        <td>Distance:</td>
+                        <td>
+                            <input type="text" id="distance" size="5" value="10" /></td>
+                        <td colspan="3">
+                            <select id="unit" style="width: 100px; color: black">
+                                <option value="UNIT_STATUTE_MILE">Miles</option>
+                                <option value="UNIT_FOOT">Feet</option>
+                                <option value="UNIT_KILOMETER">Kilometers</option>
+                                <option value="UNIT_METER">Meters</option>
+                                <option value="UNIT_DEGREE">Degrees</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button type="button" onclick="app.map.graphics.clear(); app.tb.deactivate(esri.toolbars.Draw)">Clear Graphics</button>
+                        </td>
+                    </tr>
+
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 

@@ -30,12 +30,12 @@ function showWeatherPopupDialog(){
         width: '30%',
         show: {
             effect: "blind",
-            duration: 1000
+            duration: 500
         },
-        hide: {
-            effect: "explode",
-            duration: 1000
-        },
+        //hide: {
+        //    effect: "explode",
+        //    duration: 1000
+        //},
         close: function (event, ui) { $("#tooltipDialog").show(); },
         buttons: {
             Ok: function() {

@@ -21,18 +21,19 @@
         .button
         {
             display: inline-block;
-            border: 0;
-            border-radius: 0;
-            outline: 0;
-            background: #4e68c7;
-            box-shadow: 1px 0px 1px #203891,0px 1px 1px #3852b1,2px 1px 1px #203891,1px 2px 1px #3852b1,3px 2px 1px #203891,2px 3px 1px #3852b1,4px 3px 1px #203891,3px 4px 1px #3852b1,5px 4px 1px #203891,4px 5px 1px #3852b1,6px 5px 1px #203891;
-            color: white;
+           margin-left:2px;
+           margin-right:2px;
+           
+            background: #ccc;
+             color: #222222;
             white-space: nowrap;
             font-family: 'Gotham Rounded A' , 'Gotham Rounded B' , "proxima-nova-soft" , sans-serif;
-            padding: 9px 16px;
-            line-height: 1.4;
+            padding: 9px 12px;
+            
             position: relative;
             top: -5px;
+            border:1px solid  black;
+            border-radius: 3px;
         }
         #info {
             background: #fff;

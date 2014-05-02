@@ -86,182 +86,134 @@ function WaterLevel(StationCode) {
             data: waterLevel
         }]
     });
-    //gauge Chart
-    //var result;
+    //Used for dispalying boxplot
     var result = getLastWaterlevel(StationCode, result);
-    result = result.split(';'); 
-    //lowerQuartile + ";" + upperQuartile+ ";" + middleQuartile+ ";" + topQuartile+ ";" + LowestQuartile+ ";" + result
-    //$('#gauge').highcharts({
+    //Varibale contains data for the both boxplot as well as comparision data
+    result = result.split(';');
+    $('#gauge').highcharts({
 
-    //    chart: {
-    //        type: 'gauge',
-    //        plotBackgroundColor: null,
-    //        plotBackgroundImage: null,
-    //        plotBorderWidth: 0,
-    //        plotShadow: false
-    //    },
+        chart: {
+            type: 'boxplot'
+        },
 
-    //    title: {
-    //        text: 'Gauge Water Level',
-    //        itemStyle: {
-    //            fontSize: '18px',
-    //            color: '#ffff'
-    //        }
+        title: {
+            text: 'WaterLevel'
+        },
 
-    //    },
+        legend: {
+            enabled: false
+        },
 
-    //    pane: {
-    //        startAngle: -150,
-    //        endAngle: 150,
-    //        background: [{
-    //            backgroundColor: {
-    //                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    //                stops: [
-    //                    [0, '#FFF'],
-    //                    [1, '#333']
-    //                ]
-    //            },
-    //            borderWidth: 0,
-    //            outerRadius: '109%'
-    //        }, {
-    //            backgroundColor: {
-    //                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-    //                stops: [
-    //                    [0, '#333'],
-    //                    [1, '#FFF']
-    //                ]
-    //            },
-    //            borderWidth: 10,
-    //            outerRadius: '107%'
-    //        }, {
-    //            // default background
-    //        }, {
-    //            backgroundColor: '#DDD',
-    //            borderWidth: 0,
-    //            outerRadius: '105%',
-    //            innerRadius: '103%'
-    //        }]
-    //    },
-
-    //    // the value axis
-    //    yAxis: {
-    //        min: 0,
-    //        max: 10,
-
-    //        // minorTickInterval: 'auto',
-    //        minorTickWidth: 1,
-    //        minorTickLength: 10,
-    //        minorTickPosition: 'inside',
-    //        minorTickColor: '#666',
-
-    //        tickPixelInterval: 30,
-    //        tickWidth: 2,
-    //        tickPosition: 'inside',
-    //        tickLength: 10,
-    //        tickColor: '#666',
-    //        labels: {
-    //            step: 2,
-    //            //rotation: 'auto'
-    //        },
-    //        title: {
-    //            text: 'Meter'
-    //        },
-    //        plotBands: [{
-    //            from: 0,
-    //            to: 5,
-    //            color: '#55BF3B' // green
-    //        }, {
-    //            from: 5,
-    //            to: 8,
-    //            color: '#DDDF0D' // yellow
-    //        }, {
-    //            from: 8,
-    //            to: 10,
-    //            color: '#DF5353' // red
-    //        }]
-    //    },
-
-    //    series: [{
-    //        name: 'WaterLevel',
-    //        data: [result],
-    //        tooltip: {
-    //            valueSuffix: 'meter'
-    //        }
-    //    }]
-
-    //});
-
-
-        $('#gauge').highcharts({
-
-            chart: {
-                type: 'boxplot'
-            },
-
+        xAxis: {
+            categories: ['Water Level'],
             title: {
-                text: 'WaterLevel'
-            },
-
-            legend: {
-                enabled: false
-            },
-
-            xAxis: {
-                categories: ['Water Level'],
-                title: {
-                    text: ''
-                }
-            },
-
-            yAxis: {
-                title: {
-                    text: ''
-                },
-                plotLines: [{
-                    value: parseFloat(result[5]),
-                    color: 'red',
-                    width: 0.5,
-                    label: {
-                        text: 'Current Status',
-                        align: 'left',
-                        style: {
-                            color: 'gray'
-                        }
-                    }
-                }]
-            },
-            series: [{
-                name: 'Observations',
-                data: [
-                    [parseFloat(result[0]),parseFloat(result[1]),parseFloat(result[2]),parseFloat(result[3]),parseFloat(result[4])]
-                ],
-                tooltip: {
-                    headerFormat: ''
-                }
+                text: ''
             }
+        },
 
-            //, {
-            //    name: 'Outlier',
-            //    color: Highcharts.getOptions().colors[0],
-            //    type: 'scatter',
-            //    data: [ // x, y positions where 0 is the first category
-            //        [0, 644],
-            //        [4, 718],
-            //        [4, 951],
-            //        [4, 969]
-            //    ],
-            //    marker: {
-            //        fillColor: 'white',
-            //        lineWidth: 1,
-            //        lineColor: Highcharts.getOptions().colors[0]
-            //    },
-            //    tooltip: {
-            //        pointFormat: 'Observation: {point.y}'
-            //    }
-            //}
-            ]
+        yAxis: {
+            title: {
+                text: ''
+            },
+            plotLines: [{
+                value: parseFloat(result[5]),
+                color: 'red',
+                width: 0.5,
+                zIndex: 5,
+                label: {
+                    text: 'Current Status',
+                    align: 'left',
+                    style: {
+                        color: 'gray'
+                    }
+                }
+            }]
+        },
+        series: [{
+            name: 'Observations',
+            data: [
+                [parseFloat(result[0]), parseFloat(result[1]), parseFloat(result[2]), parseFloat(result[3]), parseFloat(result[4])]
+            ],
+            tooltip: {
+                headerFormat: ''
+            }
+        }
+        ]
 
-        });
+    });
+   //TODO: correct data from database as its not correct
+    var dischargeVsWaterLevelDate =  result[8].split(',');
+    $('#dischargeVSwaterLevel').highcharts({
+        chart: {
+            zoomType: 'x',
+            spacingRight: 20
+        },
+        title: {
+            text: 'Discharge VS Water Level <\br>' + graphdata[0]
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' :
+                'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime',
+            maxZoom: 14 * 24 * 36000, // fourteen days
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Numerical Values'
+            }
+        },
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            align: 'center',
+            verticalAlign: 'bottom'
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                lineWidth: 1,
+                marker: {
+                    enabled: false
+                },
+                shadow: false,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+
+        series: [{
+            type: 'line',
+            name: 'Discharge(m3/s)',
+            pointInterval: 3600 * 1000,
+            pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
+            data: JSON.parse("[" + result[6] + "]")
+        }, {
+            type: 'line',
+            name: 'Water Level(m)',
+            pointInterval: 3600 * 1000,
+            pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
+            data: JSON.parse("[" + result[7] + "]")
+        }]
+    });
+
+
 
 }
 function getWaterlevelData(stationCode, graphData) {

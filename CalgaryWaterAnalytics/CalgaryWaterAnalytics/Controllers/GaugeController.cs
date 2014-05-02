@@ -13,6 +13,10 @@ namespace CalgaryWaterAnalytics.Controllers
     public class GaugeController : Controller
     {
         private static List<double> WaterLevelList ;
+        private static List<double> WaterLevelListForDVSWL;
+        private static List<double> DischargeListForDVSWL;
+        private static List<DateTime> DateListForDVSWL;
+        private static string dateDVSWL="";
         //
         // GET: /Gauge/
  
@@ -25,12 +29,23 @@ namespace CalgaryWaterAnalytics.Controllers
         {
 
             WaterLevelList = new List<double>();
+
+            //Added for the Graph between water level VS Diacharge
+            WaterLevelListForDVSWL = new List<double>();
+            DischargeListForDVSWL = new List<double>();
+            DateListForDVSWL = new List<DateTime>();
+
             using(WaterAnalyticsEntities db = new WaterAnalyticsEntities()){
             string waterLevelData = "";
             string year = "";
             string day = "";
             string month = "";
             string stationName = "";
+
+            //Added for the Graph between water level VS Diacharge
+            string yearDVSWL = "";
+            string dayDVSWL = "";
+            string monthDVSWL = "";
             //get station name from data base
             //FIXME:There's no need to query DB (PERFORMANCE)
             //var stationNameQuery = from c in db.Stations
@@ -76,9 +91,24 @@ namespace CalgaryWaterAnalytics.Controllers
                     
                 }
                 //Added to get waterLevel
-                if (!waterlevel.WateLevel.Equals(" ") && waterlevel.WateLevel!= null)
+                if (!waterlevel.WateLevel.Equals(" ") && waterlevel.WateLevel != null )
                 {
                     WaterLevelList.Add(Convert.ToDouble( waterlevel.WateLevel));
+                }
+                //Added to get discharge vs preceptation
+                if (!waterlevel.WateLevel.Equals(" ") && waterlevel.WateLevel != null && !waterlevel.Discharge.Equals(" ") && waterlevel.Discharge != null)
+                {
+                    if (dayDVSWL.Equals(""))
+                    {
+                        DateTime firstInstanceDate = (DateTime)waterlevel.Date;
+                        yearDVSWL = Convert.ToString(firstInstanceDate.Year).Trim(' ');
+                        dayDVSWL = Convert.ToString(firstInstanceDate.Day).Trim(' ');
+                        monthDVSWL = Convert.ToString(firstInstanceDate.Month-1);
+                        dateDVSWL= yearDVSWL+","+dayDVSWL+","+monthDVSWL;
+                    }
+                    WaterLevelListForDVSWL.Add(Convert.ToDouble(waterlevel.WateLevel));
+                    DischargeListForDVSWL.Add(Convert.ToDouble(waterlevel.Discharge));
+                    DateListForDVSWL.Add(((DateTime)waterlevel.Date).Date);
                 }
             }
             //Appending the date value in the string
@@ -124,7 +154,7 @@ namespace CalgaryWaterAnalytics.Controllers
 
                 }
 
-                return (LowestQuartile + ";" + lowerQuartile + ";" + middleQuartile + ";" + upperQuartile + ";" +topQuartile +";" + result);
+                return (LowestQuartile + ";" + lowerQuartile + ";" + middleQuartile + ";" + upperQuartile + ";" +topQuartile +";" + result+";"+String.Join(",", WaterLevelListForDVSWL)+";"+String.Join(",",DischargeListForDVSWL)+";"+dateDVSWL);
             }
 
         }

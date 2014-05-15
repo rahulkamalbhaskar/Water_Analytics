@@ -163,11 +163,40 @@ function WaterLevel(StationCode) {
                 text: null
             }
         },
-        yAxis: {
+        //@author rkb
+        //Timestamp: Dt: 05-15-2014 Time: 11:00 a.m. -11:45 a.m.
+        //Added for the 2 y-axis 
+        yAxis: [{ // Primary yAxis Water Level
+            labels: {
+                format: '{value} m',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
             title: {
-                text: 'Numerical Values'
+                text: 'Water Level(m)',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                        }
+            },
+            opposite: true
+
+        }, { // Secondary yAxis Discharge
+            gridLineWidth: 0,
+            title: {
+                text: 'Discharge(m3/s)',
+                style: {
+                    color: 'grey'
+                }
+            },
+            labels: {
+                format: '{value} m3/s',
+                style: {
+                     color: 'grey'
+                }
             }
-        },
+
+        }],
         tooltip: {
             shared: true
         },
@@ -201,12 +230,16 @@ function WaterLevel(StationCode) {
         series: [{
             type: 'line',
             name: 'Discharge(m3/s)',
+            yAxis: 1,
+            color:'grey',
             pointInterval: 3600 * 1000,
             pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
             data: JSON.parse("[" + result[6] + "]")
         }, {
             type: 'line',
             name: 'Water Level(m)',
+            yAxis: 0,
+            color: Highcharts.getOptions().colors[0],
             pointInterval: 3600 * 1000,
             pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
             data: JSON.parse("[" + result[7] + "]")

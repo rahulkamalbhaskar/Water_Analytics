@@ -72,7 +72,50 @@ namespace CalgaryWaterAnalytics.Controllers
         [HttpPost]
         public ActionResult jsonResult(string selectedStationCode)
         {
-            return Json(getWeatherData(selectedStationCode));
+            //return Json(getWeatherData(selectedStationCode));
+            return Json(getSnowFallRainFallTotalPrecepitation(selectedStationCode)+";"+getWeatherData(selectedStationCode));
+        }
+        /// <summary>
+        /// @ author RKB dt: 05/18/2014 time 1:57 p.m. 
+        /// Function return snowfall rainfall total precepeitaion for the specific station number
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <returns></returns>
+        private string getSnowFallRainFallTotalPrecepitation(string selectedStationCode)
+        {
+            string result="";
+            string rainfall = "";
+            string snowfall = "";
+            string totPrecp = "";
+            string day = "";
+            string month = "";
+            string year = "";
+            using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
+            {
+                //Query to fetch Data for recieving the weather detail for the station number received
+
+                var query = from c in db.Weathers
+                            orderby c.DateTime ascending
+                            where c.StationCode.Equals(selectedStationCode)
+                            select c;
+                foreach (Weather weatherDetails in query)
+                {
+                    if (day.Equals(""))
+                    {
+                        DateTime startDate = (DateTime)weatherDetails.DateTime;
+                        day = startDate.Day.ToString();
+                        month = (startDate.Month -1).ToString();
+                        year = startDate.Year.ToString(); 
+                    }
+                    rainfall += (rainfall.Equals("") ? weatherDetails.Rainfall.ToString() : ("," + weatherDetails.Rainfall.ToString()));
+                    snowfall += (snowfall.Equals("") ? weatherDetails.Snowfall.ToString() : ("," + weatherDetails.Snowfall.ToString()));
+                    totPrecp += (totPrecp.Equals("") ? weatherDetails.TotalPrecp.ToString() : ("," + weatherDetails.TotalPrecp.ToString()));                    
+                }
+
+            }
+            result = day + ";" + month + ";" + year + ";" + rainfall + ";" + snowfall + ";" + totPrecp;
+            return result;
+ 
         }
 
     }

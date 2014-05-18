@@ -19,6 +19,9 @@ namespace CalgaryWaterAnalytics.Models
         public Nullable<float> Temp { get; set; }
         public Nullable<System.DateTime> DateTime { get; set; }
         public string StationCode { get; set; }
+        public Nullable<double> Rainfall { get; set; }
+        public Nullable<double> Snowfall { get; set; }
+        public Nullable<double> TotalPrecp { get; set; }
     
         public virtual Station Station { get; set; }
     }

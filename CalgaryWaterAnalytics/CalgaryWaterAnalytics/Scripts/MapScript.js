@@ -743,8 +743,7 @@ function showStationData(stationCode) {
 //function for rendering weather data
 
 function showWeatherDetails(stationCode) {
-    var weatherData = getWeatherData(stationCode);
-    createWeatherHTML(weatherData);
+   getWeatherData(stationCode);
 }
 
 function execute(searchText) {

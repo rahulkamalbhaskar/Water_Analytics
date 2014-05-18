@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WaterAnalyticsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="WaterAnalyticsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="WaterAnalyticsModelStoreContainer">
           <EntitySet Name="RainFall" EntityType="WaterAnalyticsModel.Store.RainFall" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="SnowFall" EntityType="WaterAnalyticsModel.Store.SnowFall" store:Type="Tables" Schema="dbo" />
@@ -89,6 +89,9 @@
           <Property Name="Temp" Type="real" />
           <Property Name="DateTime" Type="datetime" />
           <Property Name="StationCode" Type="nchar" MaxLength="10" />
+          <Property Name="Rainfall" Type="float" />
+          <Property Name="Snowfall" Type="float" />
+          <Property Name="TotalPrecp" Type="float" />
         </EntityType>
         <Association Name="FK_RainFall_Station">
           <End Role="Station" Type="WaterAnalyticsModel.Store.Station" Multiplicity="0..1" />
@@ -150,8 +153,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WaterAnalyticsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -249,6 +251,9 @@
           <Property Name="DateTime" Type="DateTime" Precision="3" />
           <Property Name="StationCode" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
           <NavigationProperty Name="Station" Relationship="WaterAnalyticsModel.FK_Weather_Station" FromRole="Weather" ToRole="Station" />
+          <Property Type="Double" Name="Rainfall" />
+          <Property Type="Double" Name="Snowfall" />
+          <Property Type="Double" Name="TotalPrecp" />
         </EntityType>
         <Association Name="FK_RainFall_Station">
           <End Role="Station" Type="WaterAnalyticsModel.Station" Multiplicity="0..1" />
@@ -371,6 +376,9 @@
           <EntitySetMapping Name="Weathers">
             <EntityTypeMapping TypeName="WaterAnalyticsModel.Weather">
               <MappingFragment StoreEntitySet="Weather">
+                <ScalarProperty Name="TotalPrecp" ColumnName="TotalPrecp" />
+                <ScalarProperty Name="Snowfall" ColumnName="Snowfall" />
+                <ScalarProperty Name="Rainfall" ColumnName="Rainfall" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="WindSpeed" ColumnName="WindSpeed" />
                 <ScalarProperty Name="Temp" ColumnName="Temp" />

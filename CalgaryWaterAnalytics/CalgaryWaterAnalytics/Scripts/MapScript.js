@@ -351,7 +351,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     });
                     map.addLayer(GaugeLayer);
 
-                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer/1", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WeatherSt/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME","CLIMATE_ID", "PROVINCE", "ELEVATION"]

@@ -1,4 +1,36 @@
 ﻿
+function getWaterlevelData(stationCode, graphData) {
+    var urlCreated = ROOT + "Gauge/jsonResult";
+    $.ajax({
+        url: urlCreated,
+        type: 'post',
+        datatype: 'json',
+        async: false,
+        data: { selectedStationCode: stationCode },
+        success: function (data) {
+            graphData = data;
+        },
+        error: function (data) { }
+    });
+    return graphData;
+}
+
+//for gauge
+function getLastWaterlevel(stationCode, LastLevel) {
+    var urlCreated = ROOT + "Gauge/LastLevelResult";
+    $.ajax({
+        url: urlCreated,
+        type: 'post',
+        datatype: 'json',
+        async: false,
+        data: { selectedStationCode: stationCode },
+        success: function (data) {
+            LastLevel = data;
+        },
+        error: function (data) { }
+    });
+    return LastLevel;
+}
 function WaterLevel(StationCode) {
     $("#tooltipDialog").hide();
     $("#pnlChartstby").dialog({
@@ -21,9 +53,11 @@ function WaterLevel(StationCode) {
             }
         }
     });
-    var graphData;
-    var graphdata = getWaterlevelData(StationCode, graphData).split(";");
-    waterLevel = JSON.parse("[" + graphdata[4] + "]");
+
+    var graphData = "";
+    graphData = getWaterlevelData(StationCode, graphData);
+    var graphdata = graphData.split(";");
+    var waterLevel = JSON.parse("[" + graphdata[4] + "]");
     $('#container').highcharts({
         chart: {
             zoomType: 'x',
@@ -141,8 +175,8 @@ function WaterLevel(StationCode) {
         ]
 
     });
-   //TODO: correct data from database as its not correct
-    var dischargeVsWaterLevelDate =  result[8].split(',');
+    //TODO: correct data from database as its not correct
+    var dischargeVsWaterLevelDate = result[8].split(',');
     $('#dischargeVSwaterLevel').highcharts({
         chart: {
             zoomType: 'x',
@@ -177,7 +211,7 @@ function WaterLevel(StationCode) {
                 text: 'Water Level(m)',
                 style: {
                     color: Highcharts.getOptions().colors[0]
-                        }
+                }
             },
             opposite: true
 
@@ -192,7 +226,7 @@ function WaterLevel(StationCode) {
             labels: {
                 format: '{value} m3/s',
                 style: {
-                     color: 'grey'
+                    color: 'grey'
                 }
             }
 
@@ -231,7 +265,7 @@ function WaterLevel(StationCode) {
             type: 'line',
             name: 'Discharge(m3/s)',
             yAxis: 1,
-            color:'grey',
+            color: 'grey',
             pointInterval: 3600 * 1000,
             pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
             data: JSON.parse("[" + result[6] + "]")
@@ -245,38 +279,4 @@ function WaterLevel(StationCode) {
             data: JSON.parse("[" + result[7] + "]")
         }]
     });
-
-
-
 }
-function getWaterlevelData(stationCode, graphData) {
-    $.ajax({
-        url: '/Gauge/jsonResult',
-        type: 'post',
-        datatype: 'json',
-        async: false,
-        data: { selectedStationCode: stationCode },
-        success: function (data) {
-            graphData = data;
-        },
-        error: function (data) { }
-    });
-    return graphData;
-}
-
-//for gauge
-function getLastWaterlevel(stationCode, LastLevel) {
-    $.ajax({
-        url: '/Gauge/LastLevelResult',
-        type: 'post',
-        datatype: 'json',
-        async: false,
-        data: { selectedStationCode: stationCode },
-        success: function (data) {
-            LastLevel = data;
-        },
-        error: function (data) { }
-    });
-    return LastLevel;
-}
-

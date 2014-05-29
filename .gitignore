@@ -1,2 +1,4 @@
 *.cache
 CalgaryWaterAnalytics/CalgaryWaterAnalytics.Tests/
+CalgaryWaterAnalytics/CalgaryWaterAnalytics/obj/Release/Package/PackageTmp/Scripts/jquery-1.7.1.min.js
+CalgaryWaterAnalytics/CalgaryWaterAnalytics/obj/

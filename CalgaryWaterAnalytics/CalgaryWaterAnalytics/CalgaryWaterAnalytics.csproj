@@ -148,10 +148,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\claro.css" />
+    <Content Include="Content\esri.css" />
     <Content Include="Content\ExpandableButton.css" />
     <Content Include="Content\Images\chart.png" />
     <Content Include="Content\Images\curve.png" />
     <Content Include="Content\Images\White LED curve.png" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -206,6 +209,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\tundra.css" />
     <Content Include="feature.html" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Models\WaterAnalytics.edmx">
@@ -235,10 +239,16 @@
       <LastGenOutput>WaterAnalytics.cs</LastGenOutput>
     </Content>
     <Content Include="JavaScript_test\MIT.LICENSE" />
+    <None Include="Properties\PublishProfiles\WaterAnalytics.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\exporting.js" />
+    <Content Include="Scripts\highcharts-more.js" />
+    <Content Include="Scripts\highcharts.js" />
+    <Content Include="Scripts\init.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.10.4.custom\css\ui-lightness\images\animated-overlay.gif" />
     <Content Include="Scripts\jquery-ui-1.10.4.custom\css\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Scripts\jquery-ui-1.10.4.custom\css\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -261,6 +271,7 @@
     <Content Include="Scripts\jquery-ui-1.10.4.custom\js\jquery-ui-1.10.4.custom.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\MapScript.js" />

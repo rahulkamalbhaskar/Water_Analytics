@@ -266,7 +266,7 @@ function WaterLevel(StationCode) {
             name: 'Discharge(m3/s)',
             yAxis: 1,
             color: 'grey',
-            pointInterval: 3600 * 1000,
+            pointInterval: 24 * 3600 * 1000,
             pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
             data: JSON.parse("[" + result[6] + "]")
         }, {
@@ -274,7 +274,7 @@ function WaterLevel(StationCode) {
             name: 'Water Level(m)',
             yAxis: 0,
             color: Highcharts.getOptions().colors[0],
-            pointInterval: 3600 * 1000,
+            pointInterval: 24 * 3600 * 1000,
             pointStart: Date.UTC(dischargeVsWaterLevelDate[0], dischargeVsWaterLevelDate[2], dischargeVsWaterLevelDate[1]),
             data: JSON.parse("[" + result[7] + "]")
         }]

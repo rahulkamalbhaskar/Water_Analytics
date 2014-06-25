@@ -225,6 +225,7 @@
     <Content Include="JavaScript_test\lib\jasmine-2.0.0\jasmine_favicon.png" />
     <Content Include="JavaScript_test\SpecRunner.html" />
     <Content Include="JavaScript_test\spec\WaterLevelSpec.js" />
+    <Content Include="listOfGaugeWeatherStationCorrelation.xml" />
     <Content Include="Models\WaterAnalytics.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>WaterAnalytics.edmx</DependentUpon>

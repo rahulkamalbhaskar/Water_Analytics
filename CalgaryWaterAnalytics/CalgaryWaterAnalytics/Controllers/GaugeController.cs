@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CalgaryWaterAnalytics.Models;
+using System.Xml.Linq;
 
 namespace CalgaryWaterAnalytics.Controllers
 {
@@ -214,6 +215,70 @@ namespace CalgaryWaterAnalytics.Controllers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Fetch data for gauging station and the related weather station to draw correaltion graph
+        /// </summary>
+        /// <param name="gaugingStationNumber"></param>
+        /// <returns></returns>
+        public string getCorrelationDataForSelectedStation(string gaugingStationNumber) 
+        {
+            //Fetch list of weather station from the XML file for the selected gauging station 
+            List< string> listOfWeatherStation = getListOfGaugeRelatedWeatherStation(gaugingStationNumber);
+            
+            if (listOfWeatherStation.Count==0)
+            {
+                return null;
+            }
+            //Call DB server to get data relevant to that station
+            else 
+            {
+                List<Object> weatherGaugeCorrelationData = new List<Object>();
+                foreach (string weatherStNumber in listOfWeatherStation)
+                {
+                    using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
+                    {
+                        var result = db.WaterLevels.Join(db.Weathers,
+                            x => x.Date,
+                            y => y.DateTime,
+                            (x, y) => new { x, y })
+                            .Where(waterL => waterL.x.StationCode == gaugingStationNumber)
+                            .Where(weath => weath.y.StationCode == weatherStNumber).ToList();
+                        weatherGaugeCorrelationData.Add(result);
+                    }
+
+                }
+                
+
+            }
+ 
+            //Format that data in the required format
+
+            return null;
+        }
+        /// <summary>
+        /// Fetch list of weather station from the XML file for the selected gauging station 
+        /// </summary>
+        /// <param name="StationNumber"></param>
+        /// <returns></returns>
+        private List<string> getListOfGaugeRelatedWeatherStation(string StationNumber )
+        {
+            XElement root = XElement.Load(@"~/listOfGaugeWeatherStationCorrelation.xml");
+            List<string> weatherStationList = new List<string>();
+            try
+            {
+                weatherStationList =
+                (from el in root.Elements("Guage")
+                 where (string)el.Attribute("ID") == StationNumber
+                 select el.Value).Single().Split(',').ToList();
+
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
+            return weatherStationList;
         }
     }
 }

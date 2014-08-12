@@ -1,8 +1,10 @@
 ﻿
 function getWaterlevelData(stationCode, graphData) {
     var urlCreated = ROOT + "Gauge/jsonResult";
+    console.log(urlCreated);
     $.ajax({
         url: urlCreated,
+        
         type: 'post',
         datatype: 'json',
         async: false,
@@ -14,6 +16,162 @@ function getWaterlevelData(stationCode, graphData) {
     });
     return graphData;
 }
+
+
+function showDisVsPerc(stationCode) {
+
+
+    console.log(stationCode);
+    console.log("log");
+    var urlCreated = ROOT + "Gauge/showDischargeVsPrecipitation";
+    $.ajax({
+        type: 'post',
+        url: urlCreated,
+        // cache:false,
+        data: JSON.stringify({ selectedStationCode: stationCode, startDate: "01/01/2000", endDate: "06/01/2014" }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        sync: false,
+        success: function (msg) {
+          
+            console.log(msg);
+            createSeriesJsonObject(msg);
+        },
+        failure: function (msg) {
+            
+           
+            console.log(msg);
+        }
+    });
+}
+//option for dis vs percipitation
+
+var option = {
+    chart: {
+        zoomType: 'x',
+        spacingRight: 20
+    },
+    title: {
+        text: 'Discharge VS Rainfall Vs WaterLevel <\br>' //+ graphdata[0]
+    },
+    subtitle: {
+        text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' :
+            'Pinch the chart to zoom in'
+    },
+    xAxis: {
+        type: 'datetime',
+        maxZoom: 14 * 24 * 36000, // fourteen days
+        title: {
+            text: null
+        }
+    },
+    //@author rkb
+    //Timestamp: Dt: 05-15-2014 Time: 11:00 a.m. -11:45 a.m.
+    //Added for the 2 y-axis 
+    yAxis: [{ // Primary yAxis Water Level
+        labels: {
+            format: '{value} m3/s',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        title: {
+            text: 'Discharge(m3/s)',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+
+    }, { // Secondary yAxis Discharge
+        gridLineWidth: 0,
+        title: {
+            text: 'Rainfall(mm)',
+            style: {
+                color: 'grey'
+            }
+        },
+        labels: {
+            format: '{value} mm',
+            style: {
+                color: 'grey'
+            }
+        }
+
+    }, {
+        // Teritory yAxis SnoWFall
+        gridLineWidth: 0,
+        title: {
+            text: 'SmowFall(cm)',
+            style: {
+                color: 'grey'
+            }
+        },
+        labels: {
+            format: '{value} cm',
+            style: {
+                color: 'Black'
+            }
+        }
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        align: 'center',
+        verticalAlign: 'bottom'
+    },
+    plotOptions: {
+        area: {
+            fillColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                    [0, Highcharts.getOptions().colors[0]],
+                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+            },
+            lineWidth: 1,
+            marker: {
+                enabled: false
+            },
+            shadow: false,
+            states: {
+                hover: {
+                    lineWidth: 1
+                }
+            },
+            threshold: null
+        }
+    },
+
+  
+    series: []
+};
+
+function createSeriesJsonObject(msg) {
+    option.series = [];
+    var data = msg;
+    msg.forEach(function (obj) {
+        console.log(obj);
+        var dataPoints = JSON.parse("[" + obj.dataValue + "]");
+        console.log(dataPoints);
+        var json = {
+            type: obj.type,
+            name: obj.name,
+            pointInterval: 24 * 3600 * 1000,
+            pointStart: Date.UTC(obj.startYear, obj.startMonth - 1, obj.startDay),
+            data: dataPoints,
+            yAxis: obj.yAxis
+        };
+        option.series.push(json);
+    });
+   
+    //console.log(StationJson);
+    $('#dischargeVSPerc').highcharts(option);
+}
+
+
 
 //for gauge
 function getLastWaterlevel(stationCode, LastLevel) {
@@ -53,7 +211,6 @@ function WaterLevel(StationCode) {
             }
         }
     });
-
     var graphData = "";
     graphData = getWaterlevelData(StationCode, graphData);
     var graphdata = graphData.split(";");
@@ -120,7 +277,7 @@ function WaterLevel(StationCode) {
             data: waterLevel
         }]
     });
-    //Used for dispalying boxplot
+   // Used for dispalying boxplot
     var result = getLastWaterlevel(StationCode, result);
     //Varibale contains data for the both boxplot as well as comparision data
     result = result.split(';');
@@ -279,4 +436,18 @@ function WaterLevel(StationCode) {
             data: JSON.parse("[" + result[7] + "]")
         }]
     });
+
+
+
+
+
+    //
+    
+    //dischargeVSppt
+
+   showDisVsPerc(StationCode);
+   // console.log("callscatterplot");
+
+
+   
 }

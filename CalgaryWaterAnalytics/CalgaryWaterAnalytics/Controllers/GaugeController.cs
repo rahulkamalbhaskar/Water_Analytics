@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CalgaryWaterAnalytics.Models;
 using System.Xml.Linq;
+using System.Web.Services;
 
 namespace CalgaryWaterAnalytics.Controllers
 {
@@ -222,49 +223,116 @@ namespace CalgaryWaterAnalytics.Controllers
         /// </summary>
         /// <param name="gaugingStationNumber"></param>
         /// <returns></returns>
-        public string getCorrelationDataForSelectedStation(string gaugingStationNumber) 
-        {
-            //Fetch list of weather station from the XML file for the selected gauging station 
-            List< string> listOfWeatherStation = getListOfGaugeRelatedWeatherStation(gaugingStationNumber);
+        //public string getCorrelationDataForSelectedStation(string gaugingStationNumber) 
+        //{
+        //    //Fetch list of weather station from the XML file for the selected gauging station 
+        //    List< string> listOfWeatherStation = getListOfGaugeRelatedWeatherStation(gaugingStationNumber);
             
-            if (listOfWeatherStation.Count==0)
+        //    if (listOfWeatherStation.Count==0)
+        //    {
+        //        return null;
+        //    }
+        //    //Call DB server to get data relevant to that station
+        //    else 
+        //    {
+        //        List<Object> weatherGaugeCorrelationData = new List<Object>();
+        //        foreach (string weatherStNumber in listOfWeatherStation)
+        //        {
+        //            using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
+        //            {
+        //                var result = db.WaterLevels.Join(db.Weathers,
+        //                    x => x.Date,
+        //                    y => y.DateTime,
+        //                    (x, y) => new { x, y })
+        //                    .Where(waterL => waterL.x.StationCode == gaugingStationNumber)
+        //                    .Where(weath => weath.y.StationCode == weatherStNumber).ToList();
+        //                weatherGaugeCorrelationData.Add(result);
+        //            }
+
+        //        }
+                
+
+        //    }
+ 
+        //    //Format that data in the required format
+
+        //    return null;
+        //}
+
+        public static Dictionary<string, object> getCorrelationDataForSelectedStation(string gaugingStationNumber, DateTime start, DateTime end)
+        {
+            //Fetch list of weather station from the XML file for the selected gauging station
+            WaterAnalyticsEntities db = new WaterAnalyticsEntities();
+            List<string> listOfWeatherStation = getListOfGaugeRelatedWeatherStation(gaugingStationNumber);
+            List<Object> weatherGaugeCorrelationData = null;
+            Dictionary<string, object> queryDict = new Dictionary<string, object>();
+
+            var endDt=db.WaterLevels.Where(x => x.StationCode == gaugingStationNumber).Max(x=>x.Date);
+            var gaugingStationData = new List<WaterLevel>();
+            var sDate = endDt.Value.AddYears(-5);
+            if (endDt.HasValue)
+            {
+
+                gaugingStationData = db.WaterLevels.Where(x => x.StationCode == gaugingStationNumber).Where( x=> x.Date >= sDate && x.Date <= endDt).OrderBy(x => x.Date).ToList();
+            }
+           
+            
+            //var gaugingStationData = db.WaterLevels.Where(x => x.StationCode == gaugingStationNumber).Where(x => x.Date >= start && x.Date <= end).OrderBy(x => x.Date).ToList();
+            queryDict.Add("gaugeData", gaugingStationData);
+            if (listOfWeatherStation.Count == 0)
             {
                 return null;
             }
             //Call DB server to get data relevant to that station
-            else 
+            else
             {
-                List<Object> weatherGaugeCorrelationData = new List<Object>();
+                weatherGaugeCorrelationData = new List<Object>();
                 foreach (string weatherStNumber in listOfWeatherStation)
                 {
-                    using (WaterAnalyticsEntities db = new WaterAnalyticsEntities())
+                    var endDate = db.Weathers.Where(x=>x.StationCode == weatherStNumber).Max(x=> x.DateTime);
+                    var result = new List<Weather>();
+                    var stDate = endDate.Value.AddYears(-5);
+                    if (endDate.HasValue)
                     {
-                        var result = db.WaterLevels.Join(db.Weathers,
-                            x => x.Date,
-                            y => y.DateTime,
-                            (x, y) => new { x, y })
-                            .Where(waterL => waterL.x.StationCode == gaugingStationNumber)
-                            .Where(weath => weath.y.StationCode == weatherStNumber).ToList();
-                        weatherGaugeCorrelationData.Add(result);
+                        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= stDate && x.DateTime <= endDate).OrderBy(x => x.DateTime).ToList();
                     }
-
+                    weatherGaugeCorrelationData.Add(result);
                 }
-                
+
 
             }
- 
+            queryDict.Add("weatherData", weatherGaugeCorrelationData);
             //Format that data in the required format
 
-            return null;
+            return queryDict;
         }
         /// <summary>
         /// Fetch list of weather station from the XML file for the selected gauging station 
         /// </summary>
         /// <param name="StationNumber"></param>
         /// <returns></returns>
-        private List<string> getListOfGaugeRelatedWeatherStation(string StationNumber )
+        //public List<string> getListOfGaugeRelatedWeatherStation(string StationNumber )
+        //{
+        //    XElement root = XElement.Load(@"~/listOfGaugeWeatherStationCorrelation.xml");
+        //    List<string> weatherStationList = new List<string>();
+        //    try
+        //    {
+        //        weatherStationList =
+        //        (from el in root.Elements("Guage")
+        //         where (string)el.Attribute("ID") == StationNumber
+        //         select el.Value).Single().Split(',').ToList();
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        e.ToString();
+        //    }
+        //    return weatherStationList;
+        //}
+
+        private static List<string> getListOfGaugeRelatedWeatherStation(string StationNumber)
         {
-            XElement root = XElement.Load(@"~/listOfGaugeWeatherStationCorrelation.xml");
+            XElement root = XElement.Load(@"C:\Users\MahshidM\Downloads\TimeLagWaterVisualization\TimeLagWaterVisualization\listOfGaugeWeatherStationCorrelation.xml");
             List<string> weatherStationList = new List<string>();
             try
             {
@@ -280,5 +348,211 @@ namespace CalgaryWaterAnalytics.Controllers
             }
             return weatherStationList;
         }
+       private static List<string> StaticGetListOfGaugeRelatedWeatherStation(string StationNumber)
+        {
+            XElement root = XElement.Load(@"C:\Users\MahshidM\Downloads\TimeLagWaterVisualization\TimeLagWaterVisualization\listOfGaugeWeatherStationCorrelation.xml");
+            List<string> weatherStationList = new List<string>();
+            try
+            {
+                weatherStationList =
+                (from el in root.Elements("Guage")
+                 where (string)el.Attribute("ID") == StationNumber
+                 select el.Value).Single().Split(',').ToList();
+
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
+            return weatherStationList;
+        }
+        //Scatter plot graph section 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+       [HttpPost]
+        public  ActionResult  showScatterPlotForDischargeVsPrecipitation(string selectedStationCode, string startDate, string endDate)
+
+        {
+            //selectedStationCode = "05BB001";
+            DateTime start = DateTime.Parse(startDate);
+            DateTime end = DateTime.Parse(endDate);
+            var temp= Json( getDataforScatterplot(selectedStationCode, start, end));
+            return temp;
+        }
+
+       [HttpPost]
+       public ActionResult showDischargeVsPrecipitation(string selectedStationCode, string startDate, string endDate)
+       {
+           DateTime start = DateTime.Parse(startDate);
+           DateTime end = DateTime.Parse(endDate);
+           List<seriesDataObject> SeriesL = new List<seriesDataObject>();
+           Dictionary<string, object> StationData = getCorrelationDataForSelectedStation(selectedStationCode, start, end);
+           seriesDataObject series = null;
+           if (StationData != null)
+           {
+               //Parse weather station
+               var GaugeData = StationData["gaugeData"];
+               series = new seriesDataObject();
+               foreach (WaterLevel wl in (IEnumerable<WaterLevel>)GaugeData)
+               {
+                   if (series.type.Equals(""))
+                   {
+                       DateTime date = (DateTime)wl.Date;
+                       series.startYear = date.Year;
+                       series.startDay = date.Day;
+                       series.startMonth = date.Month;
+
+                       series.type = "line";
+                       series.name = "Discharge for  " + wl.StationCode;
+                       series.pointInterval = 24 * 3600 * 1000;
+                       series.pointStart = "";
+                       series.yAxis = 0;
+                   }
+
+                   if (series.dataValue.Equals(String.Empty))
+                   {
+                       series.dataValue = wl.Discharge.ToString();
+                   }
+                   else
+                   {
+                       series.dataValue += "," + wl.Discharge.ToString();
+                   }
+               }
+               SeriesL.Add(series);
+               List<object> WeatherData = new List<object>();
+               // WeatherData =StationData["weatherData"]);
+               WeatherData = (List<object>)StationData["weatherData"];
+
+               foreach (object obj in WeatherData)
+               {
+                   series = new seriesDataObject();
+                   seriesDataObject snowFallSeries = new seriesDataObject();
+                   foreach (Weather we in (IEnumerable<Weather>)obj)
+                   {
+                       //date from the reading start
+                       if (series.type.Equals(""))
+                       {
+                           DateTime date = (DateTime)we.DateTime;
+                           series.startYear = date.Year;
+                           series.startDay = date.Day;
+                           series.startMonth = date.Month;
+
+                           series.type = "line";
+                           series.name = "Rainfall for" + we.StationCode;
+                           series.pointInterval = 24 * 3600 * 1000;
+                           series.pointStart = "";
+
+                           series.yAxis = 1;
+                           //snowfall series Data
+                           snowFallSeries.type = "line";
+                           snowFallSeries.name = "SnowFall for " + we.StationCode;
+                           snowFallSeries.pointInterval = 24 * 3600 * 1000;
+                           snowFallSeries.pointStart = "";
+
+                           snowFallSeries.startYear = date.Year;
+                           snowFallSeries.startDay = date.Day;
+                           snowFallSeries.startMonth = date.Month;
+
+                           series.yAxis = 2;
+                       }
+
+                       if (series.dataValue.Equals(String.Empty))
+                       {
+                           series.dataValue = we.Rainfall.ToString();
+                           snowFallSeries.dataValue = we.Snowfall.ToString();
+                       }
+                       else
+                       {
+                           series.dataValue += "," + we.Rainfall.ToString();
+                           snowFallSeries.dataValue += "," + we.Snowfall.ToString();
+                       }
+                   }
+                   SeriesL.Add(snowFallSeries);
+                   SeriesL.Add(series);
+
+               }
+
+
+           }
+           return Json(SeriesL);//serializer.Serialize( series);
+       }
+
+        public  Dictionary<string,object> getDataforScatterplot(string gaugingStationNumber, DateTime start, DateTime end)
+        {
+            WaterAnalyticsEntities db = new WaterAnalyticsEntities();
+            List<string> listOfWeatherStation = StaticGetListOfGaugeRelatedWeatherStation(gaugingStationNumber);
+            Dictionary<string, object> weatherGaugeSationData = new Dictionary<string, object>();
+            if (listOfWeatherStation.Count == 0)
+            {
+                return null;
+            }
+            //Call DB server to get data relevant to that station
+            else
+            {
+                foreach (string weatherStNumber in listOfWeatherStation)
+                {
+                    string year="";
+                    string color="";
+                    int gVariant = 0;
+                    var result = db.WaterLevels.Join(db.Weathers,
+                            x => x.Date,
+                            y => y.DateTime,
+                            (x, y) => new { x, y })
+                            .Where(waterL => waterL.x.StationCode == gaugingStationNumber)
+                            .Where(weath => weath.y.StationCode == weatherStNumber).OrderBy(weath => weath.y.DateTime)
+                            .Where(weath => weath.y.DateTime >= start && weath.y.DateTime <= end)
+                            .Where(waterL => waterL.x.Date>= start && waterL.x.Date<= end).ToList();
+                    List<scatterPlotObject> points = new List<scatterPlotObject>();
+                    foreach (var joinValue in result)
+                    {
+                        var waterLevel = joinValue.x;
+                        var weather = joinValue.y;
+                        scatterPlotObject point = new scatterPlotObject();
+                        point.discharge = waterLevel.Discharge;
+                        point.rainfall = weather.Rainfall;
+                        DateTime? datetime = weather.DateTime;
+                        string thisInstanceYear=datetime.Value.Year.ToString();
+                        if (!year.Equals(thisInstanceYear))
+                        {
+                            year = datetime.Value.Year.ToString();
+                            gVariant += 100;
+                            color = "rgba(223, "+gVariant+", 83, .5)";
+                        }
+                        point.color = color;
+                        point.date = datetime.Value.Date.ToString();
+                        points.Add(point);
+                    }
+                    weatherGaugeSationData.Add(weatherStNumber, points);
+                }
+
+
+            }
+            return weatherGaugeSationData;
+        }
+        public class seriesDataObject
+        {
+            public string type = "";
+            public string name = "";
+            public int pointInterval;
+            public string pointStart = "";
+            public int startYear;
+            public int startMonth;
+            public int startDay;
+            public string dataValue = "";
+            public int yAxis;
+
+        }
+        public class scatterPlotObject
+        {
+            public double? discharge;
+            public double? rainfall;
+            public string date;
+            public string color = "rgba(223, 83, 83, .5)";
+        }
+
     }
 }

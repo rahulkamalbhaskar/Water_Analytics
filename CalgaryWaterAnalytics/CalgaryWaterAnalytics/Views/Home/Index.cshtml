@@ -91,11 +91,28 @@
             left: 490px;
            
         }*/
+    .ajaxCallLoader {
+	    position: fixed;
+	    left: 0px;
+	    top: 0px;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 9999;
+	    background: url(@Url.Content("~/Content/Images/page-loader.gif"))50% 50% no-repeat ;
+    }
 </style>
-
-
+<script>
+    $(document).ready(function(){
+        $(document).ajaxStart(function () {
+            $("#wait").css("display","block");
+      });
+      $(document).ajaxComplete(function(){
+          $("#wait").css("display", "none");
+      });
+    });
+</script>
 <script>var dojoConfig = { parseOnLoad: true };</script>
-
+<div class="ajaxCallLoader" id="wait" style="display:none"></div>
 <div id="mapDiv"
     data-dojo-type="dijit.layout.BorderContainer"
     data-dojo-props="gutters:'true', design:'sidebar'" style="height:100%">

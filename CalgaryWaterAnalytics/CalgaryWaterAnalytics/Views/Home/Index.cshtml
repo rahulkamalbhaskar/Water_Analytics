@@ -153,7 +153,7 @@
     </div>
 
 
-    <div id="pnlChartstby"  title="Gauging Station Status">
+    @*<div id="pnlChartstby"  title="Gauging Station Status">
         <table>
             <tr>
                 <td><div rel="external" style="position:relative;float:left;width:450px;z-index: 500; " id="container"></div></td>
@@ -168,6 +168,21 @@
                 <td><div rel="external" style="position:relative;width:700px; z-index: 600;" id="dischargeVSPerc"></div></td>
             </tr>
         </table>
+    </div>*@
+
+    <div id="pnlChartstby" style="display:none" title="Gauging Station Status">
+        <div id="gauge-popup-tabs">
+          <ul>
+            <li><a href="#container">Historic Drainage</a></li>
+            <li><a href="#gauge">Historic Vs Current WaterLevel</a></li>
+            <li><a href="#dischargeVSwaterLevel">Discharge Vs WaterLevel</a></li>
+            <li><a href="#dischargeVSPerc">Dischareg Vs Precipitation</a></li>
+          </ul>
+          <div id="container" style="width:800px"></div>
+          <div id="gauge" style="width:300px"></div>
+          <div id="dischargeVSwaterLevel" style="width:800px"></div>
+          <div id="dischargeVSPerc" style="width:800px"></div>
+        </div>
     </div>
 
 

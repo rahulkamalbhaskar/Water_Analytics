@@ -190,11 +190,12 @@ function getLastWaterlevel(stationCode, LastLevel) {
     return LastLevel;
 }
 function WaterLevel(StationCode) {
+    $("#gauge-popup-tabs").tabs();
     $("#tooltipDialog").hide();
     $("#pnlChartstby").dialog({
         //modal: true,
-        width: '45%',
-        height: '520',
+        width: '60%',
+        height: '600',
         show: {
             effect: "blind",
             duration: 1000

@@ -4,13 +4,21 @@
 function createWeatherHTML(stationCode) {
     $("#dialog-weather-detail").empty();
 
+    ////Design weather Popup
+    ////Hard code width change it to dynamic for screen resolution
+    //$('#dialog-weather-detail').append('<table id="weather-detail" width="650px"></table>');
+    //$("#weather-detail").append('<tr><td id="weather-live-forecast"></td> </tr>');
+
+    ////Added new div for Graph of rain fall and snowfall
+    //$("#weather-detail").append('<tr ><td id="weather-rainfall-snowfall-historic"></td></tr>');
+
     //Design weather Popup
     //Hard code width change it to dynamic for screen resolution
-    $('#dialog-weather-detail').append('<table id="weather-detail" width="650px"></table>');
-    $("#weather-detail").append('<tr><td id="weather-live-forecast"></td> </tr>');
-
-    //Added new div for Graph of rain fall and snowfall
-    $("#weather-detail").append('<tr ><td id="weather-rainfall-snowfall-historic"></td></tr>');
+    //To add tab in the 
+    $('#dialog-weather-detail').append('<div id="weather-tabs" width="650px"></div>');
+    $('#weather-tabs').append('<ul><li><a href="#weather-live-forecast">Live Weather</a></li><li><a href="#weather-rainfall-snowfall-historic">Historic Relation</a></li></ul>');
+    $('#weather-tabs').append('<div id="weather-live-forecast"></div>');
+    $('#weather-tabs').append('<div id="weather-rainfall-snowfall-historic" width="500px"></div>');
 
     //Call to server to get all required data 
     var ajaxRequestData = ajaxCallForWeatherData(stationCode);
@@ -22,7 +30,7 @@ function createWeatherHTML(stationCode) {
     //Populate snowfall rain fall graph
     drawRainfallAndSnowfallChart(result[0], result[1], result[2], result[3], result[4], result[8]);
     
-
+    $('#weather-tabs').tabs();
     showWeatherPopupDialog();
 }
 

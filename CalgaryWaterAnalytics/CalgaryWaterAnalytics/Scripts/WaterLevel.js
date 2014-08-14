@@ -222,7 +222,7 @@ function WaterLevel(StationCode) {
             spacingRight: 20
         },
         title: {
-            text: 'Drainage for <\br>' + graphdata[0]
+            text: 'Discharge for <\br>' + graphdata[0]
         },
         subtitle: {
             text: document.ontouchstart === undefined ?
@@ -272,7 +272,7 @@ function WaterLevel(StationCode) {
 
         series: [{
             type: 'area',
-            name: 'Drainage',
+            name: 'Discharge',
             pointInterval: 24 * 3600 * 1000,
             pointStart: Date.UTC(graphdata[3], graphdata[2], graphdata[1]),
             data: waterLevel

@@ -28,7 +28,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                 "dojo/dom", "dojo/dom-attr", "dojo/_base/array", "dojo/on",
                 "esri/symbols/SimpleFillSymbol",
                  "esri/renderers/ClassBreaksRenderer",
-                "esri/InfoTemplate", 
+                "esri/InfoTemplate",
                 "dojo/_base/Color",
                 "esri/dijit/Geocoder",
                 "esri/tasks/geometry",
@@ -53,8 +53,8 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     });
 
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
-                   
-                   
+
+
 
                     //add search box for stations
                     //create find task with url to map service
@@ -78,7 +78,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                         app.tb.on("draw-end", doBuffer);
                     }
 
-                 
+
                     function doBuffer(evtObj) {
                         var geometry = evtObj.geometry,
                         map = app.map,
@@ -140,13 +140,13 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                         tb: tb,
                         gsvc: gsvc
                     };
-                    
-                    
+
+
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
                     //Added new layers with water sheded area
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
-                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer");
-             
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinalV2/MapServer");
+
                     //add geocoder widget
                     geocoder = new esri.dijit.Geocoder({
                         map: map,
@@ -167,7 +167,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                         dojo.connect(layer, "onLoad", buildLayerList);
                     }
 
-                    
+
                     //this part is for making watersheds Clickable
                     var symbol = new SimpleFillSymbol();
                     symbol.setColor(new Color([150, 150, 150, 0.5]));
@@ -175,22 +175,22 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     renderer.addBreak(0, 0, new SimpleFillSymbol().setColor(new Color([56, 168, 0, 0.5])));
                     //renderer.addBreak(50, 100, new SimpleFillSymbol().setColor(new Color([139, 209, 0, 0.5])));
 
-                    //var infoTemplate = new InfoTemplate("${*}");
-                    //var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/5", {
-                    //    mode: FeatureLayer.MODE_SNAPSHOT,
-                    //    outFields: ["*"],
-                    //    infoTemplate: infoTemplate
-                    //});
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/5", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["DATASETNAM", "PROVCD_1"],
+                        infoTemplate: infoTemplate
+                    });
 
-                    ////featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
-                    //featureLayer.setRenderer(renderer);
-                    //map.addLayer(featureLayer);
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
 
 
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/6", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -202,7 +202,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/7", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -213,7 +213,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/8", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -224,7 +224,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/9", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -236,7 +236,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/10", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -247,7 +247,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/11", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -258,7 +258,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/12", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -270,7 +270,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/13", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -281,7 +281,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/14", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -292,7 +292,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/15", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -303,7 +303,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/16", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -314,7 +314,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     var infoTemplate = new InfoTemplate("${*}");
                     var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/17", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["*"],
+                        outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
                     });
 
@@ -346,7 +346,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     //featureLayer.setRenderer(renderer);
                     //map.addLayer(featureLayer);
 
-    
+
 
                     GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/StationColorVariant/MapServer/0", {
                         id: "GaugeLayer",
@@ -358,11 +358,11 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WeatherSt/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["STATION_NAME","CLIMATE_ID", "PROVINCE", "ELEVATION"]
+                        outFields: ["STATION_NAME", "CLIMATE_ID", "PROVINCE", "ELEVATION"]
                     });
                     map.addLayer(stationLayer);
 
-                    
+
                     //added for location button
                     geoLocate = new LocateButton({
                         map: map
@@ -461,7 +461,7 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     //$("#toggler").appendTo("#mapDiv_root");
                     $("#Spatial_Analysis").appendTo("#mapDiv_root");
 
-                   
+
                 });
 
 function showDiv() {
@@ -484,11 +484,11 @@ function buildLayerList(layer) {
         //info.defaultVisibility = true;
 
         if (info.defaultVisibility) {
-            visible.push(info.id);    
+            visible.push(info.id);
         }
 
         if (info.id == 0 || info.id == 1 || info.id == 2 || info.id == 3 || info.id == 4 || info.id == 18) {
-            
+
             return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
         }
         else return "";
@@ -499,7 +499,7 @@ function buildLayerList(layer) {
 
     layer.setVisibleLayers(visible);
     map.addLayer(layer);
-    
+
 }
 
 function getnamebyIndex(info, index) {
@@ -509,7 +509,7 @@ function getnamebyIndex(info, index) {
             x = "Gauge Station";
             break;
         case 2:
-            x= "Weather Station";
+            x = "Weather Station";
             break;
         case 0:
             x = "100 Years Flood Plain";
@@ -528,7 +528,7 @@ function getnamebyIndex(info, index) {
 }
 function updateLayerVisibility(chk) {
 
-    
+
     var inputs = dojo.query(".list_item"), input;
 
     visible = [];
@@ -537,15 +537,14 @@ function updateLayerVisibility(chk) {
         //alert(input.id);
 
         if (input.checked) {
-            
+
             if (input.id == 1) {
                 GaugeLayer.show();
             }
             else if (input.id == 2) {
                 stationLayer.show();
             }
-            else
-            {
+            else {
                 visible.push(input.id);
             }
         }
@@ -561,7 +560,7 @@ function updateLayerVisibility(chk) {
     if (visible.length === 0) {
         visible.push(-1);
     }
-   
+
     layer.setVisibleLayers(visible);
 }
 
@@ -682,7 +681,7 @@ $(function () {
 
         // run the effect
         $("#effect").hide(selectedEffect, options, 1000);
-        
+
     };
 
     // callback function to bring a hidden box back
@@ -694,13 +693,13 @@ $(function () {
     };
 
 
-    
+
     // More clicking point
     $(function () {
         var state = true;
         $("#more").click(function () {
 
-            
+
             if (state) {
 
                 $("#effect").animate({
@@ -746,7 +745,7 @@ function showStationData(stationCode) {
 //function for rendering weather data
 
 function showWeatherDetails(stationCode) {
-   getWeatherData(stationCode);
+    getWeatherData(stationCode);
 }
 
 function execute(searchText) {
@@ -785,7 +784,7 @@ function showResults(results) {
         map.graphics.add(graphic);
 
     });
-    
+
 }
 
 

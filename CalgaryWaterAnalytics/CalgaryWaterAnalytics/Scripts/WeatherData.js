@@ -157,7 +157,7 @@ function drawRainfallAndSnowfallChart(day,month,year,rainfall,snowfall,stationNa
 //Function for sending request to server to fetch data for the particular station
 function ajaxCallForWeatherData(stationCode) {
     var graphData = "";
-    var urlCreated = ROOT + '/Weather/jsonResult';
+    var urlCreated = ROOT + 'Weather/jsonResult';
     $.ajax({
         url: urlCreated,
         type: 'post',

@@ -481,7 +481,7 @@ function buildLayerList(layer) {
         // alert(info.id);
         //alert(info.defaultVisibility);
         //making all layers checked and visible
-        //info.defaultVisibility = true;
+        info.defaultVisibility = true;
 
         if (info.defaultVisibility) {
             visible.push(info.id);

@@ -52,7 +52,7 @@ var option = {
         spacingRight: 20
     },
     title: {
-        text: 'Discharge VS Rainfall Vs WaterLevel <\br>' //+ graphdata[0]
+        text: 'Discharge, Rainfall, SnowFall Vs Time <\br>' //+ graphdata[0]
     },
     subtitle: {
         text: document.ontouchstart === undefined ?

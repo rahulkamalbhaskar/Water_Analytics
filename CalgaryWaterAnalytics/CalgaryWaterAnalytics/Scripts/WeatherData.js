@@ -15,10 +15,10 @@ function createWeatherHTML(stationCode) {
     //Design weather Popup
     //Hard code width change it to dynamic for screen resolution
     //To add tab in the 
-    $('#dialog-weather-detail').append('<div id="weather-tabs" width="650px"></div>');
+    $('#dialog-weather-detail').append('<div id="weather-tabs" style="width:60em" ></div>');
     $('#weather-tabs').append('<ul><li><a href="#weather-live-forecast">Live Weather</a></li><li><a href="#weather-rainfall-snowfall-historic">Historic Relation</a></li></ul>');
-    $('#weather-tabs').append('<div id="weather-live-forecast"></div>');
-    $('#weather-tabs').append('<div id="weather-rainfall-snowfall-historic" width="500px"></div>');
+    $('#weather-tabs').append('<div id="weather-live-forecast" style="width:50em"></div>');
+    $('#weather-tabs').append('<div id="weather-rainfall-snowfall-historic" style="width:60em"></div>');
 
     //Call to server to get all required data 
     var ajaxRequestData = ajaxCallForWeatherData(stationCode);
@@ -39,8 +39,11 @@ function showWeatherPopupDialog(){
     $( "#dialog-weather-detail" ).dialog({
         //modal: true,
         //Hard code width and height change it to dynamic for screen resolution
-        width: '700',
-        height: '520',
+        /*width: '700',
+        height: '520',*/
+        width: 'auto',
+        height: 'auto',
+        autoResize: true,
         show: {
             effect: "blind",
             duration: 500

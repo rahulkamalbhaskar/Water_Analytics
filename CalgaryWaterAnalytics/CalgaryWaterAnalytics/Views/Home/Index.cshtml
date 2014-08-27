@@ -93,8 +93,8 @@
         }*/
     .ajaxCallLoader {
 	    position: fixed;
-	    left: 0px;
-	    top: 0px;
+	    left: 0em;
+	    top: 0em;
 	    width: 100%;
 	    height: 100%;
 	    z-index: 9999;
@@ -117,20 +117,20 @@
     data-dojo-type="dijit.layout.BorderContainer"
     data-dojo-props="gutters:'true', design:'sidebar'" style="height:100%">
 
-    <div id="LocateButton" style="float: right; top: 11px; right: 600px;">
+    <div id="LocateButton" style="float: right; top: 11em; right: 600em;">
     </div>
     <div id="BasemapToggle">
     </div>
-    <div id="Basemap_Gallery" class="button" style="float: right; top: 10px; right: 19px;">
+    <div id="Basemap_Gallery" class="button" style="float: right; top: 1em; right: 1em;">
         <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Basemap', closable:false,  open:false">
-            <div data-dojo-type="dijit/layout/ContentPane" style="width: 380px; overflow: auto;">
+            <div data-dojo-type="dijit/layout/ContentPane" style="width: 30em; overflow: auto;">
                 <div id="basemapGallery">
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="Layer_galery" class="button" style="float: right; top: 10px; right: 19px; z-index: 999;">
+    <div id="Layer_galery" class="button" style="float: right; top: 1em; right: 1em; z-index: 999;">
         <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Switch Layers', closable:false,  open:false">
             <div data-dojo-type="dijit/layout/ContentPane" style="width: auto; height: auto; overflow: auto;">
                 <table>
@@ -147,8 +147,8 @@
             </div>
         </div>
     </div>
-    <div class="button" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="float: right; top: 5px; left: 70px; z-index: 999; margin-top: 1px; padding: 2px">
-        <input type="text" id="searchText" style="height: 26px; margin-left: 1px" />
+    <div class="button" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="region:'top'" style="float: right; top: 1em; left: 5em; z-index: 999; margin-top: .1em; padding: .2em">
+        <input type="text" id="searchText" style="height: 1.5em; margin-left: .1em" />
         <input type="button" id="button" value="Find" onclick="execute(dojo.byId('searchText').value);" />
     </div>
 
@@ -178,10 +178,10 @@
             <li><a href="#dischargeVSwaterLevel">Discharge Vs WaterLevel</a></li>
             <li><a href="#dischargeVSPerc">Discharge, RainFall, SnowFall VS Time</a></li>
           </ul>
-          <div id="container" style="width:800px"></div>
-          <div id="gauge" style="width:300px"></div>
-          <div id="dischargeVSwaterLevel" style="width:800px"></div>
-          <div id="dischargeVSPerc" style="width:800px"></div>
+          <div id="container" style="width:60em"></div>
+          <div id="gauge" style="width:25em"></div>
+          <div id="dischargeVSwaterLevel" style="width:60em"></div>
+          <div id="dischargeVSPerc" style="width:60em"></div>
         </div>
     </div>
 
@@ -205,7 +205,7 @@
 
 
 </div>
-<div id="Spatial_Analysis" class="button" style="float: right; top: 10px; right: 24px; z-index: 999;">
+<div id="Spatial_Analysis" class="button" style="float: right; top: 1em; right: 1em; z-index: 999;">
     <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Spatial Analysis', closable:false,  open:false">
         <div data-dojo-type="dijit/layout/ContentPane" style="overflow: auto;">
             <div id="Spatial_Analysis_div">

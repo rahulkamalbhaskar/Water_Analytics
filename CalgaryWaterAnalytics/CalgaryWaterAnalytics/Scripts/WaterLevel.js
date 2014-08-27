@@ -194,8 +194,9 @@ function WaterLevel(StationCode) {
     $("#tooltipDialog").hide();
     $("#pnlChartstby").dialog({
         //modal: true,
-        width: '60%',
-        height: '600',
+        width: 'auto',
+        height: 'auto',
+        autoResize: true,
         show: {
             effect: "blind",
             duration: 1000
@@ -449,6 +450,6 @@ function WaterLevel(StationCode) {
    showDisVsPerc(StationCode);
    // console.log("callscatterplot");
 
-
+//Show Dialog Here
    
 }

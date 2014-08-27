@@ -461,8 +461,9 @@ namespace CalgaryWaterAnalytics.Controllers
 
                                 series.yAxis = 1;
                                 //snowfall series Data
+                                //TBD: rename Variable to temprature as we are not using this variable to sto snowfall
                                 snowFallSeries.type = "line";
-                                snowFallSeries.name = "SnowFall for " + we.StationCode;
+                                snowFallSeries.name = "Tempreature for " + we.StationCode;
                                 snowFallSeries.pointInterval = 24 * 3600 * 1000;
                                 snowFallSeries.pointStart = "";
 
@@ -476,12 +477,12 @@ namespace CalgaryWaterAnalytics.Controllers
                             if (series.dataValue.Equals(String.Empty))
                             {
                                 series.dataValue = we.Rainfall.ToString();
-                                snowFallSeries.dataValue = we.Snowfall.ToString();
+                                snowFallSeries.dataValue = we.Temp.ToString();
                             }
                             else
                             {
                                 series.dataValue += "," + we.Rainfall.ToString();
-                                snowFallSeries.dataValue += "," + we.Snowfall.ToString();
+                                snowFallSeries.dataValue += "," + we.Temp.ToString();
                             }
                         }
                         SeriesL.Add(snowFallSeries);

@@ -154,6 +154,8 @@
     <Content Include="Content\Images\chart.png" />
     <Content Include="Content\Images\curve.png" />
     <Content Include="Content\Images\locate.png" />
+    <Content Include="Content\Images\maximize.png" />
+    <Content Include="Content\Images\minimize.png" />
     <Content Include="Content\Images\page-loader.gif" />
     <Content Include="Content\Images\whitex.png" />
     <Content Include="Content\Images\White LED curve.png" />

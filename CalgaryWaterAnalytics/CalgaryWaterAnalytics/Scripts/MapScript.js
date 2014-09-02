@@ -348,14 +348,14 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
 
 
 
-                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/StationColorVariant/MapServer/0", {
+                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["Station_No", "Staition_Name"]
                     });
                     map.addLayer(GaugeLayer);
 
-                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WeatherSt/MapServer/2", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/2", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["STATION_NAME", "CLIMATE_ID", "PROVINCE", "ELEVATION"]

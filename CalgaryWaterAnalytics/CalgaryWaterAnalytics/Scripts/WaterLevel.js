@@ -170,7 +170,7 @@ function createSeriesJsonObject(msg) {
    
     //console.log(StationJson);
     $('#dischargeVSPerc').highcharts(option);
-    alert(dataPoints);
+   // alert(dataPoints);
     if (dataPoints == "")
     {
         

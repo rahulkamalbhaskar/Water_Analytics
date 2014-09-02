@@ -52,7 +52,7 @@ var option = {
         spacingRight: 20
     },
     title: {
-        text: 'Discharge, Rainfall, SnowFall Vs Time <\br>' //+ graphdata[0]
+        text: 'Discharge, Rainfall Vs Temperature<\br>' //+ graphdata[0]
     },
     subtitle: {
         text: document.ontouchstart === undefined ?
@@ -103,13 +103,13 @@ var option = {
         // Teritory yAxis SnoWFall
         gridLineWidth: 0,
         title: {
-            text: 'SmowFall(cm)',
+            text: 'Temperature(C)',
             style: {
                 color: 'grey'
             }
         },
         labels: {
-            format: '{value} cm',
+            format: '{value} C/mm',
             style: {
                 color: 'Black'
             }

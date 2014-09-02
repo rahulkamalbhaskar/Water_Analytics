@@ -384,7 +384,10 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
 
                     dialog = new TooltipDialog({
                         id: "tooltipDialog",
-                        style: "position: absolute; width: 20em; font: normal normal normal 10pt Helvetica;z-index:100"
+                        style: "position: absolute; width: 20em; font: normal normal normal 10pt Helvetica;z-index:100",
+                        onMouseLeave: function () {
+                            dijitPopup.close(dialog);
+                        }
                     });
                     dialog.startup();
 

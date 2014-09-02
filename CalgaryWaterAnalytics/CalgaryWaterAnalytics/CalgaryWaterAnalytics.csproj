@@ -153,7 +153,9 @@
     <Content Include="Content\ExpandableButton.css" />
     <Content Include="Content\Images\chart.png" />
     <Content Include="Content\Images\curve.png" />
+    <Content Include="Content\Images\locate.png" />
     <Content Include="Content\Images\page-loader.gif" />
+    <Content Include="Content\Images\whitex.png" />
     <Content Include="Content\Images\White LED curve.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

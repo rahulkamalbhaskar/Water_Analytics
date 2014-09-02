@@ -152,9 +152,10 @@ var option = {
 function createSeriesJsonObject(msg) {
     option.series = [];
     var data = msg;
+    var dataPoints = "";
     msg.forEach(function (obj) {
         console.log(obj);
-        var dataPoints = JSON.parse("[" + obj.dataValue + "]");
+        dataPoints = JSON.parse("[" + obj.dataValue + "]");
         console.log(dataPoints);
         var json = {
             type: obj.type,
@@ -169,6 +170,13 @@ function createSeriesJsonObject(msg) {
    
     //console.log(StationJson);
     $('#dischargeVSPerc').highcharts(option);
+    alert(dataPoints);
+    if (dataPoints == "")
+    {
+        
+       //alert("null dis");
+       $('#dischargeVSPerc').html("<h2> No Data Exists for this station</h2>");
+    }
 }
 
 
@@ -279,6 +287,14 @@ function WaterLevel(StationCode) {
             data: waterLevel
         }]
     });
+    if (waterLevel == "")
+    {
+        alert("waterlevl null");
+   
+       $('#container').html("<div class='empty-chart'>No data available for selected date range</div>");
+
+    }
+
    // Used for dispalying boxplot
     var result = getLastWaterlevel(StationCode, result);
     //Varibale contains data for the both boxplot as well as comparision data
@@ -440,6 +456,11 @@ function WaterLevel(StationCode) {
     });
 
 
+    if (dischargeVsWaterLevelDate == "") {
+        //alert("null");
+      
+        $('#dischargeVSwaterLevel').html("<h2>No data available for selected station</h2>");
+    }
 
 
 

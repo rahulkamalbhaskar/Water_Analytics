@@ -3,9 +3,12 @@ var layer, map, visible = [];
 var GaugeLayer, stationLayer;
 var findTask, findParams;
 var geocoder;
-require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters", "esri/config",
-    "esri/geometry/Circle",
-    "esri/layers/GraphicsLayer",
+require([       "esri/map",
+                "esri/tasks/GeometryService",
+                "esri/tasks/BufferParameters",
+                "esri/config",
+                "esri/geometry/Circle",
+                "esri/layers/GraphicsLayer",
                 "esri/dijit/LocateButton",
                 "esri/dijit/BasemapToggle",
                 "esri/dijit/BasemapGallery",
@@ -25,32 +28,62 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                 "esri/symbols/PictureFillSymbol",
                 "esri/symbols/SimpleMarkerSymbol",
                 "esri/symbols/CartographicLineSymbol",
-                "dojo/dom", "dojo/dom-attr", "dojo/_base/array", "dojo/on",
+                "dojo/dom", "dojo/dom-attr",
+                "dojo/_base/array", "dojo/on",
                 "esri/symbols/SimpleFillSymbol",
-                 "esri/renderers/ClassBreaksRenderer",
+                "esri/renderers/ClassBreaksRenderer",
                 "esri/InfoTemplate",
                 "dojo/_base/Color",
                 "esri/dijit/Geocoder",
                 "esri/tasks/geometry",
                 "esri/geometry/Point",
                 "dijit/layout/BorderContainer",
-                "esri/dijit/PopupTemplate", "dijit/layout/ContentPane",
+                "esri/dijit/PopupTemplate",
+                "dijit/layout/ContentPane",
                 "dojo/domReady!"
 ],
 
-                function (Map, GeometryService, BufferParameters, esriConfig, Circle, GraphicsLayer, LocateButton, BasemapToggle, BasemapGallery, arcgisUtils, parser, FeatureLayer,
-          SimpleFillSymbol, SimpleLineSymbol,
-          SimpleRenderer, Graphic, esriLang,
-          Color, number, domStyle,
-          TooltipDialog, dijitPopup, Draw, PictureFillSymbol, SimpleMarkerSymbol, CartographicLineSymbol,
-                    dom, domAttr, array, on, SimpleFillSymbol, ClassBreaksRenderer, InfoTemplate, Color) {
-                    parser.parse();
-                    map = new Map("mapDiv", {
-                        center: [-114.08529, 51.05011],
-                        zoom: 8,
-                        basemap: "streets",
-                        //slider: false
-                    });
+                function (Map,
+                    GeometryService,
+                    BufferParameters,
+                    esriConfig,
+                    Circle,
+                    GraphicsLayer,
+                    LocateButton,
+                    BasemapToggle,
+                    BasemapGallery,
+                    arcgisUtils,
+                    parser,
+                    FeatureLayer,
+                    SimpleFillSymbol,
+                    SimpleLineSymbol,
+                    SimpleRenderer,
+                    Graphic,
+                    esriLang,
+                    Color,
+                    number,
+                    domStyle,
+                    TooltipDialog,
+                    dijitPopup,
+                    Draw,
+                    PictureFillSymbol,
+                    SimpleMarkerSymbol,
+                    CartographicLineSymbol,
+                    dom,
+                    domAttr,
+                    array,
+                    on,
+                    SimpleFillSymbol,
+                    ClassBreaksRenderer,
+                    InfoTemplate,
+                    Color) {
+                            parser.parse();
+                            map = new Map("mapDiv", {
+                                center: [-114.08529, 51.05011],
+                                zoom: 8,
+                                basemap: "streets",
+                                //slider: false
+                            });
 
                     gsvc = new esri.tasks.GeometryService("http://136.159.14.34:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
 
@@ -350,17 +383,18 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
 
                     GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
                         id: "GaugeLayer",
-                        mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["Station_No", "Staition_Name"]
+                        mode: FeatureLayer.MODE_ONDEMAND,
+                        outFields: ["*"]
                     });
                     map.addLayer(GaugeLayer);
 
                     stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/2", {
                         id: "stattionLayer",
-                        mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["STATION_NAME", "CLIMATE_ID", "PROVINCE", "ELEVATION"]
+                        mode: FeatureLayer.MODE_ONDEMAND,
+                        outFields: ["*"]
                     });
-                    map.addLayer(stationLayer);
+
+                    map.addLayers([stationLayer,GaugeLayer]);
 
 
                     //added for location button
@@ -463,6 +497,11 @@ require(["esri/map", "esri/tasks/GeometryService", "esri/tasks/BufferParameters"
                     //same for detail
                     //$("#toggler").appendTo("#mapDiv_root");
                     $("#Spatial_Analysis").appendTo("#mapDiv_root");
+                    //appending legends
+                    $("#manualLegends").appendTo("#mapDiv_root");
+                    //To make it Dragable
+                    //TBD:  put in the correct JS file temporary fix
+                    $(".draggable").draggable();
 
 
                 });

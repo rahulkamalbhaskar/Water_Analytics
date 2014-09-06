@@ -100,6 +100,44 @@
 	    z-index: 9999;
 	    background: url(@Url.Content("~/Content/Images/page-loader.gif"))50% 50% no-repeat ;
     }
+    	
+	.my-legend-h .legend-title-h {
+		text-align: left;
+		margin-bottom: 5px;
+		font-weight: bold;
+		font-size: 90%;
+		}
+	  .my-legend-h .legend-scale-h ul {
+		margin: 0;
+		margin-bottom: 5px;
+		padding: 0;
+		float: left;
+		list-style: none;
+		}
+	  .my-legend-h .legend-scale-h ul li {
+		font-size: 80%;
+		list-style: none;
+		margin-left: 0;
+		line-height: 18px;
+		margin-bottom: 2px;
+		}
+	  .my-legend-h ul.legend-labels-h li span {
+		display: block;
+		float: left;
+		height: 16px;
+		width: 30px;
+		margin-right: 5px;
+		margin-left: 0;
+		border: 1px solid #999;
+		}
+	  .my-legend-h .legend-source-h {
+		font-size: 70%;
+		color: #999;
+		clear: both;
+		}
+	  .my-legend-h a {
+		color: #777;
+		}
 </style>
 <script>
     $(document).ready(function(){
@@ -202,8 +240,31 @@
         </div>
 
     </div>*@
-
-
+    <div id="manualLegends" class="button draggable" style="position:relative;left:2em;top:60em;">
+		    <div class='my-legend-h'>
+		    <div class='legend-title-h'> Gauging Stations</div>
+		    <div class='legend-scale-h'>
+		      <ul class='legend-labels-h'>
+			    <li><span style='background:#FEFFEA;'></span>0 - 20 (Years)</li>
+			    <li><span style='background:#ABD164;'></span>21 - 40 (Years)</li>
+			    <li><span style='background:#59D42B;'></span>41 - 60 (Years)</li>
+			    <li><span style='background:#819D48;'></span>61 - 80(Years)</li>
+                <li><span style='background:#264F0B;'></span>81 - Onwards (Years)</li>
+		      </ul>
+		    </div>
+		    <div class='legend-source-h'></div>
+		    </div>
+		
+		    <div class='my-legend-h'>
+		    <div class='legend-title-h'> Weather Stations</div>
+		    <div class='legend-scale-h'>
+		      <ul class='legend-labels-h'>
+			    <li><span style='background:#0101DF;'></span></li>
+		      </ul>
+		    </div>
+		    <div class='legend-source-h'></div>
+		    </div>
+    </div>
 </div>
 <!--<div id="Spatial_Analysis" class="button" style="float: right; top: 1em; right: 1em; z-index: 999;">
     <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Spatial Analysis', closable:false,  open:false">

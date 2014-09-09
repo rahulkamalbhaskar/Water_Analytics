@@ -345,12 +345,15 @@ namespace CalgaryWaterAnalytics.Controllers
 
                 XElement root = XElement.Load(ApplicationFolder + "\\listOfGaugeWeatherStationCorrelation.xml");
                 List<string> weatherStationList = new List<string>();
-
-                weatherStationList =
-                (from el in root.Elements("Guage")
+                var itemtosearch=(from el in root.Elements("Guage")
                  where (string)el.Attribute("ID") == StationNumber
-                 select el.Value).Single().Split(',').ToList();
-                return weatherStationList;
+                 select el.Value).FirstOrDefault();
+                if (itemtosearch != null)
+                {
+
+                    return itemtosearch.Split(',').ToList();
+                }
+                else return new List<string>(); 
             }
             catch (Exception e)
             {

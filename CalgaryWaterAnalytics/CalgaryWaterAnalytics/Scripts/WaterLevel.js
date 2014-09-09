@@ -10,6 +10,7 @@ function getWaterlevelData(stationCode, graphData) {
         async: false,
         data: { selectedStationCode: stationCode },
         success: function (data) {
+            //alert("success");
             graphData = data;
         },
         error: function (data) { }
@@ -24,6 +25,7 @@ function showDisVsPerc(stationCode) {
     console.log(stationCode);
     console.log("log");
     var urlCreated = ROOT + "Gauge/showDischargeVsPrecipitation";
+   
     $.ajax({
         type: 'post',
         url: urlCreated,
@@ -33,13 +35,12 @@ function showDisVsPerc(stationCode) {
         dataType: "json",
         sync: false,
         success: function (msg) {
-          
+           
             console.log(msg);
             createSeriesJsonObject(msg);
         },
         failure: function (msg) {
-            
-           
+            //alert("fail");
             console.log(msg);
         }
     });
@@ -150,6 +151,7 @@ var option = {
 };
 
 function createSeriesJsonObject(msg) {
+
     option.series = [];
     var data = msg;
     var dataPoints = "";
@@ -170,11 +172,11 @@ function createSeriesJsonObject(msg) {
    
     //console.log(StationJson);
     $('#dischargeVSPerc').highcharts(option);
-   // alert(dataPoints);
-    if (dataPoints == "")
+    
+  
+    if (dataPoints == "" || dataPoints=="[]") 
     {
-        
-       //alert("null dis");
+      
        $('#dischargeVSPerc').html("<h2> No Data Exists for this station</h2>");
     }
 }
@@ -289,7 +291,7 @@ function WaterLevel(StationCode) {
     });
     if (waterLevel == "")
     {
-        alert("waterlevl null");
+        //alert("waterlevl null");
    
        $('#container').html("<div class='empty-chart'>No data available for selected date range</div>");
 
@@ -455,9 +457,9 @@ function WaterLevel(StationCode) {
         }]
     });
 
-
-    if (dischargeVsWaterLevelDate == "") {
-        //alert("null");
+   
+    if (result[6]=="" && result[7] == "") {
+       // alert("dischargeVSwaterLevel");
       
         $('#dischargeVSwaterLevel').html("<h2>No data available for selected station</h2>");
     }

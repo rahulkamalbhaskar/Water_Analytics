@@ -29,6 +29,13 @@ function createWeatherHTML(stationCode) {
 
     //Populate snowfall rain fall graph
     drawRainfallAndSnowfallChart(result[0], result[1], result[2], result[3], result[4], result[8]);
+
+    if (result[3] == "" && result[4] == "")
+    {
+       
+        $('#weather-rainfall-snowfall-historic').html("<h2> No Data Exists for this station</h2>");
+    }
+
     
     $('#weather-tabs').tabs();
     showWeatherPopupDialog();

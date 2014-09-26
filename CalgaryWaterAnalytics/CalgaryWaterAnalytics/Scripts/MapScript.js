@@ -389,7 +389,7 @@ require([       "esri/map",
                     map.addLayer(GaugeLayer);
 
                     stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
-                        id: "stattionLayer",
+                        id: "stationLayer",
                         mode: FeatureLayer.MODE_ONDEMAND,
                         outFields: ["*"]
                     });

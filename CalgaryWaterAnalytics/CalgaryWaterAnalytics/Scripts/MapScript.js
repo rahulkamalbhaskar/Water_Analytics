@@ -381,21 +381,21 @@ require([       "esri/map",
 
 
 
-                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
+                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/0", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_ONDEMAND,
                         outFields: ["*"]
                     });
                     map.addLayer(GaugeLayer);
 
-                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/2", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
                         id: "stattionLayer",
                         mode: FeatureLayer.MODE_ONDEMAND,
                         outFields: ["*"]
                     });
 
-                    map.addLayers([stationLayer,GaugeLayer]);
-
+                    //map.addLayers([GaugeLayer,stationLayer]);
+                    map.addLayer(stationLayer)
 
                     //added for location button
                     geoLocate = new LocateButton({
@@ -470,7 +470,7 @@ require([       "esri/map",
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
-
+                        console.log(content);
                         dialog.setContent(content);
 
                         domStyle.set(dialog.domNode, "opacity", 0.85);

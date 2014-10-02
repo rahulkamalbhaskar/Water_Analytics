@@ -209,7 +209,7 @@ require([       "esri/map",
                     //renderer.addBreak(50, 100, new SimpleFillSymbol().setColor(new Color([139, 209, 0, 0.5])));
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/1", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/1", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -221,7 +221,7 @@ require([       "esri/map",
 
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/2", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/2", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -233,7 +233,7 @@ require([       "esri/map",
 
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/3", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/3", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -244,7 +244,7 @@ require([       "esri/map",
                     map.addLayer(featureLayer);
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/4", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/4", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -255,41 +255,7 @@ require([       "esri/map",
                     map.addLayer(featureLayer);
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/5", {
-                        mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["DATASETNAM", "PROVCD_1"],
-                        infoTemplate: infoTemplate
-                    });
-
-                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
-                    featureLayer.setRenderer(renderer);
-                    map.addLayer(featureLayer);
-
-
-                    var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/6", {
-                        mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["DATASETNAM", "PROVCD_1"],
-                        infoTemplate: infoTemplate
-                    });
-
-                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
-                    featureLayer.setRenderer(renderer);
-                    map.addLayer(featureLayer);
-
-                    var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/7", {
-                        mode: FeatureLayer.MODE_SNAPSHOT,
-                        outFields: ["DATASETNAM", "PROVCD_1"],
-                        infoTemplate: infoTemplate
-                    });
-
-                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
-                    featureLayer.setRenderer(renderer);
-                    map.addLayer(featureLayer);
-
-                    var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/8", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/5", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -301,7 +267,7 @@ require([       "esri/map",
 
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/9", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/6", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -312,7 +278,41 @@ require([       "esri/map",
                     map.addLayer(featureLayer);
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/10", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/7", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["DATASETNAM", "PROVCD_1"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/8", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["DATASETNAM", "PROVCD_1"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/9", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["DATASETNAM", "PROVCD_1"],
+                        infoTemplate: infoTemplate
+                    });
+
+                    //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
+
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/10", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -323,7 +323,7 @@ require([       "esri/map",
                     map.addLayer(featureLayer);
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/11", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/11", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -334,7 +334,7 @@ require([       "esri/map",
                     map.addLayer(featureLayer);
 
                     var infoTemplate = new InfoTemplate("${*}");
-                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowWaterShed/MapServer/12", {
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/12", {
                         mode: FeatureLayer.MODE_SNAPSHOT,
                         outFields: ["DATASETNAM", "PROVCD_1"],
                         infoTemplate: infoTemplate
@@ -344,16 +344,16 @@ require([       "esri/map",
                     featureLayer.setRenderer(renderer);
                     map.addLayer(featureLayer);
 
-                    //var infoTemplate = new InfoTemplate("${*}");
-                    //var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal2/MapServer/16", {
-                    //    mode: FeatureLayer.MODE_SNAPSHOT,
-                    //    outFields: ["DATASETNAM", "PROVCD_1"],
-                    //    infoTemplate: infoTemplate
-                    //});
+                    var infoTemplate = new InfoTemplate("${*}");
+                    var featureLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/WaterShed/MapServer/13", {
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["DATASETNAM", "PROVCD_1"],
+                        infoTemplate: infoTemplate
+                    });
 
                     //featureLayer.setDefinitionExpression("STATE_NAME = 'Kansas'");
-                    //featureLayer.setRenderer(renderer);
-                    //map.addLayer(featureLayer);
+                    featureLayer.setRenderer(renderer);
+                    map.addLayer(featureLayer);
 
 
 

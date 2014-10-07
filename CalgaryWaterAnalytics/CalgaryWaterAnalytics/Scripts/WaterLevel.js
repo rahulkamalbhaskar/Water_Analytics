@@ -1,5 +1,45 @@
-﻿function WaterLevel(StationCode, StationName) {
-    $("#gauge-popup-tabs").tabs();
+﻿var IsGaugeGenerated = false;
+var IsdischargeVSwaterLevelGenerated = false;
+var IsdischargeVSPercGenerated = false;
+function WaterLevel(StationCode, StationName) {
+    $("#gauge-popup-tabs").tabs(
+        //added for lazy loading
+        {
+            activate: function (evt, ui) {
+
+                var currentTabId = ($(ui.newPanel).attr('id'));
+               
+                switch (currentTabId) {
+                    case 'gauge':
+                        if (!IsGaugeGenerated) {
+                            //Call method to diplay boxplot for waterlevel
+                            getBoxPlotDataAndGraph(StationName, StationCode);
+                             IsGaugeGenerated = true;
+
+                        }
+                        break;
+                    case 'dischargeVSwaterLevel':
+                        if (!IsdischargeVSwaterLevelGenerated) {
+                            //Call method to display time series for dis vs preciptation
+                            getTimeSeriesDataAndGraphForDisVsPrec(StationName, StationCode);
+                            IsdischargeVSwaterLevelGenerated = true;
+                            
+                        }
+                        break;
+                    case 'dischargeVSPerc':
+                        if (!IsdischargeVSPercGenerated) {
+                            //Call method to display time series for dischargeVSppt for gauge station as well as multiple station
+                            getTimeSeriesDataAndGraphForDisVsRainVsPrec(StationName, StationCode);
+                            IsdischargeVSPercGenerated = true;
+
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }//end of lazy loading
+);
     $("#tooltipDialog").hide();
     $("#pnlChartstby").dialog({
         //modal: true,
@@ -25,13 +65,10 @@
 
     //Call method to display discharge time series
     getDischargeGraph(StationCode);
-    //Call method to diplay boxplot for waterlevel
-    getBoxPlotDataAndGraph(StationName, StationCode);
-    //Call method to display time series for dis vs preciptation
-    getTimeSeriesDataAndGraphForDisVsPrec(StationName, StationCode);
-    //Call method to display time series for dischargeVSppt for gauge station as well as multiple station
-    getTimeSeriesDataAndGraphForDisVsRainVsPrec(StationName,StationCode);
+    
    
+   
+  
 }
 
 //function for showing graph discharge only

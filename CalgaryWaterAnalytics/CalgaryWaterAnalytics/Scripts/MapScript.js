@@ -466,7 +466,7 @@ require([       "esri/map",
 
                     GaugeLayer.on("click", function (evt) {
                         // var t = "<b>${STATION_NAME}</b><hr><b>${PROVINCE}</b><hr><b>${ELEVATION}</br>";
-                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${Staition_Name}</strong></td></tr><tr><td>STATION_NU</td><td>${Station_No}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${Station_No}');\"; value=\"Details\"></td></tr></table>";
+                        var t = "<table border=0 style=\"backgroundColor:#fff\"><tr><td>Station Name</td><td><strong> ${Staition_Name}</strong></td></tr><tr><td>STATION_NU</td><td>${Station_No}</td><td><input id=\"detailButton\" type=\"button\" class=\"ui-state-default ui-corner-all\"onclick=\"javascript:showMapDetails('${Station_No}','${Staition_Name}');\"; value=\"Details\"></td></tr></table>";
                         var content = esriLang.substitute(evt.graphic.attributes, t);
                         var highlightGraphic = new Graphic(evt.graphic.geometry, highlightSymbol);
                         map.graphics.add(highlightGraphic);
@@ -695,13 +695,13 @@ function selectLayer() {
 function callback() {
 };
 // set effect from select menu value
-function showMapDetails(stationCode) {
+function showMapDetails(stationCode,stationName) {
     // most effect types need no options passed by default
 
     //var options = {};
     //document.getElementById("toggler").style.visibility = "visible";
     //$("#effect").effect("slide", options, 800, callback);
-    showStationData(stationCode);
+    showStationData(stationCode, stationName);
 
 }
 
@@ -777,8 +777,8 @@ $(function () {
 
 
 //function for rendering graph
-function showStationData(stationCode) {
-    WaterLevel(stationCode);
+function showStationData(stationCode,stationName) {
+    WaterLevel(stationCode, stationName);
 }
 //function for rendering weather data
 

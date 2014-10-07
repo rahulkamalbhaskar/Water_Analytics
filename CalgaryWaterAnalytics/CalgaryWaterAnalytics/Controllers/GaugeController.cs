@@ -163,7 +163,7 @@ namespace CalgaryWaterAnalytics.Controllers
 
                 }
 
-                return (LowestQuartile + ";" + lowerQuartile + ";" + middleQuartile + ";" + upperQuartile + ";" + topQuartile + ";" + result + ";" + String.Join(",", WaterLevelListForDVSWL) + ";" + String.Join(",", DischargeListForDVSWL) + ";" + dateDVSWL);
+                return (LowestQuartile + ";" + lowerQuartile + ";" + middleQuartile + ";" + upperQuartile + ";" + topQuartile + ";" + result);
             }
 
         }
@@ -176,6 +176,16 @@ namespace CalgaryWaterAnalytics.Controllers
         public ActionResult jsonResult(string selectedStationCode)
         {
             return Json(getWaterLevel(selectedStationCode));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectedStationCode"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult getDisVsPrecData(string selectedStationCode)
+        {
+            return Json(String.Join(",", WaterLevelListForDVSWL) + ";" + String.Join(",", DischargeListForDVSWL) + ";" + dateDVSWL);
         }
         /// <summary>
         /// Fuction called from UI for waterlevel gauge meter graph
@@ -277,7 +287,7 @@ namespace CalgaryWaterAnalytics.Controllers
 
             var endDt = db.WaterLevels.Where(x => x.StationCode == gaugingStationNumber).Max(x => x.Date);
             var gaugingStationData = new List<WaterLevel>();
-            var sDate = endDt.Value.AddYears(-5);
+            var sDate = endDt.Value.AddYears(-15);
             if (endDt.HasValue)
             {
 
@@ -287,29 +297,41 @@ namespace CalgaryWaterAnalytics.Controllers
 
             //var gaugingStationData = db.WaterLevels.Where(x => x.StationCode == gaugingStationNumber).Where(x => x.Date >= start && x.Date <= end).OrderBy(x => x.Date).ToList();
             queryDict.Add("gaugeData", gaugingStationData);
-            if (listOfWeatherStation.Count == 0)
-            {
-                return null;
-            }
-            //Call DB server to get data relevant to that station
-            else
+            if (listOfWeatherStation.Count != 0)
             {
                 weatherGaugeCorrelationData = new List<Object>();
                 foreach (string weatherStNumber in listOfWeatherStation)
                 {
-                    var endDate = db.Weathers.Where(x => x.StationCode == weatherStNumber).Max(x => x.DateTime);
+                    //var endDate = db.Weathers.Where(x => x.StationCode == weatherStNumber).Max(x => x.DateTime);
                     var result = new List<Weather>();
-                    var stDate = endDate.Value.AddYears(-5);
-                    if (endDate.HasValue)
+                    //var stDate = endDate.Value.AddYears(-5);
+                    if (endDt.HasValue)
                     {
-                        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= stDate && x.DateTime <= endDate).OrderBy(x => x.DateTime).ToList();
+                        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= sDate && x.DateTime <= endDt).OrderBy(x => x.DateTime).ToList();
                     }
                     weatherGaugeCorrelationData.Add(result);
                 }
-
-
+                queryDict.Add("weatherData", weatherGaugeCorrelationData);
             }
-            queryDict.Add("weatherData", weatherGaugeCorrelationData);
+            //Call DB server to get data relevant to that station
+            //else
+            //{
+                //weatherGaugeCorrelationData = new List<Object>();
+                //foreach (string weatherStNumber in listOfWeatherStation)
+                //{
+                //    var endDate = db.Weathers.Where(x => x.StationCode == weatherStNumber).Max(x => x.DateTime);
+                //    var result = new List<Weather>();
+                //    var stDate = endDate.Value.AddYears(-5);
+                //    if (endDate.HasValue)
+                //    {
+                //        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= stDate && x.DateTime <= endDate).OrderBy(x => x.DateTime).ToList();
+                //    }
+                //    weatherGaugeCorrelationData.Add(result);
+                //}
+
+
+            //}
+            
             //Format that data in the required format
 
             return queryDict;
@@ -441,59 +463,62 @@ namespace CalgaryWaterAnalytics.Controllers
                     SeriesL.Add(series);
                     List<object> WeatherData = new List<object>();
                     // WeatherData =StationData["weatherData"]);
-                    WeatherData = (List<object>)StationData["weatherData"];
-
-                    foreach (object obj in WeatherData)
+                    if (StationData.ContainsKey("weatherData"))
                     {
-                        series = new seriesDataObject();
-                        seriesDataObject snowFallSeries = new seriesDataObject();
-                        foreach (Weather we in (IEnumerable<Weather>)obj)
+                        WeatherData = (List<object>)StationData["weatherData"];
+
+                        foreach (object obj in WeatherData)
                         {
-                            //date from the reading start
-                            if (series.type.Equals(""))
+                            if (((IEnumerable<Weather>)obj).Count() != 0)
                             {
-                                DateTime date = (DateTime)we.DateTime;
-                                series.startYear = date.Year;
-                                series.startDay = date.Day;
-                                series.startMonth = date.Month;
+                                series = new seriesDataObject();
+                                seriesDataObject snowFallSeries = new seriesDataObject();
+                                foreach (Weather we in (IEnumerable<Weather>)obj)
+                                {
+                                    //date from the reading start
+                                    if (series.type.Equals(""))
+                                    {
+                                        DateTime date = (DateTime)we.DateTime;
+                                        series.startYear = date.Year;
+                                        series.startDay = date.Day;
+                                        series.startMonth = date.Month;
 
-                                series.type = "line";
-                                series.name = "Rainfall for" + we.StationCode;
-                                series.pointInterval = 24 * 3600 * 1000;
-                                series.pointStart = "";
+                                        series.type = "line";
+                                        series.name = "Rainfall for" + we.StationCode;
+                                        series.pointInterval = 24 * 3600 * 1000;
+                                        series.pointStart = "";
 
-                                series.yAxis = 1;
-                                //snowfall series Data
-                                //TBD: rename Variable to temprature as we are not using this variable to sto snowfall
-                                snowFallSeries.type = "line";
-                                snowFallSeries.name = "Tempreature for " + we.StationCode;
-                                snowFallSeries.pointInterval = 24 * 3600 * 1000;
-                                snowFallSeries.pointStart = "";
+                                        series.yAxis = 1;
+                                        //snowfall series Data
+                                        //TBD: rename Variable to temprature as we are not using this variable to sto snowfall
+                                        snowFallSeries.type = "line";
+                                        snowFallSeries.name = "Tempreature for " + we.StationCode;
+                                        snowFallSeries.pointInterval = 24 * 3600 * 1000;
+                                        snowFallSeries.pointStart = "";
 
-                                snowFallSeries.startYear = date.Year;
-                                snowFallSeries.startDay = date.Day;
-                                snowFallSeries.startMonth = date.Month;
+                                        snowFallSeries.startYear = date.Year;
+                                        snowFallSeries.startDay = date.Day;
+                                        snowFallSeries.startMonth = date.Month;
 
-                                series.yAxis = 2;
-                            }
+                                        series.yAxis = 2;
+                                    }
 
-                            if (series.dataValue.Equals(String.Empty))
-                            {
-                                series.dataValue = we.Rainfall.ToString();
-                                snowFallSeries.dataValue = we.Temp.ToString();
-                            }
-                            else
-                            {
-                                series.dataValue += "," + we.Rainfall.ToString();
-                                snowFallSeries.dataValue += "," + we.Temp.ToString();
+                                    if (series.dataValue.Equals(String.Empty))
+                                    {
+                                        series.dataValue = (we.Rainfall != null) ? we.Rainfall.ToString() : "0";
+                                        snowFallSeries.dataValue = (we.Temp != null) ? we.Temp.ToString() : "0";
+                                    }
+                                    else
+                                    {
+                                        series.dataValue += (we.Rainfall != null) ? ("," + we.Rainfall.ToString()) : ("," + "0");
+                                        snowFallSeries.dataValue += (we.Temp != null) ? ("," + we.Temp.ToString()) : ("," + "0");
+                                    }
+                                }
+                                SeriesL.Add(snowFallSeries);
+                                SeriesL.Add(series);
                             }
                         }
-                        SeriesL.Add(snowFallSeries);
-                        SeriesL.Add(series);
-
                     }
-
-
                 }
                 return Json(SeriesL);//serializer.Serialize( series);
             }

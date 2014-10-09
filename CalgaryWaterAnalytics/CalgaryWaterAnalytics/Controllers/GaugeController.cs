@@ -34,7 +34,7 @@ namespace CalgaryWaterAnalytics.Controllers
         /// <returns></returns>
         protected string getWaterLevel(string selectedStationCode)
         {
-           
+
             WaterLevelList = new List<double>();
 
             //Added for the Graph between water level VS Diacharge
@@ -62,19 +62,32 @@ namespace CalgaryWaterAnalytics.Controllers
 
 
                 var stationNameQuery = db.Stations.Where(x => x.StationCode == selectedStationCode);
+
                 //Station name attribute
                 foreach (Station stationsDetails in stationNameQuery)
                 {
                     stationName = stationsDetails.Name.ToString().Trim(' ');
                 }
 
+                var endDt = db.WaterLevels.Where(x => x.StationCode == selectedStationCode).Max(x => x.Date);
+                var sDate = endDt.Value.AddYears(-15);
+                //var query = from c in db.WaterLevels
+                //            orderby c.Date ascending
+                //            where c.StationCode.Equals(selectedStationCode)
+                //            select c;
+                //var dates = db.WaterLevels.Where(x => x.StationCode == selectedStationCode && x.Date >= sDate && x.Date <= endDt).OrderBy(x => x.Date)
+                //    .Select(x => x.Date).Distinct().ToList();
+                //List<WaterLevel> lstWaterlevels = new List<WaterLevel>();
+                //foreach (var item in dates)
+                //{
+                //    lstWaterlevels.Add(db.WaterLevels.FirstOrDefault(x => x.Date == item));
+                //}
 
-                var query = from c in db.WaterLevels
-                            orderby c.Date ascending
-                            where c.StationCode.Equals(selectedStationCode)
-                            select c;
+                var query = db.WaterLevels.Where(x => x.StationCode == selectedStationCode && x.Date >= sDate && x.Date <= endDt).OrderBy(x => x.Date).ToList();
+                List<DateTime> lstIsProcessed = new List<DateTime>();
                 foreach (WaterLevel waterlevel in query)
                 {
+                    if (lstIsProcessed.Contains(waterlevel.Date.Value)) continue;
                     //Getting First instance date i.e. day, month and year
                     if (day.Equals(""))
                     {
@@ -118,6 +131,7 @@ namespace CalgaryWaterAnalytics.Controllers
                         DischargeListForDVSWL.Add(Convert.ToDouble(waterlevel.Discharge));
                         DateListForDVSWL.Add(((DateTime)waterlevel.Date).Date);
                     }
+                    lstIsProcessed.Add(waterlevel.Date.Value);
                 }
                 //Appending the date value in the string
                 //Format DAY;MONTH;YEAR;WATERLEVELS
@@ -278,7 +292,7 @@ namespace CalgaryWaterAnalytics.Controllers
 
         public static Dictionary<string, object> getCorrelationDataForSelectedStation(string gaugingStationNumber, DateTime start, DateTime end)
         {
-            
+
             //Fetch list of weather station from the XML file for the selected gauging station
             WaterAnalyticsEntities db = new WaterAnalyticsEntities();
             List<string> listOfWeatherStation = getListOfGaugeRelatedWeatherStation(gaugingStationNumber);
@@ -316,22 +330,22 @@ namespace CalgaryWaterAnalytics.Controllers
             //Call DB server to get data relevant to that station
             //else
             //{
-                //weatherGaugeCorrelationData = new List<Object>();
-                //foreach (string weatherStNumber in listOfWeatherStation)
-                //{
-                //    var endDate = db.Weathers.Where(x => x.StationCode == weatherStNumber).Max(x => x.DateTime);
-                //    var result = new List<Weather>();
-                //    var stDate = endDate.Value.AddYears(-5);
-                //    if (endDate.HasValue)
-                //    {
-                //        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= stDate && x.DateTime <= endDate).OrderBy(x => x.DateTime).ToList();
-                //    }
-                //    weatherGaugeCorrelationData.Add(result);
-                //}
+            //weatherGaugeCorrelationData = new List<Object>();
+            //foreach (string weatherStNumber in listOfWeatherStation)
+            //{
+            //    var endDate = db.Weathers.Where(x => x.StationCode == weatherStNumber).Max(x => x.DateTime);
+            //    var result = new List<Weather>();
+            //    var stDate = endDate.Value.AddYears(-5);
+            //    if (endDate.HasValue)
+            //    {
+            //        result = db.Weathers.Where(x => x.StationCode == weatherStNumber && x.DateTime >= stDate && x.DateTime <= endDate).OrderBy(x => x.DateTime).ToList();
+            //    }
+            //    weatherGaugeCorrelationData.Add(result);
+            //}
 
 
             //}
-            
+
             //Format that data in the required format
 
             return queryDict;
@@ -367,15 +381,15 @@ namespace CalgaryWaterAnalytics.Controllers
 
                 XElement root = XElement.Load(ApplicationFolder + "\\listOfGaugeWeatherStationCorrelation.xml");
                 List<string> weatherStationList = new List<string>();
-                var itemtosearch=(from el in root.Elements("Guage")
-                 where (string)el.Attribute("ID") == StationNumber
-                 select el.Value).FirstOrDefault();
+                var itemtosearch = (from el in root.Elements("Guage")
+                                    where (string)el.Attribute("ID") == StationNumber
+                                    select el.Value).FirstOrDefault();
                 if (itemtosearch != null)
                 {
 
                     return itemtosearch.Split(',').ToList();
                 }
-                else return new List<string>(); 
+                else return new List<string>();
             }
             catch (Exception e)
             {
@@ -435,8 +449,10 @@ namespace CalgaryWaterAnalytics.Controllers
                     //Parse weather station
                     var GaugeData = StationData["gaugeData"];
                     series = new seriesDataObject();
+                    List<DateTime> lstIsProcessed = new List<DateTime>();
                     foreach (WaterLevel wl in (IEnumerable<WaterLevel>)GaugeData)
                     {
+                        if (lstIsProcessed.Contains(wl.Date.Value)) continue;
                         if (series.type.Equals(""))
                         {
                             DateTime date = (DateTime)wl.Date;
@@ -459,6 +475,7 @@ namespace CalgaryWaterAnalytics.Controllers
                         {
                             series.dataValue += "," + wl.Discharge.ToString();
                         }
+                        lstIsProcessed.Add(wl.Date.Value);
                     }
                     SeriesL.Add(series);
                     List<object> WeatherData = new List<object>();
@@ -522,7 +539,8 @@ namespace CalgaryWaterAnalytics.Controllers
                 }
                 return Json(SeriesL);//serializer.Serialize( series);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return null;
             }
         }

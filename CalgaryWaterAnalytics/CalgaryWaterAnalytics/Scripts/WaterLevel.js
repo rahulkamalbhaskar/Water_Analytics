@@ -2,6 +2,9 @@
 var IsdischargeVSwaterLevelGenerated = false;
 var IsdischargeVSPercGenerated = false;
 function WaterLevel(StationCode, StationName) {
+    IsGaugeGenerated = false;
+    IsdischargeVSwaterLevelGenerated = false;
+    IsdischargeVSPercGenerated = false;
     $("#gauge-popup-tabs").tabs(
         //added for lazy loading
         {
@@ -11,7 +14,9 @@ function WaterLevel(StationCode, StationName) {
                
                 switch (currentTabId) {
                     case 'gauge':
+                        alert(IsGaugeGenerated);
                         if (!IsGaugeGenerated) {
+                           
                             //Call method to diplay boxplot for waterlevel
                             getBoxPlotDataAndGraph(StationName, StationCode);
                              IsGaugeGenerated = true;
@@ -19,7 +24,9 @@ function WaterLevel(StationCode, StationName) {
                         }
                         break;
                     case 'dischargeVSwaterLevel':
+                        alert(IsdischargeVSwaterLevelGenerated);
                         if (!IsdischargeVSwaterLevelGenerated) {
+                           
                             //Call method to display time series for dis vs preciptation
                             getTimeSeriesDataAndGraphForDisVsPrec(StationName, StationCode);
                             IsdischargeVSwaterLevelGenerated = true;
@@ -27,7 +34,9 @@ function WaterLevel(StationCode, StationName) {
                         }
                         break;
                     case 'dischargeVSPerc':
+                        alert(IsdischargeVSPercGenerated);
                         if (!IsdischargeVSPercGenerated) {
+                          
                             //Call method to display time series for dischargeVSppt for gauge station as well as multiple station
                             getTimeSeriesDataAndGraphForDisVsRainVsPrec(StationName, StationCode);
                             IsdischargeVSPercGenerated = true;
@@ -38,6 +47,7 @@ function WaterLevel(StationCode, StationName) {
                         break;
                 }
             }
+           
         }//end of lazy loading
 );
     $("#tooltipDialog").hide();
@@ -54,7 +64,10 @@ function WaterLevel(StationCode, StationName) {
         //    effect: "explode",
         //    duration: 1000
         //},
-        close: function (event, ui) { $("#tooltipDialog").show(); },
+        close: function (event, ui) {
+            $("#tooltipDialog").show();
+          
+        },
         buttons: {
             Ok: function () {
                 $(this).dialog("close");

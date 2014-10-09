@@ -84,6 +84,7 @@ namespace CalgaryWaterAnalytics.Controllers
                 //}
 
                 var query = db.WaterLevels.Where(x => x.StationCode == selectedStationCode && x.Date >= sDate && x.Date <= endDt).OrderBy(x => x.Date).ToList();
+                //added for redundant data
                 List<DateTime> lstIsProcessed = new List<DateTime>();
                 foreach (WaterLevel waterlevel in query)
                 {
@@ -449,6 +450,7 @@ namespace CalgaryWaterAnalytics.Controllers
                     //Parse weather station
                     var GaugeData = StationData["gaugeData"];
                     series = new seriesDataObject();
+                    //added for redundant data
                     List<DateTime> lstIsProcessed = new List<DateTime>();
                     foreach (WaterLevel wl in (IEnumerable<WaterLevel>)GaugeData)
                     {

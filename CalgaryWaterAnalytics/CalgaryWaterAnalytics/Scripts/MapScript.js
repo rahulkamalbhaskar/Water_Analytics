@@ -91,7 +91,7 @@ require([       "esri/map",
 
                     //add search box for stations
                     //create find task with url to map service
-                    findTask = new esri.tasks.FindTask("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal2/MapServer");
+                    findTask = new esri.tasks.FindTask("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer");
 
                     //create find parameters and define known values
                     findParams = new esri.tasks.FindParameters();
@@ -178,7 +178,7 @@ require([       "esri/map",
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/Bow1/MapServer");
                     //Added new layers with water sheded area
                     //layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowCustomized/MapServer");
-                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal2/MapServer");
+                    layer = esri.layers.ArcGISDynamicMapServiceLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer");
 
                     //add geocoder widget
                     geocoder = new esri.dijit.Geocoder({
@@ -381,14 +381,14 @@ require([       "esri/map",
 
 
 
-                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal2/MapServer/1", {
+                    GaugeLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/1", {
                         id: "GaugeLayer",
                         mode: FeatureLayer.MODE_ONDEMAND,
                         outFields: ["*"]
                     });
                     map.addLayer(GaugeLayer);
 
-                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal2/MapServer/2", {
+                    stationLayer = new FeatureLayer("http://136.159.14.34:6080/arcgis/rest/services/CalgaryFlood/BowFinal/MapServer/0", {
                         id: "stationLayer",
                         mode: FeatureLayer.MODE_ONDEMAND,
                         outFields: ["*"]
@@ -528,7 +528,7 @@ function buildLayerList(layer) {
             visible.push(info.id);
         }
 
-        if ( info.id == 1 || info.id == 2 || info.id == 3 || info.id == 4 || info.id == 5) {
+        if ( info.id == 0 || info.id == 1 || info.id == 2 || info.id == 3 || info.id == 4) {
 
             return "<input type='checkbox' class='list_item'" + (info.defaultVisibility ? "checked=checked" : "") + "' id='" + info.id + "' onclick='updateLayerVisibility(this);' /><label for='" + info.id + "'>" + getnamebyIndex(info, index) + "</label></br>";
         }
@@ -549,16 +549,16 @@ function getnamebyIndex(info, index) {
         case 1:
             x = "Gauge Station";
             break;
-        case 2:
+        case 0:
             x = "Weather Station";
             break;
-        case 3:
+        case 2:
             x = "Stream";
             break;
-        case 5:
+        case 4:
             x = "Roads";
             break;
-        case 4:
+        case 3:
             x = "Lakes";
             break;
     }
